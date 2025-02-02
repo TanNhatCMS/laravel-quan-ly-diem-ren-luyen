@@ -1,0 +1,49 @@
+{
+    "version": 2,
+    "framework": null,
+    "functions": {
+        "api/index.php": { "runtime": "vercel-php@0.6.0" }
+    },
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "/api/index.php"
+        }
+    ],
+    "env": {
+        "APP_NAME":"Laravel",
+        "APP_ENV": "production",
+        "APP_DEBUG": "true",
+        "APP_TIMEZONE": "UTC",
+        "APP_LOCALE": "vi",
+        "APP_FALLBACK_LOCALE": "vi",
+        "APP_FAKER_LOCALE": "vi_VN",
+        "APP_URL": "https://laravel-diem-ren-luyen.vercel.app",
+        "APP_KEY": "base64:i7y7SfGSxhM6dZXAHb+W9YbZBaRyYIbvx5675YXRRgA=",
+        "JWT_SECRET": "base64:i7y7SfGSxhM6dZXAHb+W9YbZBaRyYIbvx5675YXRRgA=",
+        "APP_MAINTENANCE_DRIVER": "file",
+        "BCRYPT_ROUNDS": "12",
+        "APP_CONFIG_CACHE": "/tmp/config.php",
+        "APP_EVENTS_CACHE": "/tmp/events.php",
+        "APP_PACKAGES_CACHE": "/tmp/packages.php",
+        "APP_ROUTES_CACHE": "/tmp/routes.php",
+        "APP_SERVICES_CACHE": "/tmp/services.php",
+        "VIEW_COMPILED_PATH": "/tmp",
+        "CACHE_DRIVER": "array",
+        "LOG_CHANNEL": "stderr",
+        "SESSION_DRIVER": "cookie",
+        "LOG_STACK": "single",
+        "LOG_LEVEL": "debug",
+        "DB_CONNECTION": "sqlite",
+        "SESSION_LIFETIME": "120",
+        "BROADCAST_CONNECTION": "log",
+        "FILESYSTEM_DISK": "local",
+        "QUEUE_CONNECTION": "database",
+        "CACHE_STORE": "database",
+        "VITE_APP_NAME": "Laravel",
+        "L5_SWAGGER_GENERATE_ALWAYS": "false",
+        "L5_SWAGGER_CONST_HOST" : "https://laravel-diem-ren-luyen.vercel.app"
+    },
+    "outputDirectory": "/public",
+    "public": true
+}
