@@ -18,7 +18,7 @@
         "APP_LOCALE": "vi",
         "APP_FALLBACK_LOCALE": "vi",
         "APP_FAKER_LOCALE": "vi_VN",
-        "APP_URL": "https://laravel-diem-ren-luyen.vercel.app",
+        "APP_URL": "https://laravel-quan-ly-diem-ren-luyen.vercel.app",
         "APP_KEY": "base64:i7y7SfGSxhM6dZXAHb+W9YbZBaRyYIbvx5675YXRRgA=",
         "JWT_SECRET": "base64:i7y7SfGSxhM6dZXAHb+W9YbZBaRyYIbvx5675YXRRgA=",
         "APP_MAINTENANCE_DRIVER": "file",
@@ -34,7 +34,6 @@
         "SESSION_DRIVER": "cookie",
         "LOG_STACK": "single",
         "LOG_LEVEL": "debug",
-        "DB_CONNECTION": "sqlite",
         "SESSION_LIFETIME": "120",
         "BROADCAST_CONNECTION": "log",
         "FILESYSTEM_DISK": "local",
@@ -42,7 +41,7 @@
         "CACHE_STORE": "database",
         "VITE_APP_NAME": "Laravel",
         "L5_SWAGGER_GENERATE_ALWAYS": "false",
-        "L5_SWAGGER_CONST_HOST" : "https://laravel-diem-ren-luyen.vercel.app"
+        "L5_SWAGGER_CONST_HOST" : "https://laravel-quan-ly-diem-ren-luyen.vercel.app"
     },
     "outputDirectory": "/public",
     "public": true
