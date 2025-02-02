@@ -5,9 +5,10 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KhoaController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/',[HomeController::class ,'index'])->name('get.index');
+Route::get('/', function () {
+    return redirect()->route('admin');
+});
 
-Route::get('/login', [LoginController::class, 'getLogin'])->name('login');
 
 Route::prefix('khoa')->group(function () {
 
