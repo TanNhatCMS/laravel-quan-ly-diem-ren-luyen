@@ -13,7 +13,7 @@
         "backpack/translation-manager": "^1.0",
         "darkaonline/l5-swagger": "^8.6",
         "firebase/php-jwt": "^6.10",
-        "laravel/framework": "11.31.0",
+        "laravel/framework": "11.41.3",
         "laravel/sanctum": "^4.0",
         "laravel/telescope": "^5.4",
         "laravel/tinker": "^2.9",
