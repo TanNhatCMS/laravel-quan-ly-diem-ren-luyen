@@ -42,16 +42,16 @@ class ClassesCrudController extends CrudController
     {
         //CRUD::setFromDb(); // set columns from db columns.
         $this->crud->addColumn([
-            'name' => 'name',
+            'name'  => 'name',
             'label' => 'Lớp',
-            'type' => 'text',
+            'type'  => 'text',
         ]);
         $this->crud->addColumn([
-            'name' => 'department_id',
-            'label' => 'Khoa',
-            'type' => 'select',
-            'entity' => 'department',
-            'attribute' => 'name',
+            'name'           => 'department_id',
+            'label'          => 'Khoa',
+            'type'           => 'select',
+            'entity'         => 'department',
+            'attribute'      => 'name',
             'visibleInTable' => true,
             'visibleInModal' => false,
         ]);
@@ -73,16 +73,16 @@ class ClassesCrudController extends CrudController
         CRUD::setValidation(ClassesRequest::class);
         // CRUD::setFromDb(); // set fields from db columns.
         $this->crud->addField([
-            'name' => 'name',
-            'label' => 'Tên lớp',
-            'type' => 'text',
+            'name'        => 'name',
+            'label'       => 'Tên lớp',
+            'type'        => 'text',
             'placeholder' => 'Nhập tên lớp',
         ]);
 
         $this->crud->addField([
-            'name' => 'department_id ',
-            'label' => 'Khoa',
-            'type' => 'select_from_array',
+            'name'    => 'department_id ',
+            'label'   => 'Khoa',
+            'type'    => 'select_from_array',
             'options' => \App\Models\Departments::all()->pluck('name', 'id')->toArray(),
         ]);
         /**

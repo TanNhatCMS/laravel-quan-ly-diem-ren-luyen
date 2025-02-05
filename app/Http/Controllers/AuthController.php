@@ -28,26 +28,26 @@ class AuthController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required|min:3|max:50|regex:/^[\pL\s]+$/u|unique:users,name',
-            'username' => 'required|unique:users|min:4|max:32|regex:/^[a-zA-Z0-9_.]+$/',
+            'name'                  => 'required|min:3|max:50|regex:/^[\pL\s]+$/u|unique:users,name',
+            'username'              => 'required|unique:users|min:4|max:32|regex:/^[a-zA-Z0-9_.]+$/',
             'password_confirmation' => 'required',
-            'password' => 'required|confirmed|min:4|max:64',
+            'password'              => 'required|confirmed|min:4|max:64',
         ], [
-            'name.required' => __('messages.required', ['attribute' => 'Họ và tên']),
-            'name.regex' => __('messages.regex', ['attribute' => 'Họ và tên']),
-            'name.unique' => __('messages.unique', ['attribute' => 'Họ và tên']),
-            'name.min' => __('messages.min', ['attribute' => 'Họ và tên', 'min' => 3]),
-            'name.max' => __('messages.max', ['attribute' => 'Họ và tên', 'max' => 50]),
-            'username.required' => __('messages.required', ['attribute' => 'Tài khoản']),
-            'username.unique' => __('messages.unique', ['attribute' => 'Tài khoản']),
-            'username.min' => __('messages.min', ['attribute' => 'Tài khoản', 'min' => 4]),
-            'username.max' => __('messages.max', ['attribute' => 'Tài khoản', 'max' => 32]),
-            'username.regex' => __('messages.regex', ['attribute' => 'Tài khoản']),
-            'password.required' => __('messages.required', ['attribute' => 'Mật khẩu']),
+            'name.required'                  => __('messages.required', ['attribute' => 'Họ và tên']),
+            'name.regex'                     => __('messages.regex', ['attribute' => 'Họ và tên']),
+            'name.unique'                    => __('messages.unique', ['attribute' => 'Họ và tên']),
+            'name.min'                       => __('messages.min', ['attribute' => 'Họ và tên', 'min' => 3]),
+            'name.max'                       => __('messages.max', ['attribute' => 'Họ và tên', 'max' => 50]),
+            'username.required'              => __('messages.required', ['attribute' => 'Tài khoản']),
+            'username.unique'                => __('messages.unique', ['attribute' => 'Tài khoản']),
+            'username.min'                   => __('messages.min', ['attribute' => 'Tài khoản', 'min' => 4]),
+            'username.max'                   => __('messages.max', ['attribute' => 'Tài khoản', 'max' => 32]),
+            'username.regex'                 => __('messages.regex', ['attribute' => 'Tài khoản']),
+            'password.required'              => __('messages.required', ['attribute' => 'Mật khẩu']),
             'password_confirmation.required' => __('messages.required', ['attribute' => 'Xác nhận mật khẩu']),
-            'password.confirmed' => __('messages.confirmed', ['attribute' => 'Xác nhận mật khẩu']),
-            'password.min' => __('messages.min', ['attribute' => 'Mật khẩu', 'min' => 4]),
-            'password.max' => __('messages.max', ['attribute' => 'Mật khẩu', 'max' => 64]),
+            'password.confirmed'             => __('messages.confirmed', ['attribute' => 'Xác nhận mật khẩu']),
+            'password.min'                   => __('messages.min', ['attribute' => 'Mật khẩu', 'min' => 4]),
+            'password.max'                   => __('messages.max', ['attribute' => 'Mật khẩu', 'max' => 64]),
         ]);
 
         if ($validator->fails()) { // kiểm tra xem có lỗi hay không có ít nhất một lỗi sẽ trả về false còn khong trả về true
@@ -59,7 +59,7 @@ class AuthController extends Controller
 
         $last_user_id = User::orderBy('id', 'DESC')->first()->id;
 
-        $user = new User;
+        $user = new User();
         $user->id = $last_user_id + 1;
         $user->name = $request->name;
         $user->username = $request->username;
@@ -144,17 +144,17 @@ class AuthController extends Controller
             $auth = auth();
 
             return response()->json([
-                'success' => true,
+                'success'      => true,
                 'access_token' => $token,
-                'token_type' => 'bearer',
-                'expires_in' => $auth->factory()->getTTL() * 60,
-                'data' => $data,
+                'token_type'   => 'bearer',
+                'expires_in'   => $auth->factory()->getTTL() * 60,
+                'data'         => $data,
             ], $stt_code);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'Không tạo được mã token.',
-                'error' => $e->getMessage(),
+                'error'   => $e->getMessage(),
             ], 500);
         }
     }
@@ -284,7 +284,7 @@ class AuthController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => [
+            'data'    => [
                 'folders' => $folders,
                 'files' => $files,
             ],
@@ -316,7 +316,7 @@ class AuthController extends Controller
 
             return response()->json([
                 'success' => true,
-                'data' => [
+                'data'    => [
                     'trash' => [
                         'files' => $files,
                         'folders' => $folders,
@@ -359,7 +359,7 @@ class AuthController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => [
+            'data'    => [
                 'trash' => [
                     'files' => $files,
                     'folders' => $folders,
@@ -408,20 +408,20 @@ class AuthController extends Controller
             'username' => 'required|min:4|max:32|regex:/^[a-zA-Z0-9_.]+$/|unique:users,username,'.$request->id,
             'password' => 'nullable|min:4|max:64',
         ], [
-            'id.required' => __('messages.required', ['attribute' => 'ID']),
-            'id.exists' => __('messages.not_found', ['attribute' => 'Người dùng']),
-            'name.min' => __('messages.min', ['attribute' => 'Họ và tên', 'min' => 3]),
-            'name.max' => __('messages.max', ['attribute' => 'Họ và tên', 'max' => 50]),
-            'name.regex' => __('messages.regex', ['attribute' => 'Họ và tên']),
-            'name.required' => __('messages.required', ['attribute' => 'Họ và tên']),
-            'name.unique' => __('messages.unique', ['attribute' => 'Họ và tên']),
-            'username.min' => __('messages.min', ['attribute' => 'Tài khoản', 'min' => 4]),
-            'username.max' => __('messages.max', ['attribute' => 'Tài khoản', 'max' => 32]),
-            'username.unique' => __('messages.unique', ['attribute' => 'Tài khoản']),
-            'username.regex' => __('messages.regex', ['attribute' => 'Tài khoản']),
+            'id.required'       => __('messages.required', ['attribute' => 'ID']),
+            'id.exists'         => __('messages.not_found', ['attribute' => 'Người dùng']),
+            'name.min'          => __('messages.min', ['attribute' => 'Họ và tên', 'min' => 3]),
+            'name.max'          => __('messages.max', ['attribute' => 'Họ và tên', 'max' => 50]),
+            'name.regex'        => __('messages.regex', ['attribute' => 'Họ và tên']),
+            'name.required'     => __('messages.required', ['attribute' => 'Họ và tên']),
+            'name.unique'       => __('messages.unique', ['attribute' => 'Họ và tên']),
+            'username.min'      => __('messages.min', ['attribute' => 'Tài khoản', 'min' => 4]),
+            'username.max'      => __('messages.max', ['attribute' => 'Tài khoản', 'max' => 32]),
+            'username.unique'   => __('messages.unique', ['attribute' => 'Tài khoản']),
+            'username.regex'    => __('messages.regex', ['attribute' => 'Tài khoản']),
             'username.required' => __('messages.required', ['attribute' => 'Tài khoản']),
-            'password.min' => __('messages.min', ['attribute' => 'Mật khẩu', 'min' => 4]),
-            'password.max' => __('messages.max', ['attribute' => 'Mật khẩu', 'max' => 64]),
+            'password.min'      => __('messages.min', ['attribute' => 'Mật khẩu', 'min' => 4]),
+            'password.max'      => __('messages.max', ['attribute' => 'Mật khẩu', 'max' => 64]),
         ]);
 
         if ($validator->fails()) {
@@ -473,7 +473,7 @@ class AuthController extends Controller
             'id' => 'required|exists:users,id',
         ], [
             'id.required' => __('messages.required', ['attribute' => 'ID']),
-            'id.exists' => __('messages.not_found', ['attribute' => 'User']),
+            'id.exists'   => __('messages.not_found', ['attribute' => 'User']),
         ]);
 
         if ($validator->fails()) {
