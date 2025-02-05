@@ -1,16 +1,73 @@
-preset: laravel
-risky: false
-version: 8.3
-monolithic: true
-finder:
-  exclude:
-    - "modules"
-    - "node_modules"
-    - "nova"
-    - "nova-components"
-    - "storage"
-    - "spark"
-    - "vendor"
-  name: "*.php"
-  not-name:
-    - "_ide_helper.php"
+php:
+  risky: true
+  version: 8.3
+  preset: laravel
+  enabled:
+    - ternary_to_elvis_operator
+  disabled:
+    - single_import_per_statement
+  monolithic: true
+  finder:
+    exclude:
+      - "modules"
+      - "node_modules"
+      - "storage"
+      - "vendor"
+    name: "*.php"
+    not-name:
+      - "_ide_helper.php"
+js:
+  tab-width: 4
+  use-tabs: false
+  print-width: 120
+  double-quotes: false
+  trailing-commas: es5
+  semicolons: true
+  arrow-parens: always
+  bracket-same-line: false
+  bracket-spacing: true
+  finder:
+    exclude:
+      - "modules"
+      - "node_modules"
+      - "storage"
+      - "spark"
+      - "vendor"
+    name:
+      - "*.js"
+      - "*.jsx"
+    not-name:
+      - "*.min.js"
+ts:
+  tab-width: 4
+  use-tabs: false
+  print-width: 120
+  double-quotes: false
+  trailing-commas: es5
+  semicolons: true
+  arrow-parens: always
+  bracket-same-line: false
+  bracket-spacing: true
+  finder:
+    exclude:
+      - "modules"
+      - "node_modules"
+      - "storage"
+      - "vendor"
+    name: "*.ts"
+css:
+  tab-width: 4
+  use-tabs: false
+  print-width: 120
+  double-quotes: false
+  finder:
+    exclude:
+      - "modules"
+      - "node_modules"
+      - "storage"
+      - "spark"
+      - "vendor"
+    name:
+      - "*.css"
+      - "*.scss"
+      - "*.less"
