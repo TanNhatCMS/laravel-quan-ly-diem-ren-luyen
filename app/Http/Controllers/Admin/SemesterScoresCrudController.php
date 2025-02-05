@@ -7,8 +7,8 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class SemesterScoresCrudController
- * @package App\Http\Controllers\Admin
+ * Class SemesterScoresCrudController.
+ *
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
 class SemesterScoresCrudController extends CrudController
@@ -27,7 +27,7 @@ class SemesterScoresCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\SemesterScores::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/semester-scores');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/semester-scores');
         CRUD::setEntityNameStrings('Học kỳ', 'Danhs sách học kỳ');
     }
 
@@ -35,6 +35,7 @@ class SemesterScoresCrudController extends CrudController
      * Define what happens when the List operation is loaded.
      *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
+     *
      * @return void
      */
     protected function setupListOperation()
@@ -51,6 +52,7 @@ class SemesterScoresCrudController extends CrudController
      * Define what happens when the Create operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
+     *
      * @return void
      */
     protected function setupCreateOperation()
@@ -68,6 +70,7 @@ class SemesterScoresCrudController extends CrudController
      * Define what happens when the Update operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
+     *
      * @return void
      */
     protected function setupUpdateOperation()

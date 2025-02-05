@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 //use Auth;
 use Illuminate\Support\Facades\Auth;
+
 class LoginController extends Controller
 {
     /*
@@ -46,23 +46,22 @@ class LoginController extends Controller
 
     public function postLogin(Request $request)
     {
-        $login  = array(
+        $login = [
             'email' => $request->email,
-            'password' => $request->password
-        );
+            'password' => $request->password,
+        ];
         if ($this->auth->attempt($login)) {
             // Authentication passed...
             return redirect()->route('get.index');
-        }
-        else {
+        } else {
             return redirect()->back();
         }
-
     }
 
     public function logout()
     {
         Auth::logout();
+
         return redirect()->route('admin.login.getLogin');
     }
 }

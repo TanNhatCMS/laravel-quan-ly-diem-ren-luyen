@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('phone_number');
             $table->string('email')->unique();
             $table->date('birth_date');
-            $table->string('degree');// học vị
+            $table->string('degree'); // học vị
             $table->enum('gender', ['Nam', 'Nữ', 'Khác']);
             $table->foreignId('department_id')->constrained('departments');
             $table->timestamps();
