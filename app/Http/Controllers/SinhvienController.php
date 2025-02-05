@@ -14,23 +14,22 @@ class SinhvienController extends Controller
     public function getAdd($id)
     {
         $lops = Lop::all();
+
         return view('sinhvien.add', compact('lops'));
     }
 
     public function getDanhSach($id_lop)
     {
-        $lop =  DB::table('lops')->where('id', $id_lop)->first();
+        $lop = DB::table('lops')->where('id', $id_lop)->first();
 
         $sinhviens = DB::table('sinhviens')->join('lops', 'sinhviens.lop_id', '=', 'lops.id')
             ->select('lops.*', 'sinhviens.*')->where('sinhviens.lop_id', $id_lop)->paginate(10);
 
-        return view('sinhvien.list', compact('lop','sinhviens'));
-
+        return view('sinhvien.list', compact('lop', 'sinhviens'));
     }
 
     public function postAdd(SinhVienAddRequest $request, $id_lop)
     {
-
         $user = new User();
         $user->name = $request->tensv;
         $user->email = $request->email;
@@ -39,7 +38,6 @@ class SinhvienController extends Controller
         $user->remember_token = $request->_token;
 //        vai tro 4 la sinh vien
         $user->save();
-
 
         $sinhvien = new Sinhvien();
         $sinhvien->name = $request->tensv;
@@ -51,7 +49,6 @@ class SinhvienController extends Controller
         $sinhvien->email = $request->email;
 
         $sinhvien->save();
-
 
         return redirect()->route('sinhvien.get_danhsach', $id_lop);
     }
@@ -68,11 +65,11 @@ class SinhvienController extends Controller
 
     public function getLopTruongChamdiem($id_lop)
     {
-        $lop =  \Illuminate\Support\Facades\DB::table('lops')->where('id', $id_lop)->first();
+        $lop = \Illuminate\Support\Facades\DB::table('lops')->where('id', $id_lop)->first();
 
         $sinhviens = DB::table('sinhviens')->join('lops', 'sinhviens.lop_id', '=', 'lops.id')
             ->select('lops.*', 'sinhviens.*')->where('sinhviens.lop_id', $id_lop)->paginate(10);
 
-        return view('sinhvien.list', compact('lop','sinhviens'));
+        return view('sinhvien.list', compact('lop', 'sinhviens'));
     }
 }

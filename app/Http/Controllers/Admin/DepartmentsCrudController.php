@@ -7,8 +7,8 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class DepartmentsCrudController
- * @package App\Http\Controllers\Admin
+ * Class DepartmentsCrudController.
+ *
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
 class DepartmentsCrudController extends CrudController
@@ -27,7 +27,7 @@ class DepartmentsCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\Departments::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/departments');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/departments');
         CRUD::setEntityNameStrings('Khoa', 'Quản lý Khoa');
     }
 
@@ -35,15 +35,16 @@ class DepartmentsCrudController extends CrudController
      * Define what happens when the List operation is loaded.
      *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
+     *
      * @return void
      */
     protected function setupListOperation()
     {
         //CRUD::setFromDb(); // set columns from db columns.
         $this->crud->addColumn([
-            'name' => 'name',
+            'name'  => 'name',
             'label' => 'Tên Khoa',
-            'type' => 'text',
+            'type'  => 'text',
         ]);
         /**
          * Columns can be defined using the fluent syntax:
@@ -55,6 +56,7 @@ class DepartmentsCrudController extends CrudController
      * Define what happens when the Create operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
+     *
      * @return void
      */
     protected function setupCreateOperation()
@@ -72,6 +74,7 @@ class DepartmentsCrudController extends CrudController
      * Define what happens when the Update operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
+     *
      * @return void
      */
     protected function setupUpdateOperation()

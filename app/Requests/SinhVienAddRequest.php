@@ -24,16 +24,14 @@ class SinhVienAddRequest extends FormRequest
     public function rules()
     {
         return [
-            'masv' => 'unique:sinhviens,masv'
+            'masv' => 'unique:sinhviens,masv',
         ];
-
-
     }
 
     public function messages()
     {
         return [
-            'masv.unique' => 'Mã sinh viên đã tồn tại'
+            'masv.unique' => 'Mã sinh viên đã tồn tại',
 
         ];
     }
