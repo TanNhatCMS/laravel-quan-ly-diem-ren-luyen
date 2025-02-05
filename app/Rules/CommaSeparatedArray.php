@@ -8,7 +8,6 @@ use Illuminate\Translation\PotentiallyTranslatedString;
 
 class CommaSeparatedArray implements ValidationRule
 {
-
     private array $arrayCheck;
 
     public function __construct(array $arrayCheck = [])
@@ -23,7 +22,6 @@ class CommaSeparatedArray implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-
         $values = gettype($value) === 'string' ? explode(',', $value) : $value;
 
         foreach ($values as $val) {

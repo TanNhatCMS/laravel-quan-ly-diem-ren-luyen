@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'default' => 'default',
+    'default'        => 'default',
     'documentations' => [
         'default' => [
             'api' => [
@@ -60,9 +60,9 @@ return [
              * Middleware allows to prevent unexpected access to API documentation
              */
             'middleware' => [
-                'api' => [],
+                'api'   => [],
                 'asset' => [],
-                'docs' => [
+                'docs'  => [
                 ],
                 'oauth2_callback' => [],
             ],
@@ -109,16 +109,16 @@ return [
              * @link https://zircote.github.io/swagger-php/reference/processors.html
              */
             'default_processors_configuration' => [
-                /** Example */
-                /**
-                 * 'operationId.hash' => true,
-                 * 'pathFilter' => [
-                 * 'tags' => [
-                 * '/pets/',
-                 * '/store/',
-                 * ],
-                 * ],.
-                 */
+            /** Example */
+            /**
+             * 'operationId.hash' => true,
+             * 'pathFilter' => [
+             * 'tags' => [
+             * '/pets/',
+             * '/store/',
+             * ],
+             * ],.
+             */
             ],
 
             /**

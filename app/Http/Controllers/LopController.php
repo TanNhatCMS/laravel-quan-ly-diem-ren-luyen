@@ -21,6 +21,7 @@ class LopController extends Controller
     public function getAdd()
     {
         $khoas = Khoa::all();
+
         return view('lop.add', compact('khoas'));
     }
 
@@ -31,11 +32,11 @@ class LopController extends Controller
         $lop->khoa_id = $request->khoa;
         $lop->hedaotao = $request->hedaotao;
         $lop->save();
+
         return redirect()->route('lop.get_danhsach');
     }
 
     public function getEdit()
     {
-
     }
 }
