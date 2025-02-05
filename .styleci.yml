@@ -31,7 +31,6 @@ js:
       - "modules"
       - "node_modules"
       - "storage"
-      - "spark"
       - "vendor"
     name:
       - "*.js"
@@ -65,7 +64,6 @@ css:
       - "modules"
       - "node_modules"
       - "storage"
-      - "spark"
       - "vendor"
     name:
       - "*.css"
