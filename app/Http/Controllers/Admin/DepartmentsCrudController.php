@@ -42,9 +42,9 @@ class DepartmentsCrudController extends CrudController
     {
         //CRUD::setFromDb(); // set columns from db columns.
         $this->crud->addColumn([
-            'name'  => 'name',
+            'name' => 'name',
             'label' => 'Tên Khoa',
-            'type'  => 'text',
+            'type' => 'text',
         ]);
         /**
          * Columns can be defined using the fluent syntax:

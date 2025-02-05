@@ -47,7 +47,7 @@ class LoginController extends Controller
     public function postLogin(Request $request)
     {
         $login = [
-            'email'    => $request->email,
+            'email' => $request->email,
             'password' => $request->password,
         ];
         if ($this->auth->attempt($login)) {

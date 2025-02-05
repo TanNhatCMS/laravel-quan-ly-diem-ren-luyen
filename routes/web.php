@@ -63,6 +63,6 @@ Route::get('tonghop', 'GiangVienController@tongHopKetQua')->name('khoa.get_tongh
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('login', ['as'=>'admin.login.getLogin', 'uses'=>'Auth\LoginController@getLogin']);
-Route::post('login', ['as'=>'admin.login.postLogin', 'uses'=>'Auth\LoginController@postLogin']);
-Route::get('logout', ['as'=>'admin.logout', 'uses'=>'Auth\LoginController@logout']);
+Route::get('login', ['as' => 'admin.login.getLogin', 'uses' => 'Auth\LoginController@getLogin']);
+Route::post('login', ['as' => 'admin.login.postLogin', 'uses' => 'Auth\LoginController@postLogin']);
+Route::get('logout', ['as' => 'admin.logout', 'uses' => 'Auth\LoginController@logout']);
