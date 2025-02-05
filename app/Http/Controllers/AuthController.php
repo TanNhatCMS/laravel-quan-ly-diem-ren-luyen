@@ -20,11 +20,12 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
-        if (!$request->user()->hasRole('admin'))
+        if (! $request->user()->hasRole('admin')) {
             return response()->json([
                 'success' => false,
-                'message' => __('messages.permission_denied')
+                'message' => __('messages.permission_denied'),
             ], 403);
+        }
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|min:3|max:50|regex:/^[\pL\s]+$/u|unique:users,name',
@@ -52,7 +53,7 @@ class AuthController extends Controller
         if ($validator->fails()) { // kiểm tra xem có lỗi hay không có ít nhất một lỗi sẽ trả về false còn khong trả về true
             return response()->json([
                 'success' => false,
-                'message' => $validator->errors()->first()
+                'message' => $validator->errors()->first(),
             ], 400);
         }
 
@@ -69,7 +70,7 @@ class AuthController extends Controller
         $token = auth()->attempt($request->only('username', 'password'));
 
         return $this->respondWithToken($token, [
-            'user' => $user
+            'user' => $user,
         ], 201);
     }
 
@@ -82,14 +83,15 @@ class AuthController extends Controller
     {
         $credentials = request(['username', 'password']);
 
-        if (!$token = auth()->attempt($credentials)) {
+        if (! $token = auth()->attempt($credentials)) {
             return response()->json([
                 'success' => false,
                 'message' => __('messages.credentials'),
             ], 401);
         }
+
         return $this->respondWithToken($token, [
-            'user' => auth()->user()
+            'user' => auth()->user(),
         ]);
     }
 
@@ -111,6 +113,7 @@ class AuthController extends Controller
     public function logout()
     {
         auth()->logout();
+
         return response()->json(['message' => 'Đăng xuất thành công']);
     }
 
@@ -130,9 +133,9 @@ class AuthController extends Controller
     /**
      * Get the token array structure.
      *
-     * @param string $token
-     * @param array $data
-     * @param int $stt_code
+     * @param  string  $token
+     * @param  array  $data
+     * @param  int  $stt_code
      * @return JsonResponse
      */
     protected function respondWithToken(string $token, array $data = [], int $stt_code = 200)
@@ -156,7 +159,6 @@ class AuthController extends Controller
         }
     }
 
-
     public function myFolders(Request $request)
     {
         $user = $request->user();
@@ -166,13 +168,15 @@ class AuthController extends Controller
                 $folder->permission = $folder->folderPermission($user);
                 $folder->role = 'Super admin';
                 $folder->breadcrumb = $folder->displayBreadcrumb();
+
                 return $folder;
             });
+
             return response()->json([
                 'success' => true,
                 'data' => [
-                    'folders' => $folders
-                ]
+                    'folders' => $folders,
+                ],
             ]);
         }
 
@@ -186,10 +190,10 @@ class AuthController extends Controller
                 continue;
             }
             $folder_id = $role[1];
-            if (!in_array($folder_id, $folders_ids)) {
+            if (! in_array($folder_id, $folders_ids)) {
                 $list_roles[] = [
                     'id' => $folder_id,
-                    'name' => $role[2]
+                    'name' => $role[2],
                 ];
                 $folders_ids[] = $folder_id;
             }
@@ -204,14 +208,17 @@ class AuthController extends Controller
                 }
                 $folder = $folder->parent;
             }
+
             return array_reverse($breadcrumb);
         };
         foreach ($list_roles as $role) {
             $folder_id = $role['id'];
-            if (!in_array($folder_id, $folder_ids)) {
+            if (! in_array($folder_id, $folder_ids)) {
                 $folder = Folder::select(['id', 'name', 'folder_id', 'permission', 'created_at', 'updated_at'])
                     ->find($folder_id);
-                if (!$folder) continue;
+                if (! $folder) {
+                    continue;
+                }
                 $folder['role'] = $role['name'];
                 $folder['breadcrumb'] = $setBreadcrumb($folder);
                 $folder['permission'] = $folder->folderPermission($request->user());
@@ -230,24 +237,24 @@ class AuthController extends Controller
             $currentPage,
             ['path' => Paginator::resolveCurrentPath()]
         );
+
         return response()->json([
             'success' => true,
             'data' => [
-                'folders' => $paginator
-            ]
+                'folders' => $paginator,
+            ],
         ]);
     }
 
     public function myShortcuts(Request $request)
     {
-
         $user = $request->user();
 
         $folders = $user->folderShortcuts()
             ->with('folder')
             ->get()
-            ->filter(fn($folderShortcut) => $folderShortcut->folder !== null)
-            ->map(fn($folder) => [
+            ->filter(fn ($folderShortcut) => $folderShortcut->folder !== null)
+            ->map(fn ($folder) => [
                 'id' => $folder->folder->id,
                 'name' => $folder->folder->name,
                 'permission' => $folder->folder->folderPermission($user),
@@ -260,8 +267,8 @@ class AuthController extends Controller
         $files = $user->fileShortcuts()
             ->with('file')
             ->get()
-            ->filter(fn($fileShortcut) => $fileShortcut->file !== null)
-            ->map(fn($file) => [
+            ->filter(fn ($fileShortcut) => $fileShortcut->file !== null)
+            ->map(fn ($file) => [
                 'id' => $file->file->id,
                 'name' => $file->file->name,
                 'path' => $file->file->path,
@@ -280,7 +287,7 @@ class AuthController extends Controller
             'data' => [
                 'folders' => $folders,
                 'files' => $files,
-            ]
+            ],
         ]);
     }
 
@@ -297,22 +304,24 @@ class AuthController extends Controller
                     continue;
                 }
                 $filesTrash = File::onlyTrashed()->where('folder_id', $folder->id)->get();
-                if (!$filesTrash->isEmpty())
+                if (! $filesTrash->isEmpty()) {
                     array_push($files, ...$filesTrash);
+                }
             }
             $folders = collect($folders);
             $folders = $folders->filter(
-                fn($folder) => !$folders->contains('id', $folder->folder_id)
+                fn ($folder) => ! $folders->contains('id', $folder->folder_id)
             )->values()
                 ->toArray();
+
             return response()->json([
                 'success' => true,
                 'data' => [
                     'trash' => [
                         'files' => $files,
-                        'folders' => $folders
-                    ]
-                ]
+                        'folders' => $folders,
+                    ],
+                ],
             ]);
         }
         $roles = $user->getRoleNames();
@@ -322,25 +331,29 @@ class AuthController extends Controller
             $role = explode('.', $role);
             $folder_id = $role[1];
             $folder = Folder::withTrashed()->where('id', $folder_id)->first();
-            if (!$folder) continue;
-            if ($folder->trashed() && !in_array($folder, $folders)) {
+            if (! $folder) {
+                continue;
+            }
+            if ($folder->trashed() && ! in_array($folder, $folders)) {
                 $folders[] = $folder;
                 continue;
             }
             $_files = File::onlyTrashed()->where('folder_id', $folder_id)->get();
             foreach ($_files as $file) {
-                if (!in_array($file, $files)) $files[] = $file;
+                if (! in_array($file, $files)) {
+                    $files[] = $file;
+                }
             }
-
         }
 
         $folders = collect($folders)->map(function ($folder) use ($user) {
             $folder->permission = $folder->folderPermission($user);
+
             return $folder;
         });
 
         $folders = $folders->filter(
-            fn($folder) => !$folders->contains('id', $folder->folder_id)
+            fn ($folder) => ! $folders->contains('id', $folder->folder_id)
         )->values()
             ->toArray();
 
@@ -349,48 +362,50 @@ class AuthController extends Controller
             'data' => [
                 'trash' => [
                     'files' => $files,
-                    'folders' => $folders
-                ]
-            ]
+                    'folders' => $folders,
+                ],
+            ],
         ]);
     }
 
     public function listUsers(Request $request)
     {
         try {
-            if (!$request->user()->hasRole('admin'))
+            if (! $request->user()->hasRole('admin')) {
                 return response()->json([
                     'success' => false,
-                    'message' => __('messages.permission_denied')
+                    'message' => __('messages.permission_denied'),
                 ], 403);
+            }
 
             return response()->json([
                 'success' => true,
                 'data' => [
-                    'users' => $request->get_all ? User::all() : User::paginate(10)
+                    'users' => $request->get_all ? User::all() : User::paginate(10),
                 ],
-                'message' => 'Lấy danh sách người dùng thành công'
+                'message' => 'Lấy danh sách người dùng thành công',
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
             ], 500);
         }
     }
 
     public function editUser(Request $request)
     {
-        if (!$request->user()->hasRole('admin'))
+        if (! $request->user()->hasRole('admin')) {
             return response()->json([
                 'success' => false,
-                'message' => __('messages.permission_denied')
+                'message' => __('messages.permission_denied'),
             ], 403);
+        }
 
         $validator = Validator::make($request->all(), [
             'id' => 'required|exists:users,id',
-            'name' => 'required|min:3|max:50|regex:/^[\pL\s]+$/u|unique:users,name,' . $request->id,
-            'username' => 'required|min:4|max:32|regex:/^[a-zA-Z0-9_.]+$/|unique:users,username,' . $request->id,
+            'name' => 'required|min:3|max:50|regex:/^[\pL\s]+$/u|unique:users,name,'.$request->id,
+            'username' => 'required|min:4|max:32|regex:/^[a-zA-Z0-9_.]+$/|unique:users,username,'.$request->id,
             'password' => 'nullable|min:4|max:64',
         ], [
             'id.required' => __('messages.required', ['attribute' => 'ID']),
@@ -409,24 +424,30 @@ class AuthController extends Controller
             'password.max' => __('messages.max', ['attribute' => 'Mật khẩu', 'max' => 64]),
         ]);
 
-        if ($validator->fails())
+        if ($validator->fails()) {
             return response()->json([
                 'success' => false,
-                'message' => $validator->errors()->first()
+                'message' => $validator->errors()->first(),
             ], 400);
+        }
 
         $user = User::find($request->id);
 
-        if ($request->filled('username'))
+        if ($request->filled('username')) {
             $user->username = $request->username;
+        }
 
-        if ($request->filled('password'))
+        if ($request->filled('password')) {
             $user->password = bcrypt($request->password);
+        }
 
-        if ($request->filled('name'))
+        if ($request->filled('name')) {
             $user->name = $request->name;
+        }
 
-        if ($user->hasRole('admin')) unset($user->username);
+        if ($user->hasRole('admin')) {
+            unset($user->username);
+        }
 
         $user->save();
 
@@ -434,18 +455,19 @@ class AuthController extends Controller
             'success' => true,
             'message' => __('messages.updated', ['attribute' => 'Người dùng']),
             'data' => [
-                'user' => $user
-            ]
+                'user' => $user,
+            ],
         ]);
     }
 
     public function deleteUser(Request $request)
     {
-        if (!$request->user()->hasRole('admin'))
+        if (! $request->user()->hasRole('admin')) {
             return response()->json([
                 'success' => false,
-                'message' => __('messages.permission_denied')
+                'message' => __('messages.permission_denied'),
             ], 403);
+        }
 
         $validator = Validator::make($request->all(), [
             'id' => 'required|exists:users,id',
@@ -454,19 +476,21 @@ class AuthController extends Controller
             'id.exists' => __('messages.not_found', ['attribute' => 'User']),
         ]);
 
-        if ($validator->fails())
+        if ($validator->fails()) {
             return response()->json([
                 'success' => false,
-                'message' => $validator->errors()->first()
+                'message' => $validator->errors()->first(),
             ], 400);
+        }
 
         $user = User::find($request->id);
 
-        if ($user->hasRole('admin'))
+        if ($user->hasRole('admin')) {
             return response()->json([
                 'success' => false,
-                'message' => __('messages.cannot_delete', ['attribute' => 'Admin'])
+                'message' => __('messages.cannot_delete', ['attribute' => 'Admin']),
             ], 400);
+        }
 
         $user->delete();
 
@@ -474,8 +498,8 @@ class AuthController extends Controller
             'success' => true,
             'message' => __('messages.deleted', ['attribute' => 'Người dùng']),
             'data' => [
-                'user' => $user
-            ]
+                'user' => $user,
+            ],
         ]);
     }
 
@@ -483,10 +507,9 @@ class AuthController extends Controller
     {
         $user = $request->user();
         if ($user->hasRole('admin')) {
-
             $files = $request->is_trashed ?
                 File::onlyTrashed()
-                    ->where(fn($query) => $query->where('name', 'like', "%{$request->name}%")
+                    ->where(fn ($query) => $query->where('name', 'like', "%{$request->name}%")
                         ->orWhere('path', 'like', "%{$request->name}%")
                     )->get() :
                 File::where('name', 'like', "%{$request->name}%")
@@ -494,7 +517,6 @@ class AuthController extends Controller
                     ->get();
 
             $files = $files->map(function ($file) {
-
                 $file->upload_by = $file->user->name;
                 unset($file->user);
 
@@ -510,6 +532,7 @@ class AuthController extends Controller
 
             $folders = $folders->map(function ($folder) use ($user) {
                 $folder->permission = $folder->folderPermission($user);
+
                 return $folder;
             });
 
@@ -517,8 +540,8 @@ class AuthController extends Controller
                 'success' => true,
                 'data' => [
                     'files' => $files,
-                    'folders' => $folders
-                ]
+                    'folders' => $folders,
+                ],
             ]);
         }
 
@@ -535,19 +558,23 @@ class AuthController extends Controller
                 Folder::withTrashed()->find($folder_id) :
                 Folder::find($folder_id);
 
-            if (!$folder) continue;
+            if (! $folder) {
+                continue;
+            }
 
-            if (!str_contains($folder->permission, 'read')) continue;
+            if (! str_contains($folder->permission, 'read')) {
+                continue;
+            }
 
             $file_result = $request->is_trashed ?
                 File::onlyTrashed()
                     ->where('folder_id', $folder_id)
-                    ->where(fn($query) => $query
+                    ->where(fn ($query) => $query
                         ->where('name', 'like', "%{$request->name}%")
                         ->orWhere('path', 'like', "%{$request->name}%")
                     )->get() :
                 File::where('folder_id', $folder_id)
-                    ->where(fn($query) => $query
+                    ->where(fn ($query) => $query
                         ->where('name', 'like', "%{$request->name}%")
                         ->orWhere('path', 'like', "%{$request->name}%")
                     )->get();
@@ -556,20 +583,21 @@ class AuthController extends Controller
             $requestFolderSearchName = strtolower(str_replace(' ', '', removeAccents($request->name)));
             if (str_contains($folderSearchName, $requestFolderSearchName)) {
                 $folder->permission = $folder->folderPermission($user);
-                if (!in_array($folder->id, array_column($folders, 'id'))) {
+                if (! in_array($folder->id, array_column($folders, 'id'))) {
                     if ($request->is_trashed) {
-                        if ($folder->deleted_at !== null)
+                        if ($folder->deleted_at !== null) {
                             $folders[] = $folder;
-
+                        }
                     } else {
                         $folders[] = $folder;
                     }
                 }
             }
-            if (!$file_result->isEmpty()) {
+            if (! $file_result->isEmpty()) {
                 $file_result = $file_result->map(function ($file) {
                     $file->upload_by = $file->user->name;
                     unset($file->user);
+
                     return $file;
                 });
                 array_push($files, ...$file_result);
@@ -580,8 +608,8 @@ class AuthController extends Controller
             'success' => true,
             'data' => [
                 'files' => $files,
-                'folders' => $folders
-            ]
+                'folders' => $folders,
+            ],
         ]);
     }
 }

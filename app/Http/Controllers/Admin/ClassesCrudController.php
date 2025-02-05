@@ -7,8 +7,8 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class ClassesCrudController
- * @package App\Http\Controllers\Admin
+ * Class ClassesCrudController.
+ *
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
 class ClassesCrudController extends CrudController
@@ -27,7 +27,7 @@ class ClassesCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\Classes::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/classes');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/classes');
         CRUD::setEntityNameStrings('Lớp', 'Danh Sách Lớp');
     }
 
@@ -35,6 +35,7 @@ class ClassesCrudController extends CrudController
      * Define what happens when the List operation is loaded.
      *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
+     *
      * @return void
      */
     protected function setupListOperation()
@@ -64,12 +65,13 @@ class ClassesCrudController extends CrudController
      * Define what happens when the Create operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
+     *
      * @return void
      */
     protected function setupCreateOperation()
     {
         CRUD::setValidation(ClassesRequest::class);
-       // CRUD::setFromDb(); // set fields from db columns.
+        // CRUD::setFromDb(); // set fields from db columns.
         $this->crud->addField([
             'name' => 'name',
             'label' => 'Tên lớp',
@@ -93,6 +95,7 @@ class ClassesCrudController extends CrudController
      * Define what happens when the Update operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
+     *
      * @return void
      */
     protected function setupUpdateOperation()
