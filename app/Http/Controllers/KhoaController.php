@@ -17,18 +17,21 @@ class KhoaController extends Controller
         $khoa = new Khoa();
         $khoa->tenkhoa = $request->tenkhoa;
         $khoa->save();
+
         return redirect()->route('khoa.get_danhsach');
     }
 
     public function getDanhSach()
     {
         $khoa = Khoa::all();
+
         return view('khoa.danhsach', compact('khoa'));
     }
 
     public function getEdit($id)
     {
         $khoa = Khoa::find($id);
+
         return view('khoa.edit', compact('khoa'));
     }
 
@@ -37,12 +40,14 @@ class KhoaController extends Controller
         $khoa = Khoa::find($id);
         $khoa->tenkhoa = $request->tenkhoa;
         $khoa->save();
+
         return redirect()->route('khoa.get_danhsach');
     }
 
     public function delete($id)
     {
         Khoa::find($id)->delete();
+
         return redirect()->route('khoa.get_danhsach');
     }
 }

@@ -13,6 +13,7 @@ class GiangvienController extends Controller
     public function getDanhSach()
     {
         $giangviens = Giangvien::paginate(10);
+
         return view('giangvien.danhsach', compact('giangviens'));
     }
 
@@ -35,35 +36,30 @@ class GiangvienController extends Controller
         $giangvien->name = $request->name;
         $giangvien->email = $request->email;
         $giangvien->save();
-        return redirect()->route('giangvien.get_danhsach');
 
+        return redirect()->route('giangvien.get_danhsach');
     }
 
     public function getEdit($id)
     {
-
     }
-
 
     public function postEdit($id)
     {
-
     }
-
 
     public function delete($id)
     {
-
     }
 
     public function getDanhGiaDiemLop($id_lop)
     {
-        $lop =  DB::table('lops')->where('id', $id_lop)->first();
+        $lop = DB::table('lops')->where('id', $id_lop)->first();
 
         $sinhviens = DB::table('sinhviens')->join('lops', 'sinhviens.lop_id', '=', 'lops.id')
             ->select('lops.*', 'sinhviens.*')->where('sinhviens.lop_id', $id_lop)->paginate(10);
 
-        return view('sinhvien.list', compact('lop','sinhviens'));
+        return view('sinhvien.list', compact('lop', 'sinhviens'));
     }
 
     public function tongHopKetQua()

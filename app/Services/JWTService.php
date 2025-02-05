@@ -16,9 +16,9 @@ class JWTService
     }
 
     /**
-     * Tạo JWT từ payload
+     * Tạo JWT từ payload.
      *
-     * @param array $payload
+     * @param  array  $payload
      * @return string
      */
     public function createToken(array $payload): string
@@ -32,9 +32,9 @@ class JWTService
     }
 
     /**
-     * Giải mã JWT
+     * Giải mã JWT.
      *
-     * @param string $token
+     * @param  string  $token
      * @return object|null
      */
     public function decodeToken(string $token): ?object
