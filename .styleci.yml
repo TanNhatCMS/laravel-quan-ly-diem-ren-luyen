@@ -1,6 +1,6 @@
 php:
   risky: true
-  version: 8.3
+  version: 8.2
   preset: laravel
   enabled:
     - ternary_to_elvis_operator
