@@ -11,9 +11,9 @@ use Illuminate\Http\Request;
 class UserController extends BaseController
 {
     /**
-     * Show Users List
+     * Show Users List.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return JsonResponse
      */
     public function list(Request $request): JsonResponse
@@ -25,9 +25,9 @@ class UserController extends BaseController
     }
 
     /**
-     * Store User Information
+     * Store User Information.
      *
-     * @param UserRequest $request
+     * @param  UserRequest  $request
      * @return JsonResponse
      */
     public function store(UserRequest $request): JsonResponse
@@ -51,10 +51,10 @@ class UserController extends BaseController
     }
 
     /**
-     * Show User Profile
+     * Show User Profile.
      *
-     * @param int $id
-     * @param Request $request
+     * @param  int  $id
+     * @param  Request  $request
      * @return JsonResponse
      */
     public function profile($id, Request $request): JsonResponse
@@ -67,10 +67,10 @@ class UserController extends BaseController
     }
 
     /**
-     * Delete User
+     * Delete User.
      *
-     * @param int $id
-     * @param Request $request
+     * @param  int  $id
+     * @param  Request  $request
      * @return JsonResponse
      */
     public function delete($id, Request $request): JsonResponse
@@ -87,10 +87,10 @@ class UserController extends BaseController
     }
 
     /**
-     * Change User Role
+     * Change User Role.
      *
-     * @param int $id
-     * @param RoleChangeRequest $request
+     * @param  int  $id
+     * @param  RoleChangeRequest  $request
      * @return JsonResponse
      */
     public function changeRole($id, RoleChangeRequest $request): JsonResponse

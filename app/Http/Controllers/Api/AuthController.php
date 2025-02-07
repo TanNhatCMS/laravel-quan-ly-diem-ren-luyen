@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\AuthRequest;
+use App\Http\Controllers\API\BaseController;
 use App\Http\Requests\PasswordChangeRequest;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-
-use App\Http\Controllers\API\BaseController as BaseController;
 use Validator;
 
 class AuthController extends BaseController
@@ -20,8 +18,8 @@ class AuthController extends BaseController
      *
      * @return JsonResponse
      */
-    public function register(Request $request) {
-
+    public function register(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required|email',
@@ -29,18 +27,17 @@ class AuthController extends BaseController
             'c_password' => 'required|same:password',
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
-        $success['user'] =  $user;
+        $success['user'] = $user;
 
         return $this->sendResponse($success, 'User register successfully.');
     }
-
 
     /**
      * Get a JWT via given credentials.
@@ -52,7 +49,7 @@ class AuthController extends BaseController
         $credentials = request(['email', 'password']);
 
         if (! $token = auth()->attempt($credentials)) {
-            return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
+            return $this->sendError('Unauthorised.', ['error' => 'Unauthorised']);
         }
 
         $success = $this->respondWithToken($token);
@@ -70,12 +67,11 @@ class AuthController extends BaseController
         if ($user = auth()->user()) {
             $roles = $user->getRoleNames();
             $permission = $user->getAllPermissions();
+
             return $this->sendResponse($user, 'Refresh token return successfully.');
         }
 
         return $this->failedResponse();
-
-
     }
 
     /**
@@ -105,8 +101,7 @@ class AuthController extends BaseController
     /**
      * Get the token array structure.
      *
-     * @param string $token
-     *
+     * @param  string  $token
      * @return array
      */
     protected function respondWithToken(string $token)
@@ -114,7 +109,7 @@ class AuthController extends BaseController
         return [
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'expires_in' => auth()->factory()->getTTL() * 60,
         ];
     }
 
