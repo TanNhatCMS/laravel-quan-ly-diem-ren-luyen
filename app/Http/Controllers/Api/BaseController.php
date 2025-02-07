@@ -8,11 +8,11 @@ use Illuminate\Http\JsonResponse;
 class BaseController extends Controller
 {
     /**
-     * Success Response
+     * Success Response.
      *
-     * @param mixed|null $data
-     * @param int $code
-     * @param array $headers
+     * @param  mixed|null  $data
+     * @param  int  $code
+     * @param  array  $headers
      * @return JsonResponse
      */
     protected function successResponse(mixed $data = null, int $code = 200, array $headers = [])
@@ -26,12 +26,12 @@ class BaseController extends Controller
     }
 
     /**
-     * Failed Response
+     * Failed Response.
      *
-     * @param string|null $message
-     * @param mixed|null $data
-     * @param int $code
-     * @param array $headers
+     * @param  string|null  $message
+     * @param  mixed|null  $data
+     * @param  int  $code
+     * @param  array  $headers
      * @return JsonResponse
      */
     protected function failedResponse(
@@ -48,6 +48,7 @@ class BaseController extends Controller
 
         return response()->json($content, $code, $headers);
     }
+
     /**
      * return error response.
      *
@@ -60,12 +61,13 @@ class BaseController extends Controller
             'message' => $error,
         ];
 
-        if(!empty($errorMessages)){
+        if (! empty($errorMessages)) {
             $response['data'] = $errorMessages;
         }
 
         return response()->json($response, $code);
     }
+
     /**
      * success response method.
      *
@@ -75,12 +77,10 @@ class BaseController extends Controller
     {
         $response = [
             'success' => true,
-            'data'    => $result,
+            'data' => $result,
             'message' => $message,
         ];
 
         return response()->json($response, 200);
     }
-
-
 }
