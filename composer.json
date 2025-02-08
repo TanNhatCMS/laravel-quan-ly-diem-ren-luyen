@@ -59,7 +59,8 @@
             "@php artisan package:discover --ansi"
         ],
         "post-composer-install": [
-            "@php artisan storage:link"
+            "@php artisan storage:link",
+            "@php artisan basset:fresh"
         ],
         "post-composer-update": [
             "@php artisan storage:link",
@@ -73,11 +74,7 @@
         ],
         "post-install-cmd": [
             "php artisan storage:link",
-            "chmod -R 755 storage",
-            "chmod -R 755 bootstrap/cache",
-            "php artisan config:clear",
-            "php artisan route:clear",
-            "php artisan view:clear",
+            "@php artisan basset:fresh",
             "Illuminate\\Foundation\\ComposerScripts::postInstall"
         ],
         "post-create-project-cmd": [
