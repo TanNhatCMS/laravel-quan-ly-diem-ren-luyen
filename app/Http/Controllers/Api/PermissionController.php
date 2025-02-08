@@ -10,9 +10,9 @@ use Spatie\Permission\Models\Permission;
 class PermissionController extends BaseController
 {
     /**
-     * Get Permission List
+     * Get Permission List.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return JsonResponse
      */
     public function list(Request $request): JsonResponse
@@ -23,9 +23,9 @@ class PermissionController extends BaseController
     }
 
     /**
-     * Store Permission
+     * Store Permission.
      *
-     * @param PermissionRequest $request
+     * @param  PermissionRequest  $request
      * @return JsonResponse
      */
     public function store(PermissionRequest $request): JsonResponse
@@ -46,10 +46,10 @@ class PermissionController extends BaseController
     }
 
     /**
-     * Show Permission
+     * Show Permission.
      *
-     * @param int $id
-     * @param Request $request
+     * @param  int  $id
+     * @param  Request  $request
      * @return JsonResponse
      */
     public function show($id, Request $request): JsonResponse
@@ -64,10 +64,10 @@ class PermissionController extends BaseController
     }
 
     /**
-     * Delete Permission
+     * Delete Permission.
      *
-     * @param int $id
-     * @param Request $request
+     * @param  int  $id
+     * @param  Request  $request
      * @return JsonResponse
      */
     public function delete($id, Request $request): JsonResponse

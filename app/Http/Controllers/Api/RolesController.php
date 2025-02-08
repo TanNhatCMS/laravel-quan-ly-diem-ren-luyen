@@ -11,9 +11,9 @@ use Spatie\Permission\Models\Role;
 class RolesController extends BaseController
 {
     /**
-     * Show Roles List
+     * Show Roles List.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return JsonResponse
      */
     public function list(Request $request): JsonResponse
@@ -24,10 +24,10 @@ class RolesController extends BaseController
     }
 
     /**
-     * Store Role
+     * Store Role.
      *
-     * @param int $id
-     * @param RoleRequest $request
+     * @param  int  $id
+     * @param  RoleRequest  $request
      * @return JsonResponse
      */
     public function store(RoleRequest $request): JsonResponse
@@ -36,7 +36,6 @@ class RolesController extends BaseController
             'guard_name' => $request->guard_name ?? 'web',
             'name' => $request->name,
         ]);
-
 
         if ($role) {
             // assign permission to role
@@ -53,10 +52,10 @@ class RolesController extends BaseController
     }
 
     /**
-     * Show Role
+     * Show Role.
      *
-     * @param int $id
-     * @param Request $request
+     * @param  int  $id
+     * @param  Request  $request
      * @return JsonResponse
      */
     public function show($id, Request $request): JsonResponse
@@ -71,10 +70,10 @@ class RolesController extends BaseController
     }
 
     /**
-     * Delete Role
+     * Delete Role.
      *
-     * @param int $id
-     * @param Request $request
+     * @param  int  $id
+     * @param  Request  $request
      * @return JsonResponse
      */
     public function delete($id, Request $request): JsonResponse
@@ -91,10 +90,10 @@ class RolesController extends BaseController
     }
 
     /**
-     * Change Role
+     * Change Role.
      *
-     * @param int $id
-     * @param PermissionChangeRequest $request
+     * @param  int  $id
+     * @param  PermissionChangeRequest  $request
      * @return JsonResponse
      */
     public function changePermissions($id, PermissionChangeRequest $request): JsonResponse
