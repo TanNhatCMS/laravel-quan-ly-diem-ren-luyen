@@ -2,10 +2,9 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\File;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         // Ensure directories are created
-        if (!File::exists(storage_path('app/public/basset'))) {
+        if (! File::exists(storage_path('app/public/basset'))) {
             File::makeDirectory(storage_path('app/public/basset'), 0755, true);
         }
     }
