@@ -11,7 +11,7 @@ class StudentsRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         // only allow updates if the user is logged in
         return backpack_auth()->check();
@@ -22,9 +22,10 @@ class StudentsRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
+            'student_code' => 'unique:students,student_code',
             // 'name' => 'required|min:5|max:255'
         ];
     }
@@ -34,7 +35,7 @@ class StudentsRequest extends FormRequest
      *
      * @return array
      */
-    public function attributes()
+    public function attributes(): array
     {
         return [
             //
@@ -46,10 +47,10 @@ class StudentsRequest extends FormRequest
      *
      * @return array
      */
-    public function messages()
+    public function messages(): array
     {
         return [
-            //
+            'student_code.unique' => 'Mã sinh viên đã tồn tại',
         ];
     }
 }
