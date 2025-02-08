@@ -72,6 +72,9 @@
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "post-install-cmd": [
+            "php artisan config:clear",
+            "php artisan route:clear",
+            "php artisan view:clear",
             "Illuminate\\Foundation\\ComposerScripts::postInstall",
             "php artisan storage:link -q"
         ],
@@ -87,6 +90,9 @@
         }
     },
     "config": {
+        "platform": {
+            "php": "^8.2"
+        },
         "optimize-autoloader": true,
         "preferred-install": "dist",
         "sort-packages": true,

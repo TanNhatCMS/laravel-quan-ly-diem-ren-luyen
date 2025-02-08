@@ -3,7 +3,8 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "vercel-build": "composer install && php artisan config:clear && php artisan route:clear && php artisan view:clear && php artisan storage:link"
     },
     "devDependencies": {
         "axios": "^1.7.4",

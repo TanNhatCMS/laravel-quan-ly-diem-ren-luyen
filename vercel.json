@@ -1,14 +1,21 @@
 {
     "version": 2,
     "builds": [
-        { "src": "vercel-build.sh", "use": "@vercel/static-build" },
-        { "src": "api/index.php", "use": "vercel-php@0.6.1" }
+        {
+            "src": "api/index.php",
+            "use": "@vercel/php"
+        },
+        {
+            "src": "public/**",
+            "use": "@vercel/static"
+        }
+
     ],
-    "framework": null,
+    "framework": "laravel",
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "/api/index.php"
+            "dest": "api/index.php"
         }
     ],
     "env": {
