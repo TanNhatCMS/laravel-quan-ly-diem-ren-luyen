@@ -43,6 +43,8 @@ return [
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
             'throw' => false,
+            // Add custom path resolution
+            'path' => env('APP_STORAGE_PATH', storage_path('app/public')),
         ],
 
         's3' => [

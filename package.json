@@ -3,13 +3,11 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build",
-        "vercel-build": "composer install && php artisan config:clear && php artisan route:clear && php artisan view:clear && php artisan storage:link"
+        "build": "vite build"
     },
     "devDependencies": {
         "axios": "^1.7.4",
         "laravel-vite-plugin": "^1.0",
-        "vercel-php": "^0.7.3",
         "vite": "^5.4"
     }
 }

@@ -4,7 +4,7 @@ use App\Http\Controllers\KhoaController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect()->route('admin');
+    return redirect('/admin');
 });
 
 Route::prefix('khoa')->group(function () {
