@@ -33,7 +33,6 @@
         "APP_SERVICES_CACHE": "/tmp/services.php",
         "APP_STORAGE_PATH": "/tmp/storage",
         "LARAVEL_STORAGE_PATH": "/tmp/storage",
-        "BASSET_DISK": "/tmp/storage",
         "VIEW_COMPILED_PATH": "/tmp/views",
         "SSR_TEMP_PATH": "/tmp/ssr",
         "CACHE_DRIVER": "array",
@@ -48,6 +47,8 @@
         "CACHE_STORE": "database",
         "NODE_PATH": "node",
         "VITE_APP_NAME": "Laravel",
+        "BASSET_CACHE_MAP": "false",
+        "BASSET_DEV_MODE": "false",
         "L5_SWAGGER_GENERATE_ALWAYS": "false",
         "L5_SWAGGER_CONST_HOST" : "https://laravel-quan-ly-diem-ren-luyen.vercel.app",
         "NOW_PHP_DEBUG": "1"
