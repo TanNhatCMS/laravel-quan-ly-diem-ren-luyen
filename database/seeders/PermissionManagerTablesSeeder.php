@@ -13,7 +13,7 @@ class PermissionManagerTablesSeeder extends Seeder
     protected $roles = [
         'superadmin',
         'admin',
-        'member',
+        'student',
     ];
 
     protected $permissionsRoles = [
@@ -45,11 +45,11 @@ class PermissionManagerTablesSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         foreach ($this->roles as $role) {
-            Role::create(['name' => $role, 'guard_name' => 'web']);
+            Role::create(['name' => $role, 'guard_name' => 'backpack']);
         }
 
         foreach ($this->permissionsRoles as $permission => $roles) {
-            Permission::create(['name' => $permission, 'guard_name' => 'web'])->roles()->sync($roles);
+            Permission::create(['name' => $permission, 'guard_name' => 'backpack'])->roles()->sync($roles);
         }
 
         // Super admin on first user
