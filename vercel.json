@@ -51,6 +51,6 @@
         "L5_SWAGGER_CONST_HOST" : "https://laravel-quan-ly-diem-ren-luyen.vercel.app",
         "NOW_PHP_DEBUG": "1"
     },
-    "outputDirectory": "dist",
+    "outputDirectory": "public",
     "public": true
 }
