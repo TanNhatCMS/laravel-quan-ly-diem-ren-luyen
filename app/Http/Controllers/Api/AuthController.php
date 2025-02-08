@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Api\BaseController;
 use App\Http\Requests\PasswordChangeRequest;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\User;
@@ -84,6 +83,7 @@ class AuthController extends BaseController
         $user = auth()->user()->token();
         $user->revoke();
         auth()->logout();
+
         return $this->sendResponse([], 'Successfully logged out.');
     }
 
