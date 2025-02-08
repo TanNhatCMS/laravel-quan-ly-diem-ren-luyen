@@ -1,6 +1,9 @@
 {
     "version": 2,
     "framework": null,
+    "buildCache": {
+        "enabled": false
+    },
     "functions": {
         "api/index.php": {
             "runtime": "vercel-php@0.6.2"
@@ -51,5 +54,6 @@
         "L5_SWAGGER_CONST_HOST" : "https://laravel-quan-ly-diem-ren-luyen.vercel.app",
         "NOW_PHP_DEBUG": "1"
     },
+    "outputDirectory": "dist",
     "public": true
 }
