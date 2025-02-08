@@ -34,5 +34,4 @@ class UserPolicy
     {
         return $user->hasPermissionTo('Delete user');
     }
-
 }
