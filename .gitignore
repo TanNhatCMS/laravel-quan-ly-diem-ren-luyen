@@ -28,3 +28,4 @@ Homestead.json
 /public/build/
 /package-lock.json
 /composer.lock
+/public/storage/
