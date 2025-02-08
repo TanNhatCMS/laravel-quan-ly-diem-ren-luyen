@@ -16,4 +16,6 @@
 <x-backpack::menu-item title="Sinh viên" icon="la la-question" :link="backpack_url('students')" />
 <x-backpack::menu-item title="Giảng Viên" icon="la la-question" :link="backpack_url('lecturers')" />
 <x-backpack::menu-item title="Học kỳ" icon="la la-question" :link="backpack_url('semester-scores')" />
-
+<x-backpack::menu-item title='Settings' icon='la la-cog' :link="backpack_url('setting')" />
+<x-backpack::menu-item title='Logs' icon='la la-terminal' :link="backpack_url('log')" />
+<x-backpack::menu-item title="Activity Logs" icon="la la-stream" :link="backpack_url('activity-log')" />

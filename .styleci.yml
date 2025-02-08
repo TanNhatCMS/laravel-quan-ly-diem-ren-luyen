@@ -1,16 +1,18 @@
-preset: laravel
-risky: false
-version: 8.3
-monolithic: true
-finder:
-  exclude:
-    - "modules"
-    - "node_modules"
-    - "nova"
-    - "nova-components"
-    - "storage"
-    - "spark"
-    - "vendor"
-  name: "*.php"
-  not-name:
-    - "_ide_helper.php"
+php:
+  risky: true
+  version: 8.3
+  preset: laravel
+  enabled:
+    - ternary_to_elvis_operator
+  disabled:
+    - single_import_per_statement
+  monolithic: true
+  finder:
+    exclude:
+      - "modules"
+      - "node_modules"
+      - "storage"
+      - "vendor"
+    name: "*.php"
+    not-name:
+      - "_ide_helper.php"

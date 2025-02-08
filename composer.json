@@ -6,18 +6,25 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "backpack/activity-log": "^2.0",
+        "backpack/backupmanager": "^5.0",
         "backpack/crud": "^6.7",
+        "backpack/download-operation": "^2.2",
+        "backpack/logmanager": "^5.0",
+        "backpack/medialibrary-uploaders": "^1.2",
+        "backpack/pagemanager": "^3.3",
         "backpack/permissionmanager": "^7.2",
+        "backpack/settings": "^3.1",
         "backpack/theme-coreuiv4": "^1.1",
         "backpack/theme-tabler": "^1.2",
         "backpack/translation-manager": "^1.0",
         "darkaonline/l5-swagger": "^8.6",
-        "firebase/php-jwt": "^6.10",
         "laravel/framework": "11.31.0",
         "laravel/sanctum": "^4.0",
         "laravel/telescope": "^5.4",
         "laravel/tinker": "^2.9",
         "php-open-source-saver/jwt-auth": "^2.3",
+        "spatie/laravel-medialibrary": "^11.12",
         "spatie/laravel-permission": "^6.12",
         "zircote/swagger-php": "^4.10"
     },
@@ -52,7 +59,8 @@
             "@php artisan package:discover --ansi"
         ],
         "post-composer-install": [
-            "@php artisan storage:link"
+            "@php artisan storage:link",
+            "@php artisan basset:fresh"
         ],
         "post-composer-update": [
             "@php artisan storage:link",
@@ -65,8 +73,9 @@
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "post-install-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postInstall",
-            "php artisan storage:link -q"
+            "php artisan storage:link",
+            "@php artisan basset:fresh",
+            "Illuminate\\Foundation\\ComposerScripts::postInstall"
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi",
