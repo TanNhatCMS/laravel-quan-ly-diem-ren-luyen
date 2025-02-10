@@ -21,6 +21,9 @@ class DatabaseSeeder extends Seeder
 //        ]);
         $this->call([
             PermissionManagerTablesSeeder::class,
+            MajorsSeeder::class,
+            OrganizationsSeeder::class,
         ]);
+
     }
 }
