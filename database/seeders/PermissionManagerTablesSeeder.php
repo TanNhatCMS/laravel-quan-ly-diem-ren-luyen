@@ -13,7 +13,7 @@ class PermissionManagerTablesSeeder extends Seeder
     protected array $roles = [
         'SuperAdmin', // 1
         'Admin', // 2
-        'StudentAffairsOffice',// 3. phòng công tác sinh viên
+        'StudentAffairsOffice', // 3. phòng công tác sinh viên
         'AcademicAdvisor', //4. cố vấn học tập
         'Lecturer', //5. giảng viên
         'ClassOfficer', //6. ban cán sự lớp
