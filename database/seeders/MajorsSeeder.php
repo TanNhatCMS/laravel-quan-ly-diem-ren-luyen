@@ -8,8 +8,9 @@ use Illuminate\Support\Facades\DB;
 class MajorsSeeder extends Seeder
 {
     protected array $major_list = [
-        'Công Nghệ Thông Tin' => 'CT'
-        ];
+        'Công Nghệ Thông Tin' => 'CT',
+    ];
+
     /**
      * Run the database seeds.
      */

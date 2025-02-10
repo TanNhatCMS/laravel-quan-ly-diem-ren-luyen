@@ -28,6 +28,7 @@ class MajorsFactory extends Factory
         ];
         $name = $this->faker->randomElement(array_keys($majors));
         $code = $majors[$name];
+
         return [
             'name' => $name,
             'code' => $code,

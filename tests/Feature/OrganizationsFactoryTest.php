@@ -24,6 +24,7 @@ class OrganizationsFactoryTest extends TestCase
             'type' => $organization->type,
         ]);
     }
+
     #[Test]
     public function it_creates_valid_type_values()
     {

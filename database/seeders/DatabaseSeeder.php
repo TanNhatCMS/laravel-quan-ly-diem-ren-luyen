@@ -24,6 +24,5 @@ class DatabaseSeeder extends Seeder
             MajorsSeeder::class,
             OrganizationsSeeder::class,
         ]);
-
     }
 }
