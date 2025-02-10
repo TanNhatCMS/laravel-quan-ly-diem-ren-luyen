@@ -25,8 +25,8 @@ class UserStoreCrudRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email'    => 'required|unique:'.config('backpack.permissionmanager.models.user', 'users').',email',
-            'name'     => 'required',
+            'email' => 'required|unique:'.config('backpack.permissionmanager.models.user', 'users').',email',
+            'name' => 'required',
             'password' => 'required|confirmed',
         ];
     }

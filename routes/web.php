@@ -65,7 +65,6 @@ Route::get('/home', function () {
     return redirect('/admin');
 });
 
-
 Route::get('login', ['as' => 'admin.login.getLogin', 'uses' => 'Auth\LoginController@getLogin']);
 Route::post('login', ['as' => 'admin.login.postLogin', 'uses' => 'Auth\LoginController@postLogin']);
 Route::get('logout', ['as' => 'admin.logout', 'uses' => 'Auth\LoginController@logout']);
