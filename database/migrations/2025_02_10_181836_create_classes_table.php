@@ -11,16 +11,12 @@ return new class() extends Migration
      */
     public function up(): void
     {
-        // bảng giảng viên
-        Schema::create('lecturers', function (Blueprint $table) {
+        Schema::create('classes', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('phone_number');
-            $table->string('email')->unique();
-            $table->date('birth_date');
-            $table->string('degree'); // học vị
-            $table->enum('gender', ['Nam', 'Nữ', 'Khác']);
-            $table->foreignId('department_id')->constrained('departments');
+            $table->foreignId('organization_id')->constrained('organizations')->onDelete('cascade');
+            $table->foreignId('major_id')->constrained('majors')->onDelete('cascade');
+            $table->foreignId('academic_year_id')->constrained('academic_years')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -30,6 +26,6 @@ return new class() extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('lecturers');
+        Schema::dropIfExists('classes');
     }
 };
