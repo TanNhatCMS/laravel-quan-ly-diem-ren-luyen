@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\DB;
 
 class OrganizationsSeeder extends Seeder
 {
-
     /**
      * List of organizations.
      */

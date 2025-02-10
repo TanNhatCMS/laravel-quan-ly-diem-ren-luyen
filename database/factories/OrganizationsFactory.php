@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class OrganizationsFactory extends Factory
 {
     protected $model = Organizations::class;
+
     /**
      * Define the model's default state.
      *
