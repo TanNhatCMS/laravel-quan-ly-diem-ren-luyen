@@ -16,14 +16,24 @@ Route::group([
     ),
     'namespace' => 'App\Http\Controllers\Admin',
 ], function () { // custom admin routes
-    Route::crud('user', 'UserCrudController');
     Route::crud('departments', 'DepartmentsCrudController');
     Route::crud('classes', 'ClassesCrudController');
     Route::crud('students', 'StudentsCrudController');
     Route::crud('lecturers', 'LecturersCrudController');
     Route::crud('semester-scores', 'SemesterScoresCrudController');
+    Route::crud('class-officers', 'ClassOfficersCrudController');
+    Route::crud('organizations', 'OrganizationsCrudController');
+    Route::crud('majors', 'MajorsCrudController');
 }); // this should be the absolute last line of this file
-
+Route::group([
+    'namespace'  => 'App\Http\Controllers\Admin\PermissionManager',
+    'prefix'     => config('backpack.base.route_prefix', 'admin'),
+    'middleware' => ['web', backpack_middleware()],
+], function () {
+    Route::crud('permission', 'PermissionCrudController');
+    Route::crud('role', 'RoleCrudController');
+    Route::crud('user', 'UserCrudController');
+});
 /**
  * DO NOT ADD ANYTHING HERE.
  */

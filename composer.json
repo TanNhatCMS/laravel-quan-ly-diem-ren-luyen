@@ -13,7 +13,6 @@
         "backpack/logmanager": "^5.0",
         "backpack/medialibrary-uploaders": "^1.2",
         "backpack/pagemanager": "^3.3",
-        "backpack/permissionmanager": "^7.2",
         "backpack/settings": "^3.1",
         "backpack/theme-coreuiv4": "^1.1",
         "backpack/theme-tabler": "^1.2",
@@ -25,7 +24,7 @@
         "laravel/tinker": "^2.9",
         "php-open-source-saver/jwt-auth": "^2.3",
         "spatie/laravel-medialibrary": "^11.12",
-        "spatie/laravel-permission": "^6.12",
+        "spatie/laravel-permission": "^6.4||^5.0||^4.0||^3.0",
         "zircote/swagger-php": "^4.10"
     },
     "require-dev": {
