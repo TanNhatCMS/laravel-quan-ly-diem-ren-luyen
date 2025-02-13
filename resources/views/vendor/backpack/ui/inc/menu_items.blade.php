@@ -5,6 +5,20 @@
         {{ trans('backpack::base.dashboard') }}
     </a>
 </li>
+<x-backpack::menu-dropdown title="Quản Lý Tổ Chức" icon="la la-question">
+    <x-backpack::menu-item title="Danh Sách Tổ Chức" icon="la la-question" :link="backpack_url('organizations')" />
+    <x-backpack::menu-item title="Danh Sách Khoa" icon="la la-question" :link="backpack_url('organizations?type=department')" />
+    <x-backpack::menu-item title="Danh Sách Phòng" icon="la la-question" :link="backpack_url('organizations?type=faculty')" />
+    <x-backpack::menu-item title="Thêm Phòng/Khoa" icon="la la-question" :link="backpack_url('organizations/create')" />
+</x-backpack::menu-dropdown>
+
+<x-backpack::menu-item title="Danh Sách Chuyên Nghành" icon="la la-question" :link="backpack_url('majors')" />
+
+
+
+
+
+
 <x-backpack::menu-dropdown title="Add-ons" icon="la la-puzzle-piece">
     <x-backpack::menu-dropdown-header title="Authentication" />
     <x-backpack::menu-dropdown-item title="Users" icon="la la-user" :link="backpack_url('user')" />
@@ -21,5 +35,8 @@
 <x-backpack::menu-item title="Học kỳ" icon="la la-question" :link="backpack_url('semester-scores')" />
 <x-backpack::menu-item title="Ban Cán Sự" icon="la la-question" :link="backpack_url('class-officers')" />
 
-<x-backpack::menu-item title="Organizations" icon="la la-question" :link="backpack_url('organizations')" />
-<x-backpack::menu-item title="Majors" icon="la la-question" :link="backpack_url('majors')" />
+
+
+
+
+
