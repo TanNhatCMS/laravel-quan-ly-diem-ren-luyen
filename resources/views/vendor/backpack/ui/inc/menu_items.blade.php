@@ -13,11 +13,7 @@
 </x-backpack::menu-dropdown>
 
 <x-backpack::menu-item title="Danh Sách Chuyên Nghành" icon="la la-question" :link="backpack_url('majors')" />
-
-
-
-
-
+<x-backpack::menu-item title="Danh Sách Lớp" icon="la la-question" :link="backpack_url('classes')" />
 
 <x-backpack::menu-dropdown title="Add-ons" icon="la la-puzzle-piece">
     <x-backpack::menu-dropdown-header title="Authentication" />
@@ -28,8 +24,6 @@
     <x-backpack::menu-item title='Logs' icon='la la-terminal' :link="backpack_url('log')" />
     <x-backpack::menu-item title="Activity Logs" icon="la la-stream" :link="backpack_url('activity-log')" />
 </x-backpack::menu-dropdown>
-<x-backpack::menu-item title="Khoa" icon="la la-question" :link="backpack_url('departments')" />
-<x-backpack::menu-item title="Lớp" icon="la la-question" :link="backpack_url('classes')" />
 <x-backpack::menu-item title="Sinh viên" icon="la la-question" :link="backpack_url('students')" />
 <x-backpack::menu-item title="Giảng Viên" icon="la la-question" :link="backpack_url('lecturers')" />
 <x-backpack::menu-item title="Học kỳ" icon="la la-question" :link="backpack_url('semester-scores')" />
@@ -40,3 +34,5 @@
 
 
 
+
+<x-backpack::menu-item title="Academic years" icon="la la-question" :link="backpack_url('academic-years')" />
