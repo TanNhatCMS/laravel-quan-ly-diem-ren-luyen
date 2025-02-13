@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\UserPositionRequest;
-use App\Models\Organizations;
 use App\Models\Positions;
 use App\Models\User;
 use App\Models\UserPosition;
@@ -17,8 +16,8 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class UserPositionCrudController
- * @package App\Http\Controllers\Admin
+ * Class UserPositionCrudController.
+ *
  * @property-read CrudPanel $crud
  */
 class UserPositionCrudController extends CrudController
@@ -37,7 +36,7 @@ class UserPositionCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(UserPosition::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/user-position');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/user-position');
         CRUD::setEntityNameStrings('Chức vụ người dùng', 'Danh sách chức vụ người dùng');
     }
 
@@ -45,6 +44,7 @@ class UserPositionCrudController extends CrudController
      * Define what happens when the List operation is loaded.
      *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
+     *
      * @return void
      */
     protected function setupListOperation()
@@ -60,7 +60,7 @@ class UserPositionCrudController extends CrudController
                 $query->orWhereHas('user', function ($q) use ($searchTerm) {
                     $q->where('name', 'like', "%$searchTerm%");
                 });
-            }
+            },
         ]);
         CRUD::addColumn([
             'name' => 'email',
@@ -73,7 +73,7 @@ class UserPositionCrudController extends CrudController
                 $query->orWhereHas('user', function ($q) use ($searchTerm) {
                     $q->where('email', 'like', "%$searchTerm%");
                 });
-            }
+            },
         ]);
         CRUD::addColumn([
             'name' => 'position',
@@ -94,6 +94,7 @@ class UserPositionCrudController extends CrudController
      * Define what happens when the Create operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
+     *
      * @return void
      */
     protected function setupCreateOperation()
@@ -124,6 +125,7 @@ class UserPositionCrudController extends CrudController
      * Define what happens when the Update operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
+     *
      * @return void
      */
     protected function setupUpdateOperation()

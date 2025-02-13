@@ -80,5 +80,4 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Classes::class, 'user_classes')->withTimestamps();
     }
-
 }
