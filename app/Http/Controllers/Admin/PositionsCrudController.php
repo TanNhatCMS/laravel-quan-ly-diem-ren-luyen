@@ -14,8 +14,8 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class PositionsCrudController
- * @package App\Http\Controllers\Admin
+ * Class PositionsCrudController.
+ *
  * @property-read CrudPanel $crud
  */
 class PositionsCrudController extends CrudController
@@ -34,7 +34,7 @@ class PositionsCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(Positions::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/positions');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/positions');
         CRUD::setEntityNameStrings('Chức Vụ', 'Danh Sách Chức Vụ');
     }
 
@@ -42,6 +42,7 @@ class PositionsCrudController extends CrudController
      * Define what happens when the List operation is loaded.
      *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
+     *
      * @return void
      */
     protected function setupListOperation()
@@ -51,7 +52,7 @@ class PositionsCrudController extends CrudController
             'label' => 'Tên Chức Vụ',
             'type' => 'text',
             'searchLogic' => function ($query, $column, $searchTerm) {
-                $query->where('name', 'like', '%' . $searchTerm . '%');
+                $query->where('name', 'like', '%'.$searchTerm.'%');
             },
         ]);
 
@@ -65,6 +66,7 @@ class PositionsCrudController extends CrudController
      * Define what happens when the Create operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
+     *
      * @return void
      */
     protected function setupCreateOperation()
@@ -86,6 +88,7 @@ class PositionsCrudController extends CrudController
      * Define what happens when the Update operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
+     *
      * @return void
      */
     protected function setupUpdateOperation()
