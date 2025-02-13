@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\ClassesRequest;
 use App\Models\AcademicYears;
 use App\Models\Classes;
-use App\Models\Departments;
 use App\Models\Majors;
 use App\Models\Organizations;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -134,7 +133,6 @@ class ClassesCrudController extends CrudController
             'type' => 'text',
             'placeholder' => 'Nhập tên lớp',
         ]);
-
 
         /**
          * Fields can be defined using the fluent syntax:
