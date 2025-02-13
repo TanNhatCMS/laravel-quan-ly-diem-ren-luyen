@@ -8109,16 +8109,16 @@
         },
         {
             "name": "tannhatcms/crud-lms",
-            "version": "6.7.60",
+            "version": "6.7.61",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TanNhatCMS/Laravel-CRUD-Admin.git",
-                "reference": "a60c6e640e46fd07fae90b9279a882545c4ed58b"
+                "reference": "732449cde622ddd9edc287c16ba0517c511686ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TanNhatCMS/Laravel-CRUD-Admin/zipball/a60c6e640e46fd07fae90b9279a882545c4ed58b",
-                "reference": "a60c6e640e46fd07fae90b9279a882545c4ed58b",
+                "url": "https://api.github.com/repos/TanNhatCMS/Laravel-CRUD-Admin/zipball/732449cde622ddd9edc287c16ba0517c511686ec",
+                "reference": "732449cde622ddd9edc287c16ba0517c511686ec",
                 "shasum": ""
             },
             "require": {
@@ -8189,9 +8189,9 @@
             ],
             "support": {
                 "issues": "https://github.com/TanNhatCMS/Laravel-CRUD-Admin/issues",
-                "source": "https://github.com/TanNhatCMS/Laravel-CRUD-Admin/tree/6.7.60"
+                "source": "https://github.com/TanNhatCMS/Laravel-CRUD-Admin/tree/6.7.61"
             },
-            "time": "2025-02-13T13:45:26+00:00"
+            "time": "2025-02-13T17:20:11+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
