@@ -59,4 +59,9 @@ class Majors extends Model
     {
         return $this->belongsTo(Organizations::class, 'organization_id');
     }
+
+    public function classes(): BelongsTo
+    {
+        return $this->belongsTo(Classes::class, 'major_id');
+    }
 }
