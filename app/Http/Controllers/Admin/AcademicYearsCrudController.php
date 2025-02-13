@@ -14,8 +14,8 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class AcademicYearsCrudController
- * @package App\Http\Controllers\Admin
+ * Class AcademicYearsCrudController.
+ *
  * @property-read CrudPanel $crud
  */
 class AcademicYearsCrudController extends CrudController
@@ -34,7 +34,7 @@ class AcademicYearsCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(AcademicYears::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/academic-years');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/academic-years');
         CRUD::setEntityNameStrings('Niên Khoá', 'Danh Sách Niên Khoá');
     }
 
@@ -42,6 +42,7 @@ class AcademicYearsCrudController extends CrudController
      * Define what happens when the List operation is loaded.
      *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
+     *
      * @return void
      */
     protected function setupListOperation()
@@ -62,6 +63,7 @@ class AcademicYearsCrudController extends CrudController
      * Define what happens when the Create operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
+     *
      * @return void
      */
     protected function setupCreateOperation()
@@ -82,6 +84,7 @@ class AcademicYearsCrudController extends CrudController
      * Define what happens when the Update operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
+     *
      * @return void
      */
     protected function setupUpdateOperation()
