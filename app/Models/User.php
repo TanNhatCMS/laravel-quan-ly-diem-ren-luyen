@@ -70,4 +70,15 @@ class User extends Authenticatable
     {
         return [];
     }
+
+    public function positions()
+    {
+        return $this->belongsToMany(Positions::class, 'user_positions')->withTimestamps();
+    }
+
+    public function classes()
+    {
+        return $this->belongsToMany(Classes::class, 'user_classes')->withTimestamps();
+    }
+
 }

@@ -42,3 +42,6 @@
     <x-backpack::menu-item title='Logs' icon='la la-terminal' :link="backpack_url('log')" />
     <x-backpack::menu-item title="Activity Logs" icon="la la-stream" :link="backpack_url('activity-log')" />
 </x-backpack::menu-dropdown>
+
+<x-backpack::menu-item title="Positions" icon="la la-question" :link="backpack_url('positions')" />
+<x-backpack::menu-item title="User positions" icon="la la-question" :link="backpack_url('user-position')" />
