@@ -25,7 +25,7 @@ return [
     // These can help make the admin panel look similar to your project's design.
     'classes' => [
 
-        'header' => 'header app-header bg-light p-0 mb-0',
+        'header' => 'header app-header bg-dark p-0 mb-0',
         // For background colors use: bg-dark, bg-primary, bg-secondary, bg-danger, bg-warning, bg-success, bg-info, bg-blue, bg-light-blue, bg-indigo, bg-purple, bg-pink, bg-red, bg-orange, bg-yellow, bg-green, bg-teal, bg-cyan, bg-white
         // For links to be visible on different background colors use: "navbar-dark", "navbar-light", "navbar-color"
 
