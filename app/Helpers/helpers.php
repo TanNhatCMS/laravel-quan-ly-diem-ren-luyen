@@ -2,26 +2,27 @@
 
 use Composer\InstalledVersions;
 
-if (!function_exists('get_crud_version')) {
+if (! function_exists('get_crud_version')) {
     function get_crud_version(): string
     {
-        if (!InstalledVersions::isInstalled('tannhatcms/crud-lms')) {
+        if (! InstalledVersions::isInstalled('tannhatcms/crud-lms')) {
             return 'Unknown';
         }
+
         return explode('@', InstalledVersions::getVersion('tannhatcms/crud-lms') ?? 0)[0];
     }
 }
-if (!function_exists('get_lms_version')) {
+if (! function_exists('get_lms_version')) {
     function get_lms_version(): string
     {
         return '1.0.0';
     }
 }
-if (!function_exists('removeAccents')) {
+if (! function_exists('removeAccents')) {
     /**
      * Chuyển đổi chuỗi có dấu thành không dấu.
      *
-     * @param string $str
+     * @param  string  $str
      * @return string
      */
     function removeAccents(string $str): string

@@ -53,8 +53,8 @@ class MajorsCrudController extends CrudController
             'label' => 'Tên Chuyên Nghành',
             'type' => 'text',
             'searchLogic' => function ($query, $column, $searchTerm) {
-                $query->where('name', 'like', '%' . $searchTerm . '%');
-            }
+                $query->where('name', 'like', '%'.$searchTerm.'%');
+            },
         ]);
         $this->crud->addColumn([
             'name' => 'code',
@@ -75,7 +75,6 @@ class MajorsCrudController extends CrudController
                 },
             ],
         ]);
-
 
         /**
          * Columns can be defined using the fluent syntax:
