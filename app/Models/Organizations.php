@@ -5,6 +5,7 @@ namespace App\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Organizations extends Model
 {
@@ -21,9 +22,11 @@ class Organizations extends Model
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
-    // protected $fillable = [];
+     protected $fillable = ['name', 'type'];
     // protected $hidden = [];
-
+//    protected $casts = [
+//        'type' => 'enum:department,faculty',
+//    ];
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS
@@ -53,4 +56,9 @@ class Organizations extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
+
+    public function majors(): HasMany
+    {
+        return $this->hasMany(Majors::class, 'organization_id');
+    }
 }

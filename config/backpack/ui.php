@@ -63,7 +63,7 @@ return [
     'home_link' => '',
 
     // Menu logo. You can replace this with an <img> tag if you have a logo.
-    'project_logo' => '<b>Tân Nhật</b>CMS',
+    'project_logo' => '<b>LMS</b> CMS',
 
     // Show / hide breadcrumbs on admin panel pages.
     'breadcrumbs' => true,
@@ -86,8 +86,8 @@ return [
     // ---------
 
     // Show "Getting Started with Backpack" info block?
-    'show_getting_started' => env('APP_ENV') == 'local',
-
+    //'show_getting_started' => env('APP_ENV') == 'local',
+    'show_getting_started' => false,
     // -------------
     // GLOBAL STYLES
     // -------------

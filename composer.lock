@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ee0a4497ad01f094815c8aa875286213",
+    "content-hash": "a788b967b585413076741719f1378b06",
     "packages": [
         {
             "name": "backpack/activity-log",
@@ -210,100 +210,6 @@
             "time": "2024-08-28T10:12:55+00:00"
         },
         {
-            "name": "backpack/crud",
-            "version": "6.7.51",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Laravel-Backpack/CRUD.git",
-                "reference": "36aa24ccf1db448012344b957b750504d38013a7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Backpack/CRUD/zipball/36aa24ccf1db448012344b957b750504d38013a7",
-                "reference": "36aa24ccf1db448012344b957b750504d38013a7",
-                "shasum": ""
-            },
-            "require": {
-                "backpack/basset": "^1.1.1|^1.3.2",
-                "creativeorange/gravatar": "~1.0",
-                "doctrine/dbal": "^3.0|^4.0",
-                "guzzlehttp/guzzle": "^7.0",
-                "laravel/framework": "^10.0|^11.0",
-                "prologue/alerts": "^1.0"
-            },
-            "require-dev": {
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
-                "phpunit/phpunit": "^10.0|^9.0|^11.0",
-                "spatie/laravel-translatable": "^6.0"
-            },
-            "suggest": {
-                "backpack/filemanager": "Required to use the browse and browse_multiple fields.",
-                "backpack/generators": "Required on localhost to easily generate CRUDs, models, controllers etc.",
-                "backpack/revise-operation": "Optional operation to remember all entry changes, undo and redo them (aka audit trait)."
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "aliases": {
-                        "CRUD": "Backpack\\CRUD\\app\\Library\\CrudPanel\\CrudPanelFacade",
-                        "Widget": "Backpack\\CRUD\\app\\Library\\Widget"
-                    },
-                    "providers": [
-                        "Backpack\\CRUD\\BackpackServiceProvider"
-                    ]
-                },
-                "branch-alias": {
-                    "dev-master": "4.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Backpack\\CRUD\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Cristian Tabacitu",
-                    "email": "cristian.tabacitu@backpackforlaravel.com",
-                    "homepage": "https://backpackforlaravel.com",
-                    "role": "Creator & Maintainer"
-                }
-            ],
-            "description": "Quickly build admin interfaces using Laravel, Bootstrap and JavaScript.",
-            "homepage": "https://github.com/laravel-backpack/CRUD",
-            "keywords": [
-                "Admin Interface",
-                "Content management system",
-                "admin panel",
-                "admin panel for laravel",
-                "admin template for laravel",
-                "backpack",
-                "base",
-                "bootstrap 5 admin panel laravel",
-                "bread",
-                "cms",
-                "content management framework",
-                "coreui for laravel",
-                "create",
-                "crud",
-                "dashboard for laravel",
-                "delete",
-                "laravel admin",
-                "read",
-                "tabler for laravel",
-                "update"
-            ],
-            "support": {
-                "issues": "https://github.com/Laravel-Backpack/CRUD/issues",
-                "source": "https://github.com/Laravel-Backpack/CRUD/tree/6.7.51"
-            },
-            "time": "2025-02-04T11:25:58+00:00"
-        },
-        {
             "name": "backpack/download-operation",
             "version": "2.2.2",
             "source": {
@@ -485,78 +391,6 @@
                 "source": "https://github.com/Laravel-Backpack/medialibrary-uploaders/tree/1.2.1"
             },
             "time": "2024-10-04T15:12:40+00:00"
-        },
-        {
-            "name": "backpack/pagemanager",
-            "version": "3.3.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Laravel-Backpack/PageManager.git",
-                "reference": "0cdcbab70b6a4e7f3169ee385d30b9c629d052f4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Backpack/PageManager/zipball/0cdcbab70b6a4e7f3169ee385d30b9c629d052f4",
-                "reference": "0cdcbab70b6a4e7f3169ee385d30b9c629d052f4",
-                "shasum": ""
-            },
-            "require": {
-                "backpack/crud": "^4.0||^5.0||^6.0",
-                "cviebrock/eloquent-sluggable": "^11.0||^10.0||^9.0||^8.0||^7.0||^6.0||4.8"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^10.0||^9.0||^7.0",
-                "scrutinizer/ocular": "~1.1",
-                "squizlabs/php_codesniffer": "~2.3||~3.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Backpack\\PageManager\\PageManagerServiceProvider"
-                    ]
-                },
-                "branch-alias": {
-                    "dev-master": "1.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Backpack\\PageManager\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "proprietary"
-            ],
-            "authors": [
-                {
-                    "name": "Cristian Tabacitu",
-                    "email": "tabacitu@backpackforlaravel.com",
-                    "homepage": "https://backpackforlaravel.com",
-                    "role": "Architect & Developer"
-                }
-            ],
-            "description": "Create admin panels for presentation websites on Laravel, using page templates and Backpack\\CRUD.",
-            "homepage": "https://github.com/laravel-backpack/PageManager",
-            "keywords": [
-                "Content management system",
-                "admin panel",
-                "administer pages",
-                "backpack",
-                "cms",
-                "crud",
-                "manage pages",
-                "pagemanager",
-                "presentation pages",
-                "presentation website",
-                "wordpress"
-            ],
-            "support": {
-                "issues": "https://github.com/Laravel-Backpack/PageManager/issues",
-                "source": "https://github.com/Laravel-Backpack/PageManager/tree/3.3.2"
-            },
-            "time": "2024-09-27T09:04:10+00:00"
         },
         {
             "name": "backpack/settings",
@@ -770,156 +604,6 @@
             "time": "2024-12-26T10:41:55+00:00"
         },
         {
-            "name": "backpack/translation-manager",
-            "version": "1.0.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Laravel-Backpack/translation-manager.git",
-                "reference": "65484c821e62c3130f83aa4d0dd6225061238fa6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Backpack/translation-manager/zipball/65484c821e62c3130f83aa4d0dd6225061238fa6",
-                "reference": "65484c821e62c3130f83aa4d0dd6225061238fa6",
-                "shasum": ""
-            },
-            "require": {
-                "backpack/crud": "^6.7",
-                "calebporzio/sushi": "^2.4",
-                "outhebox/blade-flags": "^1.2",
-                "spatie/laravel-translation-loader": "^2.8"
-            },
-            "require-dev": {
-                "larastan/larastan": "^2.9",
-                "orchestra/testbench": "~8.0|~9.0",
-                "phpunit/phpunit": "~10.0|~11.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Backpack\\TranslationManager\\AddonServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Backpack\\TranslationManager\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Antonio Almeida",
-                    "email": "promatik@gmail.com",
-                    "homepage": "https://promatik.pt"
-                },
-                {
-                    "name": "Cristian Tabacitu",
-                    "email": "cristian.tabacitu@backpackforlaravel.com",
-                    "homepage": "https://backpackforlaravel.com"
-                }
-            ],
-            "description": "Translation Manager for Backpack",
-            "homepage": "https://github.com/backpack/translation-manager",
-            "keywords": [
-                "Backpack Addon",
-                "Backpack for Laravel",
-                "backpack",
-                "laravel",
-                "translationmanager"
-            ],
-            "support": {
-                "issues": "https://github.com/Laravel-Backpack/translation-manager/issues",
-                "source": "https://github.com/Laravel-Backpack/translation-manager/tree/1.0.5"
-            },
-            "time": "2024-12-02T12:08:32+00:00"
-        },
-        {
-            "name": "blade-ui-kit/blade-icons",
-            "version": "1.7.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/blade-ui-kit/blade-icons.git",
-                "reference": "75a54a3f5a2810fcf6574ab23e91b6cc229a1b53"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/blade-ui-kit/blade-icons/zipball/75a54a3f5a2810fcf6574ab23e91b6cc229a1b53",
-                "reference": "75a54a3f5a2810fcf6574ab23e91b6cc229a1b53",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/contracts": "^8.0|^9.0|^10.0|^11.0",
-                "illuminate/filesystem": "^8.0|^9.0|^10.0|^11.0",
-                "illuminate/support": "^8.0|^9.0|^10.0|^11.0",
-                "illuminate/view": "^8.0|^9.0|^10.0|^11.0",
-                "php": "^7.4|^8.0",
-                "symfony/console": "^5.3|^6.0|^7.0",
-                "symfony/finder": "^5.3|^6.0|^7.0"
-            },
-            "require-dev": {
-                "mockery/mockery": "^1.5.1",
-                "orchestra/testbench": "^6.0|^7.0|^8.0|^9.0",
-                "phpunit/phpunit": "^9.0|^10.5|^11.0"
-            },
-            "bin": [
-                "bin/blade-icons-generate"
-            ],
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "BladeUI\\Icons\\BladeIconsServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "files": [
-                    "src/helpers.php"
-                ],
-                "psr-4": {
-                    "BladeUI\\Icons\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Dries Vints",
-                    "homepage": "https://driesvints.com"
-                }
-            ],
-            "description": "A package to easily make use of icons in your Laravel Blade views.",
-            "homepage": "https://github.com/blade-ui-kit/blade-icons",
-            "keywords": [
-                "blade",
-                "icons",
-                "laravel",
-                "svg"
-            ],
-            "support": {
-                "issues": "https://github.com/blade-ui-kit/blade-icons/issues",
-                "source": "https://github.com/blade-ui-kit/blade-icons"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/sponsors/driesvints",
-                    "type": "github"
-                },
-                {
-                    "url": "https://www.paypal.com/paypalme/driesvints",
-                    "type": "paypal"
-                }
-            ],
-            "time": "2024-10-17T17:38:00+00:00"
-        },
-        {
             "name": "brick/math",
             "version": "0.12.1",
             "source": {
@@ -978,58 +662,6 @@
                 }
             ],
             "time": "2023-11-29T23:19:16+00:00"
-        },
-        {
-            "name": "calebporzio/sushi",
-            "version": "v2.4.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/calebporzio/sushi.git",
-                "reference": "932d09781bff75c812541d2d269400fd7d730bab"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/calebporzio/sushi/zipball/932d09781bff75c812541d2d269400fd7d730bab",
-                "reference": "932d09781bff75c812541d2d269400fd7d730bab",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/database": "^5.8 || ^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0",
-                "illuminate/support": "^5.8 || ^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0",
-                "php": "^7.1.3|^8.0"
-            },
-            "require-dev": {
-                "doctrine/dbal": "^2.9 || ^3.1.4",
-                "orchestra/testbench": "3.8.* || 3.9.* || ^4.0 || ^6.0 || ^7.0 || ^8.0 || ^9.0",
-                "phpunit/phpunit": "^7.5 || ^8.4 || ^9.0 || ^10.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Sushi\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Caleb Porzio",
-                    "email": "calebporzio@gmail.com"
-                }
-            ],
-            "description": "Eloquent's missing \"array\" driver.",
-            "support": {
-                "source": "https://github.com/calebporzio/sushi/tree/v2.4.5"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/calebporzio",
-                    "type": "github"
-                }
-            ],
-            "time": "2023-10-17T14:42:34+00:00"
         },
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -1099,80 +731,6 @@
                 }
             ],
             "time": "2024-02-09T16:56:22+00:00"
-        },
-        {
-            "name": "cocur/slugify",
-            "version": "v4.6.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/cocur/slugify.git",
-                "reference": "1d674022e9cbefa80b4f51aa3e2375b6e3c14fdb"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/cocur/slugify/zipball/1d674022e9cbefa80b4f51aa3e2375b6e3c14fdb",
-                "reference": "1d674022e9cbefa80b4f51aa3e2375b6e3c14fdb",
-                "shasum": ""
-            },
-            "require": {
-                "ext-mbstring": "*",
-                "php": "~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0"
-            },
-            "conflict": {
-                "symfony/config": "<3.4 || >=4,<4.3",
-                "symfony/dependency-injection": "<3.4 || >=4,<4.3",
-                "symfony/http-kernel": "<3.4 || >=4,<4.3",
-                "twig/twig": "<2.12.1"
-            },
-            "require-dev": {
-                "laravel/framework": "^5.0|^6.0|^7.0|^8.0",
-                "latte/latte": "~2.2",
-                "league/container": "^2.2.0",
-                "mikey179/vfsstream": "~1.6.8",
-                "mockery/mockery": "^1.3",
-                "nette/di": "~2.4",
-                "pimple/pimple": "~1.1",
-                "plumphp/plum": "~0.1",
-                "symfony/config": "^3.4 || ^4.3 || ^5.0 || ^6.0",
-                "symfony/dependency-injection": "^3.4 || ^4.3 || ^5.0 || ^6.0",
-                "symfony/http-kernel": "^3.4 || ^4.3 || ^5.0 || ^6.0",
-                "symfony/phpunit-bridge": "^5.4 || ^6.0",
-                "twig/twig": "^2.12.1 || ~3.0",
-                "zendframework/zend-modulemanager": "~2.2",
-                "zendframework/zend-servicemanager": "~2.2",
-                "zendframework/zend-view": "~2.2"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Cocur\\Slugify\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Florian Eckerstorfer",
-                    "email": "florian@eckerstorfer.co",
-                    "homepage": "https://florian.ec"
-                },
-                {
-                    "name": "Ivo Bathke",
-                    "email": "ivo.bathke@gmail.com"
-                }
-            ],
-            "description": "Converts a string into a slug.",
-            "keywords": [
-                "slug",
-                "slugify"
-            ],
-            "support": {
-                "issues": "https://github.com/cocur/slugify/issues",
-                "source": "https://github.com/cocur/slugify/tree/v4.6.0"
-            },
-            "time": "2024-09-10T14:09:25+00:00"
         },
         {
             "name": "composer/semver",
@@ -1317,80 +875,6 @@
                 "source": "https://github.com/creativeorange/gravatar/tree/v1.0.24"
             },
             "time": "2024-02-28T09:23:55+00:00"
-        },
-        {
-            "name": "cviebrock/eloquent-sluggable",
-            "version": "11.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/cviebrock/eloquent-sluggable.git",
-                "reference": "a4281cf0284a21efc1031a065b112ddd6c826eea"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/cviebrock/eloquent-sluggable/zipball/a4281cf0284a21efc1031a065b112ddd6c826eea",
-                "reference": "a4281cf0284a21efc1031a065b112ddd6c826eea",
-                "shasum": ""
-            },
-            "require": {
-                "cocur/slugify": "^4.3",
-                "illuminate/config": "^11.0",
-                "illuminate/database": "^11.0",
-                "illuminate/support": "^11.0",
-                "php": "^8.2"
-            },
-            "require-dev": {
-                "mockery/mockery": "^1.4.4",
-                "orchestra/testbench": "^9.0",
-                "pestphp/pest": "^2.28"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Cviebrock\\EloquentSluggable\\ServiceProvider"
-                    ]
-                },
-                "branch-alias": {
-                    "dev-master": "11.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Cviebrock\\EloquentSluggable\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Colin Viebrock",
-                    "email": "colin@viebrock.ca"
-                }
-            ],
-            "description": "Easy creation of slugs for your Eloquent models in Laravel",
-            "homepage": "https://github.com/cviebrock/eloquent-sluggable",
-            "keywords": [
-                "eloquent",
-                "eloquent-sluggable",
-                "laravel",
-                "lumen",
-                "slug",
-                "sluggable"
-            ],
-            "support": {
-                "issues": "https://github.com/cviebrock/eloquent-sluggable/issues",
-                "source": "https://github.com/cviebrock/eloquent-sluggable/tree/11.0.1"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/cviebrock",
-                    "type": "github"
-                }
-            ],
-            "time": "2024-11-29T01:32:17+00:00"
         },
         {
             "name": "darkaonline/l5-swagger",
@@ -2829,16 +2313,16 @@
         },
         {
             "name": "laravel/prompts",
-            "version": "v0.3.4",
+            "version": "v0.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/prompts.git",
-                "reference": "abeaa2ba4294247d5409490d1ca1bc6248087011"
+                "reference": "57b8f7efe40333cdb925700891c7d7465325d3b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/prompts/zipball/abeaa2ba4294247d5409490d1ca1bc6248087011",
-                "reference": "abeaa2ba4294247d5409490d1ca1bc6248087011",
+                "url": "https://api.github.com/repos/laravel/prompts/zipball/57b8f7efe40333cdb925700891c7d7465325d3b1",
+                "reference": "57b8f7efe40333cdb925700891c7d7465325d3b1",
                 "shasum": ""
             },
             "require": {
@@ -2882,9 +2366,9 @@
             "description": "Add beautiful and user-friendly forms to your command-line applications.",
             "support": {
                 "issues": "https://github.com/laravel/prompts/issues",
-                "source": "https://github.com/laravel/prompts/tree/v0.3.4"
+                "source": "https://github.com/laravel/prompts/tree/v0.3.5"
             },
-            "time": "2025-01-24T15:41:01+00:00"
+            "time": "2025-02-11T13:34:40+00:00"
         },
         {
             "name": "laravel/sanctum",
@@ -3013,21 +2497,21 @@
         },
         {
             "name": "laravel/telescope",
-            "version": "v5.4.0",
+            "version": "v5.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/telescope.git",
-                "reference": "bc3df85f1d5653c9473f1f858c98309345ebd1ca"
+                "reference": "2594b20b946155ba767002d8af971e33e1095637"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/telescope/zipball/bc3df85f1d5653c9473f1f858c98309345ebd1ca",
-                "reference": "bc3df85f1d5653c9473f1f858c98309345ebd1ca",
+                "url": "https://api.github.com/repos/laravel/telescope/zipball/2594b20b946155ba767002d8af971e33e1095637",
+                "reference": "2594b20b946155ba767002d8af971e33e1095637",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "laravel/framework": "^8.37|^9.0|^10.0|^11.0",
+                "laravel/framework": "^8.37|^9.0|^10.0|^11.0|^12.0",
                 "php": "^8.0",
                 "symfony/console": "^5.3|^6.0|^7.0",
                 "symfony/var-dumper": "^5.0|^6.0|^7.0"
@@ -3036,9 +2520,9 @@
                 "ext-gd": "*",
                 "guzzlehttp/guzzle": "^6.0|^7.0",
                 "laravel/octane": "^1.4|^2.0|dev-develop",
-                "orchestra/testbench": "^6.40|^7.37|^8.17|^9.0",
+                "orchestra/testbench": "^6.40|^7.37|^8.17|^9.0|^10.0",
                 "phpstan/phpstan": "^1.10",
-                "phpunit/phpunit": "^9.0|^10.5"
+                "phpunit/phpunit": "^9.0|^10.5|^11.5"
             },
             "type": "library",
             "extra": {
@@ -3076,9 +2560,9 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel/telescope/issues",
-                "source": "https://github.com/laravel/telescope/tree/v5.4.0"
+                "source": "https://github.com/laravel/telescope/tree/v5.5.0"
             },
-            "time": "2025-01-24T15:55:16+00:00"
+            "time": "2025-02-11T15:01:27+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -3913,16 +3397,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "3.8.4",
+            "version": "3.8.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/CarbonPHP/carbon.git",
-                "reference": "129700ed449b1f02d70272d2ac802357c8c30c58"
+                "reference": "b1a53a27898639579a67de42e8ced5d5386aa9a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CarbonPHP/carbon/zipball/129700ed449b1f02d70272d2ac802357c8c30c58",
-                "reference": "129700ed449b1f02d70272d2ac802357c8c30c58",
+                "url": "https://api.github.com/repos/CarbonPHP/carbon/zipball/b1a53a27898639579a67de42e8ced5d5386aa9a4",
+                "reference": "b1a53a27898639579a67de42e8ced5d5386aa9a4",
                 "shasum": ""
             },
             "require": {
@@ -3998,8 +3482,8 @@
             ],
             "support": {
                 "docs": "https://carbon.nesbot.com/docs",
-                "issues": "https://github.com/briannesbitt/Carbon/issues",
-                "source": "https://github.com/briannesbitt/Carbon"
+                "issues": "https://github.com/CarbonPHP/carbon/issues",
+                "source": "https://github.com/CarbonPHP/carbon"
             },
             "funding": [
                 {
@@ -4015,7 +3499,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-12-27T09:25:35+00:00"
+            "time": "2025-02-11T16:28:45+00:00"
         },
         {
             "name": "nette/schema",
@@ -4309,74 +3793,6 @@
                 }
             ],
             "time": "2024-11-21T10:39:51+00:00"
-        },
-        {
-            "name": "outhebox/blade-flags",
-            "version": "1.5.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/MohmmedAshraf/blade-flags.git",
-                "reference": "433a9b0c9218b6dcdf6bf7a3c85b61c1721c4250"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/MohmmedAshraf/blade-flags/zipball/433a9b0c9218b6dcdf6bf7a3c85b61c1721c4250",
-                "reference": "433a9b0c9218b6dcdf6bf7a3c85b61c1721c4250",
-                "shasum": ""
-            },
-            "require": {
-                "blade-ui-kit/blade-icons": "^1.1",
-                "illuminate/support": "^8.0|^9.0|^10.0|^11.0",
-                "php": "^7.4|^8.0|^8.1|^8.2"
-            },
-            "require-dev": {
-                "orchestra/testbench": "^6.0|^7.0|^8.0|^9.0",
-                "phpunit/phpunit": "^9.0|^10.5"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "OutheBox\\BladeFlags\\BladeFlagsServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "OutheBox\\BladeFlags\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Mohamed Ashraf",
-                    "email": "cupo.ashraf@gmail.com",
-                    "homepage": "https://github.com/MohmmedAshraf"
-                }
-            ],
-            "description": "A package to easily make use of country & language flags in your Laravel Blade views.",
-            "homepage": "https://github.com/MohmmedAshraf/blade-flags",
-            "keywords": [
-                "blade",
-                "country flags",
-                "flags",
-                "language flags",
-                "laravel"
-            ],
-            "support": {
-                "issues": "https://github.com/MohmmedAshraf/blade-flags/issues",
-                "source": "https://github.com/MohmmedAshraf/blade-flags/tree/1.5.2"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/MohmmedAshraf",
-                    "type": "github"
-                }
-            ],
-            "time": "2024-12-26T05:32:26+00:00"
         },
         {
             "name": "php-open-source-saver/jwt-auth",
@@ -6153,76 +5569,6 @@
                 }
             ],
             "time": "2025-02-05T08:24:50+00:00"
-        },
-        {
-            "name": "spatie/laravel-translation-loader",
-            "version": "2.8.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/spatie/laravel-translation-loader.git",
-                "reference": "c946d94915bd86167d61cb05823fec991eb51a08"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-translation-loader/zipball/c946d94915bd86167d61cb05823fec991eb51a08",
-                "reference": "c946d94915bd86167d61cb05823fec991eb51a08",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/translation": "^6.0|^7.0|^8.0|^9.0|^10.0|^11.0",
-                "php": "^7.2|^8.0"
-            },
-            "require-dev": {
-                "orchestra/testbench": "^4.0|^5.0|^6.0|^7.0|^8.0|^9.0",
-                "phpunit/phpunit": "^8.0|^9.0|^10.5"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Spatie\\TranslationLoader\\TranslationServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Spatie\\TranslationLoader\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Freek Van der Herten",
-                    "email": "freek@spatie.be",
-                    "homepage": "https://spatie.be",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Store your language lines in the database, yaml or other sources",
-            "homepage": "https://github.com/spatie/laravel-translation-loader",
-            "keywords": [
-                "database",
-                "db",
-                "i8n",
-                "language",
-                "laravel",
-                "laravel-translation-loader",
-                "spatie",
-                "translate"
-            ],
-            "support": {
-                "source": "https://github.com/spatie/laravel-translation-loader/tree/2.8.1"
-            },
-            "funding": [
-                {
-                    "url": "https://spatie.be/open-source/support-us",
-                    "type": "custom"
-                }
-            ],
-            "time": "2024-12-09T15:07:24+00:00"
         },
         {
             "name": "spatie/temporary-directory",
@@ -8762,6 +8108,92 @@
             "time": "2025-01-07T12:55:42+00:00"
         },
         {
+            "name": "tannhatcms/crud-lms",
+            "version": "6.7.60",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TanNhatCMS/Laravel-CRUD-Admin.git",
+                "reference": "a60c6e640e46fd07fae90b9279a882545c4ed58b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TanNhatCMS/Laravel-CRUD-Admin/zipball/a60c6e640e46fd07fae90b9279a882545c4ed58b",
+                "reference": "a60c6e640e46fd07fae90b9279a882545c4ed58b",
+                "shasum": ""
+            },
+            "require": {
+                "backpack/basset": "^1.1.1|^1.3.2",
+                "creativeorange/gravatar": "~1.0",
+                "doctrine/dbal": "^3.0|^4.0",
+                "guzzlehttp/guzzle": "^7.0",
+                "laravel/framework": "^10.0|^11.0",
+                "prologue/alerts": "^1.0"
+            },
+            "replace": {
+                "backpack/crud": "*"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.0|^9.0|^11.0",
+                "spatie/laravel-translatable": "^6.0"
+            },
+            "suggest": {
+                "backpack/filemanager": "Required to use the browse and browse_multiple fields.",
+                "backpack/generators": "Required on localhost to easily generate CRUDs, models, controllers etc.",
+                "backpack/revise-operation": "Optional operation to remember all entry changes, undo and redo them (aka audit trait)."
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "CRUD": "Backpack\\CRUD\\app\\Library\\CrudPanel\\CrudPanelFacade",
+                        "Widget": "Backpack\\CRUD\\app\\Library\\Widget"
+                    },
+                    "providers": [
+                        "Backpack\\CRUD\\BackpackServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Backpack\\CRUD\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Quickly build admin interfaces using Laravel, Bootstrap and JavaScript.",
+            "homepage": "https://github.com/TanNhatCMS",
+            "keywords": [
+                "Admin Interface",
+                "Content management system",
+                "admin panel",
+                "admin panel for laravel",
+                "admin template for laravel",
+                "backpack",
+                "base",
+                "bootstrap 5 admin panel laravel",
+                "bread",
+                "cms",
+                "content management framework",
+                "coreui for laravel",
+                "create",
+                "crud",
+                "dashboard for laravel",
+                "delete",
+                "laravel admin",
+                "read",
+                "tabler for laravel",
+                "update"
+            ],
+            "support": {
+                "issues": "https://github.com/TanNhatCMS/Laravel-CRUD-Admin/issues",
+                "source": "https://github.com/TanNhatCMS/Laravel-CRUD-Admin/tree/6.7.60"
+            },
+            "time": "2025-02-13T13:45:26+00:00"
+        },
+        {
             "name": "tijsverkoyen/css-to-inline-styles",
             "version": "v2.3.0",
             "source": {
@@ -9878,16 +9310,16 @@
         },
         {
             "name": "myclabs/deep-copy",
-            "version": "1.12.1",
+            "version": "1.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "123267b2c49fbf30d78a7b2d333f6be754b94845"
+                "reference": "024473a478be9df5fdaca2c793f2232fe788e414"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/123267b2c49fbf30d78a7b2d333f6be754b94845",
-                "reference": "123267b2c49fbf30d78a7b2d333f6be754b94845",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/024473a478be9df5fdaca2c793f2232fe788e414",
+                "reference": "024473a478be9df5fdaca2c793f2232fe788e414",
                 "shasum": ""
             },
             "require": {
@@ -9926,7 +9358,7 @@
             ],
             "support": {
                 "issues": "https://github.com/myclabs/DeepCopy/issues",
-                "source": "https://github.com/myclabs/DeepCopy/tree/1.12.1"
+                "source": "https://github.com/myclabs/DeepCopy/tree/1.13.0"
             },
             "funding": [
                 {
@@ -9934,7 +9366,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-11-08T17:47:46+00:00"
+            "time": "2025-02-12T12:17:51+00:00"
         },
         {
             "name": "nunomaduro/collision",

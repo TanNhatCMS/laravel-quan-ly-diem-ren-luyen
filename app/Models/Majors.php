@@ -5,6 +5,7 @@ namespace App\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Majors extends Model
 {
@@ -21,7 +22,7 @@ class Majors extends Model
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
-    // protected $fillable = [];
+    protected $fillable = ['code', 'name', 'organization_id'];
     // protected $hidden = [];
 
     /*
@@ -53,4 +54,9 @@ class Majors extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
+
+    public function organization(): BelongsTo
+    {
+        return $this->belongsTo(Organizations::class, 'organization_id');
+    }
 }

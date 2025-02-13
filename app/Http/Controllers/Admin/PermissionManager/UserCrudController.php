@@ -60,6 +60,9 @@ class UserCrudController extends CrudController
                 'name' => 'name',
                 'label' => trans('backpack::permissionmanager.name'),
                 'type' => 'text',
+                'searchLogic' => function ($query, $column, $searchTerm) {
+                    $query->where('name', 'like', '%' . $searchTerm . '%');
+                }
             ],
             [
                 'name' => 'email',
@@ -84,12 +87,12 @@ class UserCrudController extends CrudController
             ],
         ]);
 
-        if (backpack_pro()) {
+
             // Role Filter
             $this->crud->addFilter(
                 [
                     'name' => 'role',
-                    'type' => 'dropdown',
+                    'type' => 'select2',
                     'label' => trans('backpack::permissionmanager.role'),
                 ],
                 config('permission.models.role')::all()->pluck('name', 'id')->toArray(),
@@ -114,7 +117,7 @@ class UserCrudController extends CrudController
                     });
                 }
             );
-        }
+
     }
 
     /**
