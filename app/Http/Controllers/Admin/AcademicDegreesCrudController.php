@@ -14,8 +14,8 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class AcademicDegreesCrudController
- * @package App\Http\Controllers\Admin
+ * Class AcademicDegreesCrudController.
+ *
  * @property-read CrudPanel $crud
  */
 class AcademicDegreesCrudController extends CrudController
@@ -34,7 +34,7 @@ class AcademicDegreesCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(AcademicDegrees::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/academic-degrees');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/academic-degrees');
         CRUD::setEntityNameStrings('Trình Độ Chuyên Môn', 'Danh Sách Trình Độ Chuyên Môn');
     }
 
@@ -42,6 +42,7 @@ class AcademicDegreesCrudController extends CrudController
      * Define what happens when the List operation is loaded.
      *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
+     *
      * @return void
      */
     protected function setupListOperation()
@@ -51,7 +52,7 @@ class AcademicDegreesCrudController extends CrudController
             'label' => 'Tên Trình Độ Chuyên Môn',
             'type' => 'text',
             'searchLogic' => function ($query, $column, $searchTerm) {
-                $query->where('name', 'like', '%' . $searchTerm . '%');
+                $query->where('name', 'like', '%'.$searchTerm.'%');
             },
         ]);
         /**
@@ -64,6 +65,7 @@ class AcademicDegreesCrudController extends CrudController
      * Define what happens when the Create operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
+     *
      * @return void
      */
     protected function setupCreateOperation()
@@ -88,6 +90,7 @@ class AcademicDegreesCrudController extends CrudController
      * Define what happens when the Update operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
+     *
      * @return void
      */
     protected function setupUpdateOperation()
