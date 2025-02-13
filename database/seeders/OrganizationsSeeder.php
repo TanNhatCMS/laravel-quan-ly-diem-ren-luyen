@@ -13,7 +13,7 @@ class OrganizationsSeeder extends Seeder
     protected $organizations = [
         ['name' => 'Phòng Đào Tạo', 'type' => 'department'],
         ['name' => 'Phòng Công Tác Sinh Viên', 'type' => 'department'],
-        ['name' => 'Khoa Công Nghệ Thông Tin', 'type' => 'faculty'],
+        ['name' => 'Khoa Công Nghệ Thông Tin - Điện Tử', 'type' => 'faculty'],
         ['name' => 'Khoa Kinh Tế', 'type' => 'faculty'],
         ['name' => 'Phòng Hành Chính', 'type' => 'department'],
     ];

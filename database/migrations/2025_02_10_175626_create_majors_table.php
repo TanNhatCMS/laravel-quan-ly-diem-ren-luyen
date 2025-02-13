@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('organization_user', function (Blueprint $table) {
+        Schema::create('majors', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('organization_id')->constrained('organizations')->onDelete('cascade');
+            $table->string('code')->nullable(); // Mã chuyên ngành
+            $table->string('name'); // Tên chuyên ngành
+            $table->foreignId('organization_id')->nullable()->constrained('organizations')->onDelete('set null');
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('organization_user');
+        Schema::dropIfExists('majors');
     }
 };
