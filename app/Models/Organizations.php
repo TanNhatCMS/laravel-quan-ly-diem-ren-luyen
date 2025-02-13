@@ -22,7 +22,7 @@ class Organizations extends Model
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
-     protected $fillable = ['name', 'type'];
+    protected $fillable = ['name', 'type'];
     // protected $hidden = [];
 //    protected $casts = [
 //        'type' => 'enum:department,faculty',

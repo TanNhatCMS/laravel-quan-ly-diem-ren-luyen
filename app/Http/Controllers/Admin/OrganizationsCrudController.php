@@ -34,9 +34,8 @@ class OrganizationsCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(Organizations::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/organizations');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/organizations');
         CRUD::setEntityNameStrings('Phòng/Khoa', 'Tổ Chức');
-
     }
 
     /**
@@ -53,8 +52,8 @@ class OrganizationsCrudController extends CrudController
             'label' => 'Tên Tổ Chức',
             'type' => 'text',
             'searchLogic' => function ($query, $column, $searchTerm) {
-                $query->where('name', 'like', '%' . $searchTerm . '%');
-            }
+                $query->where('name', 'like', '%'.$searchTerm.'%');
+            },
         ]);
         $this->crud->addColumn([
             'name' => 'type',
@@ -69,10 +68,11 @@ class OrganizationsCrudController extends CrudController
             'value' => function ($entry) {
                 $translations = [
                     'department' => 'Phòng',
-                    'faculty' => 'Khoa'
+                    'faculty' => 'Khoa',
                 ];
+
                 return $translations[$entry->type] ?? $entry->type; // Trả về giá trị gốc nếu không có bản dịch
-            }
+            },
         ]);
 
         $this->crud->addFilter([
@@ -82,14 +82,13 @@ class OrganizationsCrudController extends CrudController
         ],
             [
                 'department' => 'Phòng',
-                'faculty' => 'Khoa'
-            ]
-            , function ($value) {
+                'faculty' => 'Khoa',
+            ], function ($value) {
                 $map = [
                     '1' => 'department',
                     '2' => 'faculty',
                     'department' => 'department',
-                    'faculty' => 'faculty'
+                    'faculty' => 'faculty',
                 ];
                 $this->crud->addClause('where', 'type', $map[$value]);
             },
@@ -123,7 +122,7 @@ class OrganizationsCrudController extends CrudController
             'type' => 'select_from_array',
             'options' => [
                 'department' => 'Phòng',
-                'faculty' => 'Khoa'
+                'faculty' => 'Khoa',
             ],
             'allows_null' => false,
             'default' => 'department',
