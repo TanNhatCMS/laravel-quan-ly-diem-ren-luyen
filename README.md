@@ -8,6 +8,7 @@
 </p>
 
 ## About Project
+<img src="https://raw.githubusercontent.com/TanNhatCMS/laravel-quan-ly-diem-ren-luyen/ce20cbf3e42f4a8b08865bcf9ec1791c7e47b92d/test-coverage.svg" alt="test coverage"><br>
 - user admin 
 - email: admin@gmail.com
 - pass: admin@1234
