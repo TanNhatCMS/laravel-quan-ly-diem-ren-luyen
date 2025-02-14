@@ -12,10 +12,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(
-            \Backpack\PermissionManager\app\Http\Controllers\UserCrudController::class,
-            \App\Http\Controllers\Admin\UserCrudController::class
-        );
         $this->mergePolicies();
     }
 

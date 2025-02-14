@@ -56,7 +56,16 @@ return [
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
         ],
-
+        'vercel_blob' => [
+            'driver' => 's3',
+            'key' => env('BLOB_READ_WRITE_TOKEN'),
+            'secret' => '',
+            'region' => 'us-east-1',
+            'bucket' => env('VERCEL_BLOB_BUCKET'),
+            'endpoint' => env('VERCEL_BLOB_URL', 'https://blob.vercel-storage.com'),
+            'use_path_style_endpoint' => true,
+            'visibility' => 'public',
+        ],
     ],
 
     /*
