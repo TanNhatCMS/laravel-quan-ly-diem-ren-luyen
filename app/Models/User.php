@@ -5,6 +5,8 @@ namespace App\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -71,13 +73,23 @@ class User extends Authenticatable
         return [];
     }
 
-    public function positions()
+    public function positions(): BelongsToMany
     {
-        return $this->belongsToMany(Positions::class, 'user_positions')->withTimestamps();
+        return $this->belongsToMany(Positions::class, 'user_positions', 'user_id', 'position_id');
     }
 
-    public function classes()
+    public function classes(): BelongsToMany
     {
-        return $this->belongsToMany(Classes::class, 'user_classes')->withTimestamps();
+        return $this->belongsToMany(Classes::class, 'user_classes', 'user_id', 'class_id');
+    }
+
+    public function organizations(): BelongsToMany
+    {
+        return $this->belongsToMany(Organizations::class, 'user_organizations', 'user_id', 'organization_id');
+    }
+
+    public function profile(): HasOne
+    {
+        return $this->hasOne(UserProfiles::class, 'user_id');
     }
 }
