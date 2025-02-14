@@ -62,7 +62,7 @@ return [
             'secret' => '',
             'region' => 'us-east-1',
             'bucket' => env('VERCEL_BLOB_BUCKET'),
-            'endpoint' => env('VERCEL_BLOB_URL','https://blob.vercel-storage.com'),
+            'endpoint' => env('VERCEL_BLOB_URL', 'https://blob.vercel-storage.com'),
             'use_path_style_endpoint' => true,
             'visibility' => 'public',
         ],
