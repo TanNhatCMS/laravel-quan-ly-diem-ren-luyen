@@ -74,5 +74,4 @@ class Classes extends Model
     {
         return $this->belongsToMany(User::class, 'user_classes')->withTimestamps();
     }
-
 }
