@@ -18,8 +18,8 @@ return [
     // and choosing that view_namespace instead of the default one. Backpack will load a file from there
     // if it exists, otherwise it will load it from the fallback namespace.
 
-    'view_namespace' => 'backpack.theme-coreuiv4::',
-    'view_namespace_fallback' => 'backpack.theme-coreuiv4::',
+    'view_namespace' => 'tannhatcms.theme-coreuiv4-lms::',
+    'view_namespace_fallback' => 'tannhatcms.theme-coreuiv4-lms::',
 
     /*
     |--------------------------------------------------------------------------
@@ -60,7 +60,7 @@ return [
     // The string below will be passed through the url() helper.
     // - default: '' (project root)
     // - alternative: 'admin' (the admin's dashboard)
-    'home_link' => '',
+    'home_link' => 'admin',
 
     // Menu logo. You can replace this with an <img> tag if you have a logo.
     'project_logo' => '<b>LMS</b> CMS',
