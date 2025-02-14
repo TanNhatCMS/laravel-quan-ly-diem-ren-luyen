@@ -30,7 +30,7 @@ class UserProfiles extends Model
         'email',
         'phone_number',
         'academic_degree_id',
-        'class_id'
+        'class_id',
     ];
     // protected $hidden = [];
 

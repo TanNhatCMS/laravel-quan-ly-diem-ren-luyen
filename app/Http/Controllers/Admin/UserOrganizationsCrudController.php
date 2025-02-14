@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\UserOrganizationsRequest;
 use App\Models\Organizations;
-use App\Models\Positions;
 use App\Models\User;
 use App\Models\UserOrganizations;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -17,8 +16,8 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class UserOrganizationsCrudController
- * @package App\Http\Controllers\Admin
+ * Class UserOrganizationsCrudController.
+ *
  * @property-read CrudPanel $crud
  */
 class UserOrganizationsCrudController extends CrudController
@@ -37,7 +36,7 @@ class UserOrganizationsCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(UserOrganizations::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/user-organizations');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/user-organizations');
         CRUD::setEntityNameStrings('Người Dùng - Tổ Chức', 'Danh Sách Người Dùng - Tổ Chức');
     }
 
@@ -45,6 +44,7 @@ class UserOrganizationsCrudController extends CrudController
      * Define what happens when the List operation is loaded.
      *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
+     *
      * @return void
      */
     protected function setupListOperation()
@@ -66,7 +66,7 @@ class UserOrganizationsCrudController extends CrudController
                 $query->orWhereHas('user', function ($q) use ($searchTerm) {
                     $q->where('name', 'like', "%$searchTerm%");
                 });
-            }
+            },
         ]);
         CRUD::addColumn([
             'name' => 'email',
@@ -79,7 +79,7 @@ class UserOrganizationsCrudController extends CrudController
                 $query->orWhereHas('user', function ($q) use ($searchTerm) {
                     $q->where('email', 'like', "%$searchTerm%");
                 });
-            }
+            },
         ]);
         CRUD::addColumn([
             'name' => 'organization',
@@ -100,6 +100,7 @@ class UserOrganizationsCrudController extends CrudController
      * Define what happens when the Create operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
+     *
      * @return void
      */
     protected function setupCreateOperation()
@@ -130,6 +131,7 @@ class UserOrganizationsCrudController extends CrudController
      * Define what happens when the Update operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
+     *
      * @return void
      */
     protected function setupUpdateOperation()
