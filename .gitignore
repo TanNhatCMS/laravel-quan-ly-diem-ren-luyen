@@ -26,4 +26,4 @@ Homestead.json
 /vendor
 /public/build/
 package-lock.json
-composer.
+composer.lock
