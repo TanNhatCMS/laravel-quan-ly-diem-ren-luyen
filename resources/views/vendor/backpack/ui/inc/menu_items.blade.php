@@ -45,3 +45,7 @@
 
 <x-backpack::menu-item title="Positions" icon="la la-question" :link="backpack_url('positions')" />
 <x-backpack::menu-item title="User positions" icon="la la-question" :link="backpack_url('user-position')" />
+
+<x-backpack::menu-item title="User organizations" icon="la la-question" :link="backpack_url('user-organizations')" />
+<x-backpack::menu-item title="User classes" icon="la la-question" :link="backpack_url('user-classes')" />
+<x-backpack::menu-item title="User profiles" icon="la la-question" :link="backpack_url('user-profiles')" />

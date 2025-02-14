@@ -33,6 +33,9 @@ Route::group([
     Route::crud('academic-degrees', 'AcademicDegreesCrudController');
     Route::crud('positions', 'PositionsCrudController');
     Route::crud('user-position', 'UserPositionCrudController');
+    Route::crud('user-organizations', 'UserOrganizationsCrudController');
+    Route::crud('user-classes', 'UserClassesCrudController');
+    Route::crud('user-profiles', 'UserProfilesCrudController');
 }); // this should be the absolute last line of this file
 
 /**

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\UserPositionRequest;
+use App\Http\Requests\UserOrganizationsRequest;
+use App\Models\Organizations;
 use App\Models\Positions;
 use App\Models\User;
-use App\Models\UserPosition;
+use App\Models\UserOrganizations;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
@@ -16,11 +17,11 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class UserPositionCrudController.
- *
+ * Class UserOrganizationsCrudController
+ * @package App\Http\Controllers\Admin
  * @property-read CrudPanel $crud
  */
-class UserPositionCrudController extends CrudController
+class UserOrganizationsCrudController extends CrudController
 {
     use ListOperation;
     use CreateOperation;
@@ -35,16 +36,15 @@ class UserPositionCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(UserPosition::class);
-        CRUD::setRoute(config('backpack.base.route_prefix').'/user-position');
-        CRUD::setEntityNameStrings('Chức vụ người dùng', 'Danh sách chức vụ người dùng');
+        CRUD::setModel(UserOrganizations::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/user-organizations');
+        CRUD::setEntityNameStrings('Người Dùng - Tổ Chức', 'Danh Sách Người Dùng - Tổ Chức');
     }
 
     /**
      * Define what happens when the List operation is loaded.
      *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
-     *
      * @return void
      */
     protected function setupListOperation()
@@ -66,7 +66,7 @@ class UserPositionCrudController extends CrudController
                 $query->orWhereHas('user', function ($q) use ($searchTerm) {
                     $q->where('name', 'like', "%$searchTerm%");
                 });
-            },
+            }
         ]);
         CRUD::addColumn([
             'name' => 'email',
@@ -79,15 +79,15 @@ class UserPositionCrudController extends CrudController
                 $query->orWhereHas('user', function ($q) use ($searchTerm) {
                     $q->where('email', 'like', "%$searchTerm%");
                 });
-            },
+            }
         ]);
         CRUD::addColumn([
-            'name' => 'position',
-            'label' => 'Chức vụ',
+            'name' => 'organization',
+            'label' => 'Tổ chức',
             'type' => 'select',
-            'entity' => 'position',
+            'entity' => 'organization',
             'attribute' => 'name',
-            'model' => "App\Models\Positions",
+            'model' => "App\Models\Organizations",
         ]);
 
         /**
@@ -100,12 +100,11 @@ class UserPositionCrudController extends CrudController
      * Define what happens when the Create operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
-     *
      * @return void
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(UserPositionRequest::class);
+        CRUD::setValidation(UserOrganizationsRequest::class);
         $this->crud->addField([
             'name' => 'user',
             'label' => 'Người dùng',
@@ -113,12 +112,12 @@ class UserPositionCrudController extends CrudController
             'options' => User::all()->pluck('email', 'id')->toArray(),
         ]);
         CRUD::addField([
-            'name' => 'position',
-            'label' => 'Chức vụ',
+            'name' => 'organization',
+            'label' => 'Tổ chức',
             'type' => 'select_from_array',
-            'entity' => 'position',
+            'entity' => 'organization',
             'attribute' => 'name',
-            'options' => Positions::all()->pluck('name', 'id')->toArray(),
+            'options' => Organizations::all()->pluck('name', 'id')->toArray(),
         ]);
 
         /**
@@ -131,7 +130,6 @@ class UserPositionCrudController extends CrudController
      * Define what happens when the Update operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
-     *
      * @return void
      */
     protected function setupUpdateOperation()

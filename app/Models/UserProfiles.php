@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Classes extends Model
+class UserProfiles extends Model
 {
     use CrudTrait;
     use HasFactory;
@@ -18,11 +18,20 @@ class Classes extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'classes';
+    protected $table = 'user_profiles';
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
-    protected $fillable = ['name', 'organization_id', 'major_id', 'academic_year_id'];
+    protected $fillable = [
+        'user_id',
+        'code',
+        'birth_date',
+        'gender',
+        'email',
+        'phone_number',
+        'academic_degree_id',
+        'class_id'
+    ];
     // protected $hidden = [];
 
     /*
@@ -55,24 +64,8 @@ class Classes extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function organization(): BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(Organizations::class, 'organization_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
-
-    public function major(): BelongsTo
-    {
-        return $this->belongsTo(Majors::class, 'major_id');
-    }
-
-    public function academicYear(): BelongsTo
-    {
-        return $this->belongsTo(AcademicYears::class, 'academic_year_id');
-    }
-
-    public function users()
-    {
-        return $this->belongsToMany(User::class, 'user_classes')->withTimestamps();
-    }
-
 }
