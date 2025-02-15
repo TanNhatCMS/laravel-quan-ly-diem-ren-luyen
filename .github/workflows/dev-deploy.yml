@@ -1,0 +1,16 @@
+name: Preview Deploy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    uses: ./.github/workflows/deploy.yml
+    with:
+      environment: preview
+      path_to_repo: ${{ secrets.PATH_TO_REPO }}
+      environment_url: ${{ secrets.DEPLOY_URL }}
+    secrets:
+      SSH_USER: ${{ secrets.SSH_USER }}
+      SSH_VPS_HOST: ${{ secrets.SSH_VPS_HOST }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
