@@ -48,7 +48,7 @@ jobs:
           SSH: ssh -T tannhatcms@$vps.mrkiet.name.vn
         run: |
           ${{ env.SSH }} git -C ${{ env.PATH_TO_REPO }} fetch --all
-          ${{ env.SSH }} git -C ${{ env.PATH_TO_REPO }} checkout --force ${{ REF }}
+          ${{ env.SSH }} git -C ${{ env.PATH_TO_REPO }} checkout --force ${{ steps.specify-ref.outputs.REF }}
           ${{ env.SSH }} git -C ${{ env.PATH_TO_REPO }} pull
 
       - name: Mark Deployment as Successful
