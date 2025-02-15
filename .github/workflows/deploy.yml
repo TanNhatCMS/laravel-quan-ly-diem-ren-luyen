@@ -1,0 +1,49 @@
+name: Deploy
+
+on:
+  workflow_call:
+    inputs:
+      path_to_repo:
+        required: true
+        type: string
+
+    secrets:
+      SSH_USER:
+        required: true
+      SSH_VPS_HOST:
+        required: true
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, ansible, prd]
+
+    env:
+      PATH_TO_REPO: ${{ inputs.path_to_repo }}
+
+    steps:
+      - name : Specify Ref
+        id: specify-ref
+        run: |
+          case "${{ github.ref_type }}" in
+              "branch" ) REF=origin/${{ github.ref_name }};;
+              "tag" ) REF=${{ github.ref_name }};;
+          esac
+          if [  "${{ github.workflow }}" = "PRD Deploy" ]; then
+            echo "INFO: PRD Deploy main。"
+            REF=origin/main
+          fi
+          echo "REF=$REF"
+          echo "REF=$REF" >> $GITHUB_OUTPUT
+      - name: Deploy
+        env:
+          SSH: ssh -T ${{ secrets.SSH_USER }}@${{ secrets.SSH_VPS_HOST }}
+        run: |
+          ${{ env.SSH }} "if [ ! -d '${{ env.PATH_TO_REPO }}/.git' ]; then
+            echo 'Cloning repository...'
+            git clone git@github.com:${{ github.repository }}.git ${{ env.PATH_TO_REPO }}
+          fi"
+
+          ${{ env.SSH }} git -C ${{ env.PATH_TO_REPO }} fetch
+          ${{ env.SSH }} git -C ${{ env.PATH_TO_REPO }} clean -fd
+          ${{ env.SSH }} git -C ${{ env.PATH_TO_REPO }} reset --hard
+          ${{ env.SSH }} git -C ${{ env.PATH_TO_REPO }} checkout --force ${{ steps.specify-ref.outputs.REF }}
