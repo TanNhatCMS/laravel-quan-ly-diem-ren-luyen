@@ -9,7 +9,7 @@ jobs:
     with:
       environment: Preview
       path_to_repo: ${{ secrets.PATH_TO_REPO }}
-      deploy_url: ${{ secrets.DEPLOY_URL }}
-      ssh_user: ${{ secrets.SSH_USER }}
-      ssh_host: ${{ secrets.SSH_VPS_HOST }}
-      github_token: ${{ secrets.GITHUB_TOKEN }}
+      environment_url: ${{ secrets.DEPLOY_URL }}
+    secrets:
+      SSH_USER: ${{ secrets.SSH_USER }}
+      SSH_VPS_HOST: ${{ secrets.SSH_VPS_HOST }}
