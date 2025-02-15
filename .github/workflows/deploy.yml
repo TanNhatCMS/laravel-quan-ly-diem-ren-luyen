@@ -3,47 +3,97 @@ name: Deploy
 on:
   workflow_call:
     inputs:
+      environment:
+        required: true
+        type: string
       path_to_repo:
         required: true
         type: string
-
+      environment_url:
+        required: false
+        type: string
     secrets:
       SSH_USER:
         required: true
       SSH_VPS_HOST:
         required: true
+      GITHUB_TOKEN:
+        required: true
 
 jobs:
   deploy:
-    runs-on: [self-hosted, ansible, prd]
-
+    runs-on: [self-hosted, ansible]
+    environment: ${{ inputs.environment }}
     env:
       PATH_TO_REPO: ${{ inputs.path_to_repo }}
+      ENVIRONMENT: ${{ inputs.environment }}
+      ENVIRONMENT_URL: ${{ inputs.environment_url }}
 
     steps:
-      - name : Specify Ref
+      - name: Specify Ref
         id: specify-ref
         run: |
           case "${{ github.ref_type }}" in
-              "branch" ) REF=origin/${{ github.ref_name }};;
+              "branch" ) REF=${{ github.ref_name }};;
               "tag" ) REF=${{ github.ref_name }};;
           esac
-          if [  "${{ github.workflow }}" = "PRD Deploy" ]; then
-            echo "INFO: PRD Deploy main。"
-            REF=origin/main
+          if [ "${{ github.workflow }}" = "PRD Deploy" ]; then
+            echo "INFO: PRD Deploy main"
+            REF=main
           fi
-          echo "REF=$REF"
           echo "REF=$REF" >> $GITHUB_OUTPUT
-      - name: Deploy
-        env:
-          SSH: ssh -T ${{ secrets.SSH_USER }}@${{ secrets.SSH_VPS_HOST }}
-        run: |
-          ${{ env.SSH }} "if [ ! -d '${{ env.PATH_TO_REPO }}/.git' ]; then
-            echo 'Cloning repository...'
-            git clone git@github.com:${{ github.repository }}.git ${{ env.PATH_TO_REPO }}
-          fi"
 
-          ${{ env.SSH }} git -C ${{ env.PATH_TO_REPO }} fetch
-          ${{ env.SSH }} git -C ${{ env.PATH_TO_REPO }} clean -fd
-          ${{ env.SSH }} git -C ${{ env.PATH_TO_REPO }} reset --hard
-          ${{ env.SSH }} git -C ${{ env.PATH_TO_REPO }} checkout --force ${{ steps.specify-ref.outputs.REF }}
+      - name: Create Deployment
+        id: create_deployment
+        run: |
+          DEPLOYMENT_ID=$(curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+               -H "Accept: application/vnd.github.v3+json" \
+               https://api.github.com/repos/${{ github.repository }}/deployments \
+               -d '{
+                    "ref": "${{ github.ref }}",
+                    "auto_merge": false,
+                    "required_contexts": [],
+                    "environment": "${{ env.ENVIRONMENT }}",
+                    "production_environment": ${ { env.ENVIRONMENT == 'production' }},
+                    "auto_deployment": true,
+                    "description": "Deploying to ${{ env.ENVIRONMENT }} server"
+                  }' | jq -r .id)
+
+          echo "DEPLOYMENT_ID=$DEPLOYMENT_ID" >> $GITHUB_ENV
+
+      - name: Deploy Code
+        run: |
+          ssh -T ${{ secrets.SSH_USER }}@${{ secrets.SSH_VPS_HOST }} << EOF
+            set -e
+            if [ ! -d "${{ env.PATH_TO_REPO }}/.git" ]; then
+              echo "Cloning repository..."
+              git clone git@github.com:${{ github.repository }}.git ${{ env.PATH_TO_REPO }}
+            fi
+            cd ${{ env.PATH_TO_REPO }}
+            git fetch --all
+            git checkout ${{ steps.specify-ref.outputs.REF }}
+            git pull origin ${{ steps.specify-ref.outputs.REF }}
+          EOF
+
+      - name: Mark Deployment as Successful
+        if: success()
+        run: |
+          curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+               -H "Accept: application/vnd.github.v3+json" \
+               https://api.github.com/repos/${{ github.repository }}/deployments/${{ env.DEPLOYMENT_ID }}/statuses \
+               -d '{
+                    "state": "success",
+                    "description": "✅ ${{ env.ENVIRONMENT }} Deploy Success",
+                    "environment_url": "${{ env.ENVIRONMENT_URL }}"
+                  }'
+
+      - name: Mark Deployment as Failed
+        if: failure()
+        run: |
+          curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+               -H "Accept: application/vnd.github.v3+json" \
+               https://api.github.com/repos/${{ github.repository }}/deployments/${{ env.DEPLOYMENT_ID }}/statuses \
+               -d '{
+                    "state": "failure",
+                    "description": "❌ ${{ env.ENVIRONMENT }} Deploy Failed"
+                  }'
