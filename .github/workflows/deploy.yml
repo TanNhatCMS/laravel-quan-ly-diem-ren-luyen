@@ -20,7 +20,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: [self-hosted, ansible]
+    runs-on: [self-hosted, Linux, X64, vps]
     environment: ${{ inputs.environment }}
     env:
       PATH_TO_REPO: ${{ inputs.path_to_repo }}
