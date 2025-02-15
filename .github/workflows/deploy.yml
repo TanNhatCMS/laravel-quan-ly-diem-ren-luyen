@@ -45,7 +45,7 @@ jobs:
 
       - name: SSH into server and deploy
         env:
-          SSH: ssh -T tannhatcms@$vps.mrkiet.name.vn
+          SSH: ssh -T tannhatcms@vps.mrkiet.name.vn
         run: |
           ${{ env.SSH }} git -C ${{ env.PATH_TO_REPO }} fetch --all
           ${{ env.SSH }} git -C ${{ env.PATH_TO_REPO }} checkout --force ${{ steps.specify-ref.outputs.REF }}
