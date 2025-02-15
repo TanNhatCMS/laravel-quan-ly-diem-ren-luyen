@@ -44,19 +44,12 @@ jobs:
           echo "REF=$REF" >> $GITHUB_ENV
 
       - name: SSH into server and deploy
+        env:
+          SSH: ssh -T tannhatcms@$vps.mrkiet.name.vn
         run: |
-          ssh -T ${{ secrets.SSH_USER }}@${{ secrets.SSH_VPS_HOST }} << 'EOF'
-            set -e
-            if [ ! -d "${{ env.PATH_TO_REPO }}/.git" ]; then
-              echo "Cloning repository..."
-              git clone git@github.com:${{ github.repository }}.git ${{ env.PATH_TO_REPO }}
-            fi
-            cd ${{ env.PATH_TO_REPO }}
-            git fetch --all
-            git checkout $REF
-            git pull origin $REF
-            echo "Deployment successful!"
-          EOF
+          ${{ env.SSH }} git -C ${{ env.PATH_TO_REPO }} fetch --all
+          ${{ env.SSH }} git -C ${{ env.PATH_TO_REPO }} checkout --force ${{ REF }}
+          ${{ env.SSH }} git -C ${{ env.PATH_TO_REPO }} pull
 
       - name: Mark Deployment as Successful
         if: success()
