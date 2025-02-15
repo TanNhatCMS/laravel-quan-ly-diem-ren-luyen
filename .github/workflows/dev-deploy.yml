@@ -7,7 +7,7 @@ jobs:
   deploy:
     uses: ./.github/workflows/deploy.yml
     with:
-      environment: preview
+      environment: Preview
       path_to_repo: ${{ secrets.PATH_TO_REPO }}
       deploy_url: ${{ secrets.DEPLOY_URL }}
       ssh_user: ${{ secrets.SSH_USER }}
