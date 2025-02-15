@@ -8,8 +8,8 @@ jobs:
     uses: ./.github/workflows/deploy.yml
     with:
       environment: Preview
-      path_to_repo: ${{ secrets.PATH_TO_REPO }}
-      environment_url: ${{ secrets.DEPLOY_URL }}
+      path_to_repo: ${{ inputs.path_to_repo }}
+      environment_url: ${{ inputs.environment_url }}
     secrets:
       SSH_USER: ${{ secrets.SSH_USER }}
       SSH_VPS_HOST: ${{ secrets.SSH_VPS_HOST }}
