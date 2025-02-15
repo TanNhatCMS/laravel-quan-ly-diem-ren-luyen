@@ -28,41 +28,7 @@ jobs:
       ENVIRONMENT_URL: ${{ inputs.environment_url }}
 
     steps:
-      - name: Specify Ref
-        id: specify-ref
-        run: |
-          case "${{ github.ref_type }}" in
-              "branch" ) REF=${{ github.ref_name }};;
-              "tag" ) REF=${{ github.ref_name }};;
-          esac
-          if [ "${{ github.workflow }}" = "PRD Deploy" ]; then
-            echo "INFO: PRD Deploy main"
-            REF=main
-          fi
-          echo "REF=$REF" >> $GITHUB_ENV
-
-      - name: Create Deployment
-        id: create_deployment
-        run: |
-          IS_PRODUCTION=false
-          if [ "$ENVIRONMENT" == "production" ]; then IS_PRODUCTION=true; fi
-
-          DEPLOYMENT_ID=$(curl -X POST -H "Authorization: token ${{ github.token }}" \
-               -H "Accept: application/vnd.github.v3+json" \
-               https://api.github.com/repos/${{ github.repository }}/deployments \
-               -d '{
-                    "ref": "'"$REF"'",
-                    "auto_merge": false,
-                    "required_contexts": [],
-                    "environment": "'"${{ env.ENVIRONMENT }}"'",
-                    "production_environment": '"$IS_PRODUCTION"',
-                    "auto_deployment": true,
-                    "description": "Deploying to ${{ env.ENVIRONMENT }} server"
-                  }' | jq -r .id)
-
-          echo "DEPLOYMENT_ID=$DEPLOYMENT_ID" >> $GITHUB_ENV
-
-      - name: Deploy Code
+      - name: Clone repository
         run: |
           ssh -T ${{ secrets.SSH_USER }}@${{ secrets.SSH_VPS_HOST }} << EOF
             set -e
@@ -71,30 +37,5 @@ jobs:
               git clone git@github.com:${{ github.repository }}.git ${{ env.PATH_TO_REPO }}
             fi
             cd ${{ env.PATH_TO_REPO }}
-            git fetch --all
-            git checkout $REF
-            git pull origin $REF
+            git pull origin main
           EOF
-
-      - name: Mark Deployment as Successful
-        if: success()
-        run: |
-          curl -X POST -H "Authorization: token ${{ github.token }}" \
-               -H "Accept: application/vnd.github.v3+json" \
-               https://api.github.com/repos/${{ github.repository }}/deployments/${{ env.DEPLOYMENT_ID }}/statuses \
-               -d '{
-                    "state": "success",
-                    "description": "✅ ${{ env.ENVIRONMENT }} Deploy Success",
-                    "environment_url": "'"${{ env.ENVIRONMENT_URL }}"'"
-                  }'
-
-      - name: Mark Deployment as Failed
-        if: failure()
-        run: |
-          curl -X POST -H "Authorization: token ${{ github.token }}" \
-               -H "Accept: application/vnd.github.v3+json" \
-               https://api.github.com/repos/${{ github.repository }}/deployments/${{ env.DEPLOYMENT_ID }}/statuses \
-               -d '{
-                    "state": "failure",
-                    "description": "❌ ${{ env.ENVIRONMENT }} Deploy Failed"
-                  }'
