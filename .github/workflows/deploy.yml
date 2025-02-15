@@ -17,8 +17,6 @@ on:
         required: true
       SSH_VPS_HOST:
         required: true
-      GITHUB_TOKEN:
-        required: true
 
 jobs:
   deploy:
@@ -33,7 +31,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}  # Không cần khai báo trong secrets workflow_call
 
       - name: Determine branch/tag
         id: specify-ref
