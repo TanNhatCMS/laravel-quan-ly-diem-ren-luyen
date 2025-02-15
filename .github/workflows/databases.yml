@@ -107,7 +107,7 @@ jobs:
 
     services:
       mariadb:
-        image: mariadb:10
+        image: mariadb:11
         env:
           MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: yes
           MARIADB_DATABASE: laravel
