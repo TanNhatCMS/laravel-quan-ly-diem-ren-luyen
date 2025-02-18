@@ -25,7 +25,7 @@ class MajorsSeeder extends Seeder
         ['id' => 15, 'name' => 'Ngành hướng dẫn du lịch', 'code' => 'HD'],
         ['id' => 16, 'name' => 'Ngành kinh doanh xuất nhập khẩu', 'code' => 'KX'],
         ['id' => 17, 'name' => 'Truyền thông đa phương tiện', 'code' => 'TT'],
-        ['id' => 18, 'name' => 'Thiết kế trang Web', 'code' => 'TW']
+        ['id' => 18, 'name' => 'Thiết kế trang Web', 'code' => 'TW'],
     ];
 
     /**
