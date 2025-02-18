@@ -45,7 +45,6 @@ class TeachersCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-
         $this->crud->query->whereHas('profile', function ($query) {
             $query->whereNull('code')->orWhere('code', '');
         });
@@ -140,7 +139,6 @@ class TeachersCrudController extends CrudController
             'attribute' => 'code',
             'type' => 'date',
         ]);
-
     }
 
     /**

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\StudentsRequest;
-use App\Http\Requests\UserProfilesRequest;
 use App\Models\User;
 use App\Models\UserClasses;
 use App\Models\UserOrganizations;
@@ -39,6 +38,7 @@ class StudentsCrudController extends CrudController
      * Configure the CrudPanel object. Apply settings to all operations.
      *
      * @return void
+     *
      * @throws Exception
      */
     public function setup()
@@ -154,7 +154,6 @@ class StudentsCrudController extends CrudController
             'attribute' => 'code',
             'type' => 'date',
         ]);
-
     }
 
     /**
@@ -182,6 +181,7 @@ class StudentsCrudController extends CrudController
         $this->addUserFields();
         $this->crud->setValidation(StudentsRequest::class);
     }
+
     /**
      * Store a newly created resource in the database.
      *
@@ -194,6 +194,7 @@ class StudentsCrudController extends CrudController
         $this->crud->unsetValidation();
         $response = $this->traitStore();
         $this->saveRelatedModels($this->crud->entry);
+
         return $response;
     }
 
@@ -246,7 +247,6 @@ class StudentsCrudController extends CrudController
 
     private function addUserFields()
     {
-
         $this->crud->addFields([
             [
                 'name' => 'name',

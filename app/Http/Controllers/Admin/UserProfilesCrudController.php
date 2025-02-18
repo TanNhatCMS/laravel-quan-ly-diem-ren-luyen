@@ -4,14 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\UserProfilesRequest;
 use App\Models\AcademicDegrees;
-use App\Models\Classes;
 use App\Models\User;
 use App\Models\UserClasses;
 use App\Models\UserOrganizations;
 use App\Models\UserPosition;
 use App\Models\UserProfiles;
-use Backpack\ActivityLog\Http\Controllers\Operations\EntryActivityOperation;
-use Backpack\ActivityLog\Http\Controllers\Operations\ModelActivityOperation;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
@@ -42,6 +39,7 @@ class UserProfilesCrudController extends CrudController
      * Configure the CrudPanel object. Apply settings to all operations.
      *
      * @return void
+     *
      * @throws Exception
      */
     public function setup()
@@ -60,11 +58,10 @@ class UserProfilesCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-
         $this->crud->addColumn([
             'name' => 'stt',
             'label' => 'STT',
-            'type' => 'row_number'
+            'type' => 'row_number',
         ]);
 
         $this->crud->addColumn([
@@ -150,7 +147,6 @@ class UserProfilesCrudController extends CrudController
             'attribute' => 'code',
             'type' => 'date',
         ]);
-
     }
 
     /**
@@ -191,6 +187,7 @@ class UserProfilesCrudController extends CrudController
         $this->crud->unsetValidation();
         $response = $this->traitStore();
         $this->saveRelatedModels($this->crud->entry);
+
         return $response;
     }
 
@@ -243,7 +240,6 @@ class UserProfilesCrudController extends CrudController
 
     private function addUserFields()
     {
-
         $this->crud->addFields([
             [
                 'name' => 'name',

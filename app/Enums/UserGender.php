@@ -17,7 +17,6 @@ enum UserGender: string
         };
     }
 
-
     public function toEN(): string
     {
         return match ($this) {

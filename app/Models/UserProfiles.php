@@ -65,7 +65,7 @@ class UserProfiles extends Model
 
     public function class(): BelongsTo
     {
-        return $this->belongsTo(Classes::class ,'class_id');
+        return $this->belongsTo(Classes::class, 'class_id');
     }
 
     public function academicDegree(): BelongsTo
@@ -114,6 +114,7 @@ class UserProfiles extends Model
     {
         $gender = UserGender::from(strtolower($value));
         $language = app()->getLocale();
+
         return $language === 'en' ? $gender->toEN() : $gender->toVN();
     }
 
@@ -121,6 +122,7 @@ class UserProfiles extends Model
     {
         $type = UserType::from(strtolower($value));
         $language = app()->getLocale();
+
         return $language === 'en' ? $type->toEN() : $type->toVN();
     }
 
@@ -128,6 +130,7 @@ class UserProfiles extends Model
     {
         $educationSystem = EducationSystem::from(strtoupper($value));
         $language = app()->getLocale();
+
         return $language === 'en' ? $educationSystem->toEN() : $educationSystem->toVN();
     }
     /*

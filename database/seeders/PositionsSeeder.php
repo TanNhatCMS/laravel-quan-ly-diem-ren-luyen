@@ -26,6 +26,7 @@ class PositionsSeeder extends Seeder
 
     /**
      * Run the database seeds.
+     *
      * @throws Exception
      */
     public function run(): void
