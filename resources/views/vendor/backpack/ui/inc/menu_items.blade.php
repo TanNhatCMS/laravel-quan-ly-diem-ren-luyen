@@ -10,16 +10,15 @@
 <x-backpack::menu-item title="Chuyên Nghành" icon="la la-question" :link="backpack_url('majors')" />
 <x-backpack::menu-item title="Niên Khoá" icon="la la-question" :link="backpack_url('academic-years')" />
 
-<x-backpack::menu-item title="Sinh viên" icon="la la-question" :link="backpack_url('students')" />
-<x-backpack::menu-item title="Giảng Viên" icon="la la-question" :link="backpack_url('lecturers')" />
 <x-backpack::menu-item title="Học kỳ" icon="la la-question" :link="backpack_url('semester-scores')" />
-<x-backpack::menu-item title="Ban Cán Sự" icon="la la-question" :link="backpack_url('class-officers')" />
 <x-backpack::menu-dropdown title="THÔNG TIN CHUNG" icon="la la-puzzle-piece">
 
 </x-backpack::menu-dropdown>
 <x-backpack::menu-dropdown title="NGHIỆP VỤ QUẢN LÝ" icon="la la-puzzle-piece">
     <x-backpack::menu-item title="Lớp" icon="la la-question" :link="backpack_url('classes')" />
-
+    <x-backpack::menu-item title="Sinh viên" icon="la la-question" :link="backpack_url('students')" />
+    <x-backpack::menu-item title="Giáo Viên" icon="la la-question" :link="backpack_url('teachers')" />
+    <x-backpack::menu-item title="Ban Cán Sự" icon="la la-question" :link="backpack_url('class-officers')" />
 </x-backpack::menu-dropdown>
 <x-backpack::menu-dropdown title="THÔNG BÁO" icon="la la-puzzle-piece">
 

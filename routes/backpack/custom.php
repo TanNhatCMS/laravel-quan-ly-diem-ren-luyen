@@ -30,6 +30,7 @@ Route::group([
     Route::crud('classes', 'ClassesCrudController');
     Route::crud('academic-years', 'AcademicYearsCrudController');
     Route::crud('students', 'StudentsCrudController');
+    Route::crud('teachers', 'TeachersCrudController');
     Route::crud('academic-degrees', 'AcademicDegreesCrudController');
     Route::crud('positions', 'PositionsCrudController');
     Route::crud('user-position', 'UserPositionCrudController');
