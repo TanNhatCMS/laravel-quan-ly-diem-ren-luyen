@@ -10,7 +10,7 @@ enum EducationSystem: string
 
     public function toVN(): string
     {
-        return match($this) {
+        return match ($this) {
             self::th => 'Trung Cấp',
             self::cd => 'Cao Đẳng',
             self::cl => 'Cao Đẳng Liên Thông',
@@ -19,7 +19,7 @@ enum EducationSystem: string
 
     public function toEN(): string
     {
-        return match($this) {
+        return match ($this) {
             self::th => 'Intermediate Level',
             self::cd => 'College',
             self::cl => 'College Transfer',
