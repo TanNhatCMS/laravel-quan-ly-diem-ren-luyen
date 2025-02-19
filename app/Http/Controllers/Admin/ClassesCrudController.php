@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\ClassesRequest;
-use App\Models\Course;
 use App\Models\Classes;
+use App\Models\Course;
 use App\Models\Majors;
 use App\Models\Organizations;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -50,7 +50,6 @@ class ClassesCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-
         $this->crud->addColumn([
             'name' => 'stt',
             'label' => 'STT',
@@ -80,7 +79,7 @@ class ClassesCrudController extends CrudController
             'type' => 'text',
             'entity' => 'course',
             'value' => function ($entry) {
-                return $entry->course->year_start . ' - ' . $entry->course->year_end;
+                return $entry->course->year_start.' - '.$entry->course->year_end;
             },
         ]);
 
@@ -138,7 +137,6 @@ class ClassesCrudController extends CrudController
             'type' => 'text',
             'placeholder' => 'Nhập tên lớp',
         ]);
-
     }
 
     /**

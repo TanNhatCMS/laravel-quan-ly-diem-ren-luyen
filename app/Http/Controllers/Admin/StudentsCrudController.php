@@ -9,7 +9,6 @@ use App\Http\Requests\Student\StudentUpdateCrudRequest;
 use App\Models\Classes;
 use App\Models\Positions;
 use App\Models\User;
-use App\Models\UserOrganizations;
 use App\Models\UserPosition;
 use App\Models\UserProfiles;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -52,7 +51,7 @@ class StudentsCrudController extends CrudController
     public function setup()
     {
         $this->crud->setModel(User::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/students');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/students');
         CRUD::setEntityNameStrings('Sinh Viên', 'Danh Sách Sinh Viên');
     }
 
@@ -81,7 +80,7 @@ class StudentsCrudController extends CrudController
             'label' => 'Tên',
             'type' => 'text',
             'searchLogic' => function ($query, $column, $searchTerm) {
-                $query->where('name', 'like', '%' . $searchTerm . '%');
+                $query->where('name', 'like', '%'.$searchTerm.'%');
             },
         ]);
 
@@ -94,7 +93,7 @@ class StudentsCrudController extends CrudController
             'model' => UserProfiles::class,
             'searchLogic' => function ($query, $column, $searchTerm) {
                 $query->whereHas('profile', function ($query) use ($searchTerm) {
-                    $query->where('code', 'like', '%' . $searchTerm . '%');
+                    $query->where('code', 'like', '%'.$searchTerm.'%');
                 });
             },
         ]);
@@ -104,7 +103,7 @@ class StudentsCrudController extends CrudController
             'label' => 'Email',
             'type' => 'email',
             'searchLogic' => function ($query, $column, $searchTerm) {
-                $query->where('email', 'like', '%' . $searchTerm . '%');
+                $query->where('email', 'like', '%'.$searchTerm.'%');
             },
         ]);
 
@@ -116,7 +115,6 @@ class StudentsCrudController extends CrudController
             'attribute' => 'name',
             'model' => UserProfiles::class,
         ]);
-
 
         $this->crud->addColumn([
             'name' => 'profile.phone_number',
@@ -150,6 +148,7 @@ class StudentsCrudController extends CrudController
             'model' => UserProfiles::class,
             'value' => function ($entry) {
                 $educationSystem = EducationSystem::tryFrom($entry->profile->education_system);
+
                 return $educationSystem?->toVN();
             },
         ]);
@@ -191,6 +190,7 @@ class StudentsCrudController extends CrudController
         $this->crud->setRequest($this->crud->validateRequest());
         $this->crud->setRequest($this->handlePasswordInput($this->crud->getRequest()));
         $this->crud->unsetValidation();
+
         return $this->traitStore();
     }
 
@@ -204,6 +204,7 @@ class StudentsCrudController extends CrudController
         $this->crud->setRequest($this->crud->validateRequest());
         $this->crud->setRequest($this->handlePasswordInput($this->crud->getRequest()));
         $this->crud->unsetValidation();
+
         return $this->traitUpdate();
     }
 
@@ -252,11 +253,11 @@ class StudentsCrudController extends CrudController
                 'name' => 'profile.gender',
                 'label' => 'Giới tính',
                 'type' => 'select_from_array',
-                'options' => collect(UserGender::cases())->mapWithKeys(fn($g) => [$g->value => $g->toVN()])->toArray(),
+                'options' => collect(UserGender::cases())->mapWithKeys(fn ($g) => [$g->value => $g->toVN()])->toArray(),
                 'allows_null' => false,
                 'default' => UserGender::OTHER->value,
             ],
-            [   'name' => 'profile.class',
+            ['name' => 'profile.class',
                 'label' => 'Lớp',
                 'type' => 'select',
                 'entity' => 'profile.class',
@@ -277,7 +278,7 @@ class StudentsCrudController extends CrudController
                 'type' => 'checklist',
                 'attribute' => 'name',
                 'entity' => 'class',
-                'model' =>  Classes::class,
+                'model' => Classes::class,
             ],
             [
                 'name' => 'profile.education_system',
@@ -285,7 +286,7 @@ class StudentsCrudController extends CrudController
                 'type' => 'select_from_array',
                 'entity' => 'profile',
                 'attribute' => 'education_system',
-                'options' => collect(EducationSystem::cases())->mapWithKeys(fn($g) => [$g->value => $g->toVN()])->toArray(),
+                'options' => collect(EducationSystem::cases())->mapWithKeys(fn ($g) => [$g->value => $g->toVN()])->toArray(),
                 'allows_null' => false,
                 'default' => EducationSystem::CD->value,
             ],

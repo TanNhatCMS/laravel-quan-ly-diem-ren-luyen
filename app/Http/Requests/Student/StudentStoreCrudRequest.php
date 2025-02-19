@@ -48,7 +48,7 @@ class StudentStoreCrudRequest extends FormRequest
             'password.required' => 'Mật khẩu không được để trống',
             'password.confirmed' => 'Mật khẩu không khớp',
             'password.min' => 'Mật khẩu phải có ít nhất 8 ký tự',
-            'password.max' => 'Mật khẩu không được vượt quá 255 ký tự'
+            'password.max' => 'Mật khẩu không được vượt quá 255 ký tự',
         ];
     }
 }
