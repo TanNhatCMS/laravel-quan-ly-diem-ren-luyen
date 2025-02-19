@@ -45,12 +45,12 @@ class AcademicDegreesSeeder extends Seeder
                 if ($existing) {
                     DB::table('academic_degrees')->where('id', $existing->id)->update([
                         'name' => $degree['name'],
-                        'updated_at' => now()
+                        'updated_at' => now(),
                     ]);
                 } else {
                     DB::table('academic_degrees')->insert(array_merge($degree, [
                         'created_at' => now(),
-                        'updated_at' => now()
+                        'updated_at' => now(),
                     ]));
                 }
             }
