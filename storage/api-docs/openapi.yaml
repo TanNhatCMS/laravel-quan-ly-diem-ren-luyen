@@ -1,11 +1,10 @@
 openapi: 3.0.3
 info:
-  description: Swagger Fake SalesForce - OpenAPI 3.0.
-  title: Swagger Fake SalesForce - OpenAPI 3.0
-  version: 1.0.1
+  description: Swagger LMS CMS - OpenAPI 3.0.
+  title: Swagger LMS CMS - OpenAPI 3.0
+  version: 1.0.0
 servers:
-  - url: https://laravel-api-fake-salesforce.vercel.app
-  - url: http://localhost:8080
+  - url: https://laravel-quan-ly-diem-ren-luyen.vercel.app
   - url: http://127.0.0.1:8000
 paths:
   /services/oauth2/token:

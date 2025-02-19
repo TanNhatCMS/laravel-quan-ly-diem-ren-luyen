@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\UserGender;
+use App\Http\Requests\Student\StudentStoreCrudRequest;
+use App\Http\Requests\Student\StudentUpdateCrudRequest;
 use App\Http\Requests\StudentsRequest;
 use App\Models\User;
 use App\Models\UserClasses;
@@ -57,11 +60,9 @@ class StudentsCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        $this->crud->query->where(function ($query) {
-            $query->whereDoesntHave('profile')
-            ->orWhereHas('profile', function ($q) {
-                $q->whereNull('code')->orWhere('code', '');
-            });
+
+        $this->crud->query->whereHas('profile', function ($query) {
+            $query->where('type', 'student');
         });
 
         $this->crud->addColumn([
@@ -166,7 +167,7 @@ class StudentsCrudController extends CrudController
     protected function setupCreateOperation()
     {
         $this->addUserFields();
-        $this->crud->setValidation(StudentsRequest::class);
+        $this->crud->setValidation(StudentStoreCrudRequest::class);
     }
 
     /**
@@ -179,7 +180,7 @@ class StudentsCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->addUserFields();
-        $this->crud->setValidation(StudentsRequest::class);
+        $this->crud->setValidation(StudentUpdateCrudRequest::class);
     }
 
     /**
@@ -208,27 +209,26 @@ class StudentsCrudController extends CrudController
         $this->crud->setRequest($this->crud->validateRequest());
         $this->crud->setRequest($this->handlePasswordInput($this->crud->getRequest()));
         $this->crud->unsetValidation();
-
         $response = $this->traitUpdate();
-
         $this->saveRelatedModels($this->crud->entry);
-
         return $response;
     }
 
-    private function saveRelatedModels(UserProfiles $profile)
+    private function saveRelatedModels(User $user)
     {
-        $userId = $profile->user_id;
+        $userId = $user->id;
         $classId = request()->input('class_id');
         $organizationId = request()->input('organization_id');
         $positionId = request()->input('position_id');
-
-        // Cập nhật UserClasses
-        if ($classId) {
-            UserClasses::updateOrCreate(
-                ['user_id' => $userId, 'class_id' => $classId]
-            );
-        }
+        UserProfiles::updateOrCreate(
+            ['user_id' => $userId],
+            [
+                'code' => request()->input('code'),
+                'academic_degree_id' => request()->input('academic_degree_id'),
+                'education_system' => request()->input('education_system'),
+                'type' => 'student',
+            ]
+        );
 
         // Cập nhật UserOrganizations
         if ($organizationId) {
@@ -264,8 +264,9 @@ class StudentsCrudController extends CrudController
                 'type' => 'email',
             ],
             [
-                'name' => 'phone_number',
+                'name' => 'profile.phone_number',
                 'label' => 'Số điện thoại',
+                'entity' => 'profile.phone_number',
                 'type' => 'text',
             ],
             [
@@ -287,37 +288,40 @@ class StudentsCrudController extends CrudController
                 'name' => 'gender',
                 'label' => 'Giới tính',
                 'type' => 'select_from_array',
-                'options' => ['Nam' => 'Nam', 'Nữ' => 'Nữ', 'Khác' => 'Khác'],
+                'options' => UserGender::cases(),
+                'allows_null' => false,
+                'default' => UserGender::OTHER,
             ],
-            [
-                // two interconnected entities
-                'label' => trans('backpack::permissionmanager.user_role_permission'),
-                'field_unique_name' => 'user_role_permission',
-                'type' => 'checklist_dependency',
-                'name' => 'roles,permissions',
-                'subfields' => [
-                    'primary' => [
-                        'label' => trans('backpack::permissionmanager.roles'),
-                        'name' => 'roles', // the method that defines the relationship in your Model
-                        'entity' => 'roles', // the method that defines the relationship in your Model
-                        'entity_secondary' => 'permissions', // the method that defines the relationship in your Model
-                        'attribute' => 'name', // foreign key attribute that is shown to user
-                        'model' => config('permission.models.role'), // foreign key model
-                        'pivot' => true, // on create&update, do you need to add/delete pivot table entries?]
-                        'number_columns' => 3, //can be 1,2,3,4,6
-                    ],
-                    'secondary' => [
-                        'label' => mb_ucfirst(trans('backpack::permissionmanager.permission_plural')),
-                        'name' => 'permissions', // the method that defines the relationship in your Model
-                        'entity' => 'permissions', // the method that defines the relationship in your Model
-                        'entity_primary' => 'roles', // the method that defines the relationship in your Model
-                        'attribute' => 'name', // foreign key attribute that is shown to user
-                        'model' => config('permission.models.permission'), // foreign key model
-                        'pivot' => true, // on create&update, do you need to add/delete pivot table entries?]
-                        'number_columns' => 3, //can be 1,2,3,4,6
-                    ],
-                ],
+            [ 'name' => 'class_id',
+                'label' => 'Lớp',
+                'type' => 'select',
+                'entity' => 'profile.class_id',
+                'attribute' => 'name',
+                'model' => "App\Models\Classes",
             ],
+//            [
+//                'name' => 'academic_degree_id',
+//                'label' => 'Trình độ chuyên môn',
+//                'type' => 'select',
+//                'entity' => 'academicDegree',
+//                'attribute' => 'name',
+//                'model' => "App\Models\AcademicDegrees",
+//            ],
+//            [
+//                'name' => 'education_system',
+//                'label' => 'Hệ đào tạo',
+//                'type' => 'select_from_array',
+//                'options' => [
+//                    '0' => 'Chính quy',
+//                    '1' => 'Văn bằng 2',
+//                    '2' => 'Văn bằng 3',
+//                    '3' => 'Liên thông',
+//                    '4' => 'Cao học',
+//                ],
+//                'allows_null' => false,
+//                'default' => '0',
+//            ],
+
         ]);
     }
 

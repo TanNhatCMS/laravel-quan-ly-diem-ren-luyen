@@ -8,32 +8,38 @@ use App\Models\UserPosition;
 use App\Models\UserProfiles;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Exception;
 
 /**
  * Class LecturersCrudController.
  *
- * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
+ * @property-read CrudPanel $crud
  */
 class TeachersCrudController extends CrudController
 {
     use ListOperation;
     use CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    use UpdateOperation;
+    use DeleteOperation;
+    use ShowOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
      *
      * @return void
+     * @throws Exception
      */
     public function setup()
     {
         $this->crud->setModel(User::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/lecturers');
-        CRUD::setEntityNameStrings('lecturers', 'lecturers');
+        CRUD::setEntityNameStrings('Giáo Viên', 'Danh Sách Giáo Viên');
     }
 
     /**
@@ -46,7 +52,7 @@ class TeachersCrudController extends CrudController
     protected function setupListOperation()
     {
         $this->crud->query->whereHas('profile', function ($query) {
-            $query->whereNull('code')->orWhere('code', '');
+            $query->Where('type', 'teacher');
         });
 
         $this->crud->addColumn([

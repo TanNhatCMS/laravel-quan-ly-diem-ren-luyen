@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Student;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StudentsRequest extends FormRequest
+class StudentStoreCrudRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,20 +25,10 @@ class StudentsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'student_code' => 'unique:students,student_code',
-            // 'name' => 'required|min:5|max:255'
-        ];
-    }
-
-    /**
-     * Get the validation attributes that apply to the request.
-     *
-     * @return array
-     */
-    public function attributes(): array
-    {
-        return [
-            //
+            'code' => 'unique:user_profiles,code',
+            'email' => 'required|unique:'.config('backpack.permissionmanager.models.user', 'users').',email',
+            'name' => 'required',
+            'password' => 'required|confirmed',
         ];
     }
 
@@ -50,7 +40,7 @@ class StudentsRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'student_code.unique' => 'Mã sinh viên đã tồn tại',
+            'code.unique' => 'Mã sinh viên đã tồn tại',
         ];
     }
 }
