@@ -9,15 +9,14 @@ on:
       path_to_repo:
         required: true
         type: string
-      environment_url:
-        required: false
+      deploy_url:
+        required: true
         type: string
-    secrets:
-      SSH_USER:
+      ssh_user: 
         required: true
-      SSH_VPS_HOST:
+        type: string
+      ssh_host: 
         required: true
-
 jobs:
   deploy:
     runs-on: [self-hosted, Linux, X64, vps]
@@ -25,8 +24,10 @@ jobs:
     env:
       PATH_TO_REPO: ${{ inputs.path_to_repo }}
       ENVIRONMENT: ${{ inputs.environment }}
-      ENVIRONMENT_URL: ${{ inputs.environment_url }}
-
+      DEPLOY_URL: ${{ inputs.deploy_url }}
+      SSH_USER: ${{ inputs.ssh_user }}
+      SSH_VPS_HOST: ${{ inputs.ssh_host }}
+      GITHUB_TOKEN: ${{ inputs.github_token }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -54,19 +55,19 @@ jobs:
       - name: Mark Deployment as Successful
         if: success()
         run: |
-          curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          curl -X POST -H "Authorization: token ${{ env.GITHUB_TOKEN }}" \
                -H "Accept: application/vnd.github.v3+json" \
                https://api.github.com/repos/${{ github.repository }}/deployments/${{ env.DEPLOYMENT_ID }}/statuses \
                -d '{
                     "state": "success",
                     "description": "✅ ${{ env.ENVIRONMENT }} Deploy Success",
-                    "environment_url": "${{ env.ENVIRONMENT_URL }}"
+                    "environment_url": "${{ env.DEPLOY_URL }}"
                   }'
 
       - name: Mark Deployment as Failed
         if: failure()
         run: |
-          curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          curl -X POST -H "Authorization: token ${{ env.GITHUB_TOKEN }}" \
                -H "Accept: application/vnd.github.v3+json" \
                https://api.github.com/repos/${{ github.repository }}/deployments/${{ env.DEPLOYMENT_ID }}/statuses \
                -d '{
