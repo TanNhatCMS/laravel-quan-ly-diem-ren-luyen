@@ -29,6 +29,7 @@ class AuthController extends BaseController
             'user' => Auth::user(),
         ]);
     }
+
     /**
      * Get the authenticated User.
      *
@@ -51,6 +52,7 @@ class AuthController extends BaseController
     public function logout()
     {
         JWTAuth::invalidate(JWTAuth::getToken());
+
         return response()->json(['message' => 'Logged out successfully']);
     }
 
@@ -64,7 +66,7 @@ class AuthController extends BaseController
         return response()->json([
             'access_token' => JWTAuth::refresh(),
             'token_type' => 'Bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 60
+            'expires_in' => auth('api')->factory()->getTTL() * 60,
         ]);
     }
 }
