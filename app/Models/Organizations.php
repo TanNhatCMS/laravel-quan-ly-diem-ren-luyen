@@ -72,6 +72,4 @@ class Organizations extends Model
     {
         return $this->hasMany(Classes::class, 'organization_id');
     }
-
-
 }
