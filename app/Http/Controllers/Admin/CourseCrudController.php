@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\ClassesRequest;
-use App\Models\Classes;
+use App\Http\Requests\AcademicYearsRequest;
 use App\Models\Course;
-use App\Models\Majors;
-use App\Models\Organizations;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
@@ -17,11 +14,11 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class ClassesCrudController.
+ * Class AcademicYearsCrudController.
  *
  * @property-read CrudPanel $crud
  */
-class ClassesCrudController extends CrudController
+class CourseCrudController extends CrudController
 {
     use ListOperation;
     use CreateOperation;
@@ -36,9 +33,9 @@ class ClassesCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(Classes::class);
-        CRUD::setRoute(config('backpack.base.route_prefix').'/classes');
-        CRUD::setEntityNameStrings('Lớp', 'Danh Sách Lớp');
+        CRUD::setModel(Course::class);
+        CRUD::setRoute(config('backpack.base.route_prefix').'/course');
+        CRUD::setEntityNameStrings('Niên Khoá', 'Danh Sách Niên Khoá');
     }
 
     /**
@@ -59,43 +56,17 @@ class ClassesCrudController extends CrudController
 
         $this->crud->addColumn([
             'name' => 'name',
-            'label' => 'Tên Lớp',
+            'label' => 'Tên Khoá',
             'type' => 'text',
-            'searchLogic' => function ($query, $column, $searchTerm) {
-                $query->where('name', 'like', '%'.$searchTerm.'%');
-            },
-        ]);
-        $this->crud->addColumn([
-            'name' => 'course',
-            'label' => 'Khóa',
-            'type' => 'select',
-            'entity' => 'course',
-            'attribute' => 'name',
         ]);
 
         $this->crud->addColumn([
-            'name' => 'course_year',
-            'label' => 'Niên Khóa',
+            'name' => 'year',
+            'label' => 'Niên Khoá',
             'type' => 'text',
-            'entity' => 'course',
             'value' => function ($entry) {
-                return $entry->course->year_start.' - '.$entry->course->year_end;
+                return $entry->year_start.' - '.$entry->year_end;
             },
-        ]);
-
-        $this->crud->addColumn([
-            'name' => 'major',
-            'label' => 'Chuyên Ngành',
-            'type' => 'select',
-            'entity' => 'major',
-            'attribute' => 'name',
-        ]);
-        $this->crud->addColumn([
-            'name' => 'organization',
-            'label' => 'Khoa',
-            'type' => 'select',
-            'entity' => 'organization',
-            'attribute' => 'name',
         ]);
     }
 
@@ -108,34 +79,24 @@ class ClassesCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(ClassesRequest::class);
-
-        $this->crud->addField([
-            'name' => 'organization',
-            'label' => 'Khoa',
-            'type' => 'select_from_array',
-            'options' => Organizations::where('type', '=', 'faculty')->pluck('name', 'id')->toArray(),
-        ]);
-
-        $this->crud->addField([
-            'name' => 'major',
-            'label' => 'Chuyên Ngành',
-            'type' => 'select_from_array',
-            'options' => Majors::all()->pluck('name', 'id')->toArray(),
-        ]);
-
-        $this->crud->addField([
-            'name' => 'course',
-            'label' => 'Niên Khóa',
-            'type' => 'select_from_array',
-            'options' => Course::all()->pluck('name', 'id')->toArray(),
-        ]);
+        CRUD::setValidation(AcademicYearsRequest::class);
 
         $this->crud->addField([
             'name' => 'name',
-            'label' => 'Tên lớp',
+            'label' => 'Tên Khoá',
             'type' => 'text',
-            'placeholder' => 'Nhập tên lớp',
+        ]);
+
+        $this->crud->addField([
+            'name' => 'year_start',
+            'label' => 'Năm Bắt Đầu',
+            'type' => 'text',
+        ]);
+
+        $this->crud->addField([
+            'name' => 'year_end',
+            'label' => 'Năm Kết Thúc',
+            'type' => 'text',
         ]);
     }
 

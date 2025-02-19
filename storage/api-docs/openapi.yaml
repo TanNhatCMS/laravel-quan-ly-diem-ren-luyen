@@ -1,164 +1,146 @@
 openapi: 3.0.3
 info:
-  description: Swagger Fake SalesForce - OpenAPI 3.0.
-  title: Swagger Fake SalesForce - OpenAPI 3.0
-  version: 1.0.1
+  description: Swagger LMS CMS - OpenAPI 3.0.
+  title: Swagger LMS CMS - OpenAPI 3.0
+  version: 1.0.0
 servers:
-  - url: https://laravel-api-fake-salesforce.vercel.app
-  - url: http://localhost:8080
-  - url: http://127.0.0.1:8000
+  - url: https://laravel-quan-ly-diem-ren-luyen.vercel.app/api
+  - url: http://127.0.0.1:8000/api
 paths:
-  /services/oauth2/token:
+  /auth/login:
     post:
-      operationId: Token
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/TokenRequest'
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TokenResponse'
-          description: Trả về JWT access_token và instance_url
-        "400":
-          description: Thiếu tham số hoặc tham số không hợp lệ
-      summary: Lấy JWT access_token và instance_url test.salesforce.com
-      x-eov-operation-handler: controllers/DefaultController
-  /services/apexrest/hkt/v1.0/bookings:
-    post:
-      operationId: Bookings
-      summary: Tạo đặt chỗ mới
-      description: Điểm cuối để tạo đặt chỗ mới với thông tin khách hàng có liên quan.
+      summary: Đăng nhập người dùng
+      description: Xác thực người dùng bằng email và mật khẩu
+      operationId: loginUser
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/BookingRequest'
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "user@example.com"
+                password:
+                  type: string
+                  format: password
+                  example: "123456"
       responses:
-        '200':
-          description: Phản hồi tạo đặt chỗ thành công
+        "200":
+          description: Đăng nhập thành công
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BookingResponse'
-        '400':
-          description: Bad Request - Missing or invalid parameters
-        '500':
-          description: Internal Server Error
-components:
-  schemas:
-    BookingRequest:
-      type: object
-      required:
-        - FacilityNumber
-        - PersonLastName
-        - PersonFirstName
-        - ChildBirthday1
-        - PersonContactPhone
-        - DesiredReservationDateTime
-        - DesiredAdmissionDate
-        - PersonAddress
-        - PersonNumber
-        - ChildNumber
-      properties:
-        FacilityNumber:
-          type: string
-          description: Facility number
-          example: "111125030005"
-        PersonLastName:
-          type: string
-          description: Last name of the person
-          example: "Suzuki"
-        PersonFirstName:
-          type: string
-          description: First name of the person
-          example: "Taro"
-        ChildBirthday1:
-          type: string
-          format: date
-          description: First child’s birthday
-          example: "2023-03-07"
-        ChildBirthday2:
-          type: string
-          format: date
-          description: Second child’s birthday (optional)
-          example: "2023-03-07"
-        PersonContactPhone:
-          type: string
-          description: Person's contact phone number
-          example: "090-1234-5678"
-        PersonContactMail:
-          type: string
-          description: Person's contact email
-          example: "aaa@xxx.co.jp"
-        DesiredReservationDateTime:
-          type: string
-          format: date-time
-          description: Desired reservation date and time
-          example: "2023-03-01T00:00:00"
-        DesiredAdmissionDate:
-          type: string
-          format: date
-          description: Desired admission date
-          example: "2023-03-07"
-        PersonAddress:
-          type: string
-          description: Person's address
-          example: "Tokyo, xxx"
-        PersonNumber:
-          type: integer
-          description: Number of people
-          example: 2
-        ChildNumber:
-          type: integer
-          description: Number of children
-          example: 2
-        MessageToChildcareFacility:
-          type: string
-          description: Message to the childcare facility
-          example: "This is a message"
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "success"
+                  message:
+                    type: string
+                    example: "User login successfully."
+                  data:
+                    type: object
+                    properties:
+                      access_token:
+                        type: string
+                        example: "eyJhbGciOiJIUzI1NiIsInR5cCI..."
+                      token_type:
+                        type: string
+                        example: "bearer"
+                      expires_in:
+                        type: integer
+                        example: 3600
+        "401":
+          description: Sai thông tin đăng nhập
 
-    BookingResponse:
-      type: object
-      properties:
-        ReservationRequiryNumber:
-          type: string
-          description: Reservation request number
-          example: "BK-00000001"
-          maxLength: 80
-        ReservationRequiryStatus:
-          type: string
-          description: Reservation request status
-          example: "仮予約"
-          maxLength: 255
-    TokenResponse:
-      example:
-        access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
-        instance_url: https://test.salesforce.com
-      properties:
-        access_token:
-          description: JWT được tạo để truy cập
-          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
-          type: string
-        instance_url:
-          description: URL của instance Salesforce
-          example: https://test.salesforce.com
-          type: string
-      type: object
-    TokenRequest:
-      properties:
-        grant_type:
-          description: Kiểu grant OAuth2
-          type: string
-        assertion:
-          description: JWT hoặc chứng thực để lấy token
-          type: string
-      required:
-        - assertion
-        - grant_type
-      type: object
+  /auth/logout:
+    post:
+      summary: Đăng xuất người dùng
+      description: Hủy token xác thực hiện tại
+      operationId: logoutUser
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Đăng xuất thành công
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "success"
+                  message:
+                    type: string
+                    example: "Successfully logged out."
+
+  /auth/profile:
+    get:
+      summary: Lấy thông tin người dùng
+      description: Lấy thông tin tài khoản đã xác thực
+      operationId: getUserProfile
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Lấy thông tin thành công
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "success"
+                  message:
+                    type: string
+                    example: "User profile retrieved successfully."
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: "Nguyen Van A"
+                      email:
+                        type: string
+                        example: "user@example.com"
+
+  /auth/refresh:
+    post:
+      summary: Làm mới token
+      description: Tạo lại token xác thực mới
+      operationId: refreshToken
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Token mới được cấp
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "success"
+                  message:
+                    type: string
+                    example: "Refresh token return successfully."
+                  data:
+                    type: object
+                    properties:
+                      access_token:
+                        type: string
+                        example: "eyJhbGciOiJIUzI1NiIsInR5cCI..."
+                      token_type:
+                        type: string
+                        example: "bearer"
+                      expires_in:
+                        type: integer
+                        example: 3600

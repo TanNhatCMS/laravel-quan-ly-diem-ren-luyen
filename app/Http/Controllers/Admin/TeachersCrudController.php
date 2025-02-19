@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\UserProfilesRequest;
+use App\Enums\UserGender;
+use App\Http\Requests\LecturersRequest;
 use App\Models\AcademicDegrees;
+use App\Models\Classes;
+use App\Models\Organizations;
+use App\Models\Positions;
 use App\Models\User;
-use App\Models\UserClasses;
-use App\Models\UserOrganizations;
 use App\Models\UserPosition;
 use App\Models\UserProfiles;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -23,15 +25,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 /**
- * Class UserProfilesCrudController.
+ * Class LecturersCrudController.
  *
  * @property-read CrudPanel $crud
  */
-class UserProfilesCrudController extends CrudController
+class TeachersCrudController extends CrudController
 {
     use ListOperation;
-    use CreateOperation { store as traitStore; }
-    use UpdateOperation { update as traitUpdate; }
+    use CreateOperation {
+        store as traitStore;
+    }
+    use UpdateOperation {
+        update as traitUpdate;
+    }
     use DeleteOperation;
     use ShowOperation;
 
@@ -45,8 +51,8 @@ class UserProfilesCrudController extends CrudController
     public function setup()
     {
         $this->crud->setModel(User::class);
-        CRUD::setRoute(config('backpack.base.route_prefix').'/user-profiles');
-        CRUD::setEntityNameStrings('Hồ sơ', 'Hồ sơ người dùng');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/teachers');
+        CRUD::setEntityNameStrings('Giáo Viên', 'Danh Sách Giáo Viên');
     }
 
     /**
@@ -58,10 +64,15 @@ class UserProfilesCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+        $this->crud->query->whereHas('profile', function ($query) {
+            $query->Where('type', 'teacher');
+        });
+
         $this->crud->addColumn([
             'name' => 'stt',
             'label' => 'STT',
             'type' => 'row_number',
+            'orderable' => false,
         ]);
 
         $this->crud->addColumn([
@@ -83,42 +94,36 @@ class UserProfilesCrudController extends CrudController
         ]);
 
         $this->crud->addColumn([
-            'name' => 'code',
-            'label' => 'Mã Số Sinh Viên',
-            'type' => 'text',
-            'entity' => 'profile',
-            'model' => UserProfiles::class,
-            'attribute' => 'code',
-            'searchLogic' => function ($query, $column, $searchTerm) {
-                $query->where('code', 'like', '%'.$searchTerm.'%');
-            },
+            'name' => 'profile.academicDegree',
+            'label' => 'Trình độ chuyên môn',
+            'type' => 'select',
+            'entity' => 'profile.academicDegree',
+            'attribute' => 'name',
+            'model' => AcademicDegrees::class,
         ]);
 
-//        $this->crud->addColumn([
-//            'name' => 'class_id',
-//            'label' => 'Lớp',
-//            'type' => 'select',
-//            'entity' => 'profile',
-//            'attribute' => 'name',
-//            'model' => UserProfiles::class,
-//        ]);
-
-//        $this->crud->addColumn([
-//            'name' => 'academic_degree_id',
-//            'label' => 'Trình độ chuyên môn',
-//            'type' => 'select',
-//            'entity' => 'academicDegree',
-//            'attribute' => 'name',
-//            'model' => AcademicDegrees::class,
-//        ]);
-//
         $this->crud->addColumn([
             'name' => 'organizations',
             'label' => 'Phòng ban/Khoa',
             'type' => 'select_multiple',
             'entity' => 'organizations',
             'attribute' => 'name',
-            'model' => UserPosition::class,
+            'model' => Organizations::class,
+        ]);
+
+        $this->crud->addColumn([
+            'name' => 'profile.phone_number',
+            'label' => 'Số điện thoại',
+            'type' => 'text',
+        ]);
+
+        $this->crud->addColumn([
+            'name' => 'profile.birth_date',
+            'label' => 'Ngày sinh',
+            'entity' => 'profile',
+            'model' => UserProfiles::class,
+            'attribute' => 'birth_date',
+            'type' => 'date',
         ]);
 
         $this->crud->addColumn([
@@ -128,24 +133,6 @@ class UserProfilesCrudController extends CrudController
             'attribute' => 'name',
             'model' => UserPosition::class,
             'type' => 'select_multiple',
-        ]);
-
-        $this->crud->addColumn([
-            'name' => 'phone_number',
-            'label' => 'Số điện thoại',
-            'entity' => 'profile',
-            'model' => UserProfiles::class,
-            'attribute' => 'code',
-            'type' => 'text',
-        ]);
-
-        $this->crud->addColumn([
-            'name' => 'birth_date',
-            'label' => 'Ngày sinh',
-            'entity' => 'profile',
-            'model' => UserProfiles::class,
-            'attribute' => 'code',
-            'type' => 'date',
         ]);
     }
 
@@ -158,8 +145,8 @@ class UserProfilesCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
+        CRUD::setValidation(LecturersRequest::class);
         $this->addUserFields();
-        $this->crud->setValidation(UserProfilesRequest::class);
     }
 
     /**
@@ -171,8 +158,7 @@ class UserProfilesCrudController extends CrudController
      */
     protected function setupUpdateOperation()
     {
-        $this->addUserFields();
-        $this->crud->setValidation(UserProfilesRequest::class);
+        $this->setupCreateOperation();
     }
 
     /**
@@ -185,10 +171,8 @@ class UserProfilesCrudController extends CrudController
         $this->crud->setRequest($this->crud->validateRequest());
         $this->crud->setRequest($this->handlePasswordInput($this->crud->getRequest()));
         $this->crud->unsetValidation();
-        $response = $this->traitStore();
-        $this->saveRelatedModels($this->crud->entry);
 
-        return $response;
+        return $this->traitStore();
     }
 
     /**
@@ -202,40 +186,7 @@ class UserProfilesCrudController extends CrudController
         $this->crud->setRequest($this->handlePasswordInput($this->crud->getRequest()));
         $this->crud->unsetValidation();
 
-        $response = $this->traitUpdate();
-
-        $this->saveRelatedModels($this->crud->entry);
-
-        return $response;
-    }
-
-    private function saveRelatedModels(UserProfiles $profile)
-    {
-        $userId = $profile->user_id;
-        $classId = request()->input('class_id');
-        $organizationId = request()->input('organization_id');
-        $positionId = request()->input('position_id');
-
-        // Cập nhật UserClasses
-        if ($classId) {
-            UserClasses::updateOrCreate(
-                ['user_id' => $userId, 'class_id' => $classId]
-            );
-        }
-
-        // Cập nhật UserOrganizations
-        if ($organizationId) {
-            UserOrganizations::updateOrCreate(
-                ['user_id' => $userId, 'organization_id' => $organizationId]
-            );
-        }
-
-        // Cập nhật UserPosition
-        if ($positionId) {
-            UserPosition::updateOrCreate(
-                ['user_id' => $userId, 'position_id' => $positionId]
-            );
-        }
+        return $this->traitUpdate();
     }
 
     private function addUserFields()
@@ -247,18 +198,14 @@ class UserProfilesCrudController extends CrudController
                 'type' => 'text',
             ],
             [
-                'name' => 'code',
-                'label' => 'Mã Số Sinh Viên',
-                'type' => 'text',
-            ],
-            [
                 'name' => 'email',
                 'label' => 'Email',
                 'type' => 'email',
             ],
             [
-                'name' => 'phone_number',
+                'name' => 'profile.phone_number',
                 'label' => 'Số điện thoại',
+                'entity' => 'profile.phone_number',
                 'type' => 'text',
             ],
             [
@@ -272,15 +219,50 @@ class UserProfilesCrudController extends CrudController
                 'type' => 'password',
             ],
             [
-                'name' => 'birth_date',
+                'name' => 'profile.birth_date',
                 'label' => 'Ngày sinh',
+                'entity' => 'profile.birth_date',
                 'type' => 'date',
             ],
             [
-                'name' => 'gender',
+                'name' => 'profile.gender',
                 'label' => 'Giới tính',
                 'type' => 'select_from_array',
-                'options' => ['Nam' => 'Nam', 'Nữ' => 'Nữ', 'Khác' => 'Khác'],
+                'options' => collect(UserGender::cases())->mapWithKeys(fn ($g) => [$g->value => $g->toVN()])->toArray(),
+                'allows_null' => false,
+                'default' => UserGender::OTHER->value,
+            ],
+            [
+                'name' => 'profile.academicDegree',
+                'label' => 'Trình độ chuyên môn',
+                'type' => 'select',
+                'entity' => 'profile.academicDegree',
+                'attribute' => 'name',
+                'model' => AcademicDegrees::class,
+            ],
+            [
+                'name' => 'organizations',
+                'label' => 'Phòng ban/Khoa',
+                'type' => 'checklist',
+                'entity' => 'organizations',
+                'attribute' => 'name',
+                'model' => Organizations::class,
+            ],
+            [
+                'name' => 'positions',
+                'label' => 'Chức vụ',
+                'type' => 'checklist',
+                'entity' => 'positions',
+                'attribute' => 'name',
+                'model' => Positions::class,
+            ],
+            [
+                'name' => 'class',
+                'label' => 'Quản Lý Lớp',
+                'type' => 'checklist',
+                'attribute' => 'name',
+                'entity' => 'class',
+                'model' => Classes::class,
             ],
             [
                 // two interconnected entities
@@ -311,6 +293,12 @@ class UserProfilesCrudController extends CrudController
                     ],
                 ],
             ],
+            [
+                'name' => 'profile.type',
+                'type' => 'hidden',
+                'value' => 'teacher',
+                'entity' => 'profile.type',
+            ],
         ]);
     }
 
@@ -326,7 +314,7 @@ class UserProfilesCrudController extends CrudController
 
         // Encrypt password if specified.
         if ($request->input('password')) {
-            $request->request->set('password', Hash::make($request->input('password')));
+            $request->merge(['password' => Hash::make($request->input('password'))]);
         } else {
             $request->request->remove('password');
         }

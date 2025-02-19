@@ -5,25 +5,30 @@ return [
     'documentations' => [
         'default' => [
             'api' => [
-                'title' => 'Quản lý điểm rèn luyện API',
+                'title' => 'Swagger API Documentation LMS CMS',
             ],
 
             'routes' => [
                 /*
                  * Route for accessing api documentation interface
                  */
-                'api' => 'docs',
+                'api' => 'api/documentation',
             ],
             'paths' => [
                 /*
                  * Edit to include full URL in ui for assets
                  */
-                'use_absolute_path' => env('L5_SWAGGER_USE_ABSOLUTE_PATH', true),
+                'use_absolute_path' => env('L5_SWAGGER_USE_ABSOLUTE_PATH', false),
+
+                /*
+                * Edit to set path where swagger ui assets should be stored
+                */
+                'swagger_ui_assets_path' => env('L5_SWAGGER_UI_ASSETS_PATH', 'vendor/swagger-api/swagger-ui/dist/'),
 
                 /*
                  * File name of the generated json documentation file
                  */
-                'docs_json' => 'swagger.json',
+                'docs_json' => 'api-docs.json',
 
                 /*
                  * File name of the generated YAML documentation file
@@ -62,8 +67,7 @@ return [
             'middleware' => [
                 'api' => [],
                 'asset' => [],
-                'docs' => [
-                ],
+                'docs' => [],
                 'oauth2_callback' => [],
             ],
 
@@ -88,11 +92,6 @@ return [
              * Edit to set the api's base path
              */
             'base' => env('L5_SWAGGER_BASE_PATH', null),
-
-            /*
-             * Edit to set path where swagger ui assets should be stored
-             */
-            'swagger_ui_assets_path' => env('L5_SWAGGER_UI_ASSETS_PATH', 'vendor/swagger-api/swagger-ui/dist/'),
 
             /*
              * Absolute path to directories that should be excluded from scanning

@@ -5,10 +5,8 @@ namespace App\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Organizations extends Model
+class Faculty extends Model
 {
     use CrudTrait;
     use HasFactory;
@@ -19,15 +17,13 @@ class Organizations extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'organizations';
+    protected $table = 'faculties';
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
-    protected $fillable = ['name', 'type'];
+    // protected $fillable = [];
     // protected $hidden = [];
-//    protected $casts = [
-//        'type' => 'enum:department,faculty',
-//    ];
+
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS
@@ -39,11 +35,6 @@ class Organizations extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-
-    public function users(): BelongsToMany
-    {
-        return $this->belongsToMany(User::class, 'user_organizations');
-    }
 
     /*
     |--------------------------------------------------------------------------
@@ -62,14 +53,4 @@ class Organizations extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
-
-    public function majors(): HasMany
-    {
-        return $this->hasMany(Majors::class, 'organization_id');
-    }
-
-    public function classes(): HasMany
-    {
-        return $this->hasMany(Classes::class, 'organization_id');
-    }
 }

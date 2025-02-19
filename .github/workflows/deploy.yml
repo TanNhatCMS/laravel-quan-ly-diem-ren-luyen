@@ -17,14 +17,9 @@ on:
         type: string
       ssh_host: 
         required: true
-        type: string
-      github_token: 
-        required: true
-        type: string
-
 jobs:
   deploy:
-    runs-on: [self-hosted, ansible]
+    runs-on: [self-hosted, Linux, X64, vps]
     environment: ${{ inputs.environment }}
     env:
       PATH_TO_REPO: ${{ inputs.path_to_repo }}
@@ -34,50 +29,28 @@ jobs:
       SSH_VPS_HOST: ${{ inputs.ssh_host }}
       GITHUB_TOKEN: ${{ inputs.github_token }}
     steps:
-      - name: Specify Ref
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}  # Không cần khai báo trong secrets workflow_call
+
+      - name: Determine branch/tag
         id: specify-ref
         run: |
-          case "${{ github.ref_type }}" in
-              "branch" ) REF=${{ github.ref_name }};;
-              "tag" ) REF=${{ github.ref_name }};;
-          esac
-          if [ "${{ github.workflow }}" = "PRD Deploy" ]; then
-            echo "INFO: PRD Deploy main"
-            REF=main
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            REF=${{ github.ref_name }}
+          else
+            REF="main"
           fi
-          echo "REF=$REF" >> $GITHUB_OUTPUT
+          echo "REF=$REF" >> $GITHUB_ENV
 
-      - name: Create Deployment
-        id: create_deployment
+      - name: SSH into server and deploy
+        env:
+          SSH: ssh -T root@vps.mrkiet.name.vn
         run: |
-          DEPLOYMENT_ID=$(curl -X POST -H "Authorization: token ${{ env.GITHUB_TOKEN }}" \
-               -H "Accept: application/vnd.github.v3+json" \
-               https://api.github.com/repos/${{ github.repository }}/deployments \
-               -d '{
-                    "ref": "${{ github.ref }}",
-                    "auto_merge": false,
-                    "required_contexts": [],
-                    "environment": "${{ env.ENVIRONMENT }}",
-                    "production_environment": ${ { env.ENVIRONMENT == 'Production' }},
-                    "auto_deployment": true,
-                    "description": "Deploying to ${{ env.ENVIRONMENT }} server"
-                  }' | jq -r .id)
-
-          echo "DEPLOYMENT_ID=$DEPLOYMENT_ID" >> $GITHUB_ENV
-
-      - name: Deploy Code
-        run: |
-          ssh -T ${{ env.SSH_USER }}@${{ env.SSH_VPS_HOST }} << EOF
-            set -e
-            if [ ! -d "${{ env.PATH_TO_REPO }}/.git" ]; then
-              echo "Cloning repository..."
-              git clone git@github.com:${{ github.repository }}.git ${{ env.PATH_TO_REPO }}
-            fi
-            cd ${{ env.PATH_TO_REPO }}
-            git fetch --all
-            git checkout ${{ steps.specify-ref.outputs.REF }}
-            git pull origin ${{ steps.specify-ref.outputs.REF }}
-          EOF
+          ${{ env.SSH }} git -C ${{ env.PATH_TO_REPO }} fetch --all
+          ${{ env.SSH }} git -C ${{ env.PATH_TO_REPO }} checkout --force ${{ steps.specify-ref.outputs.REF }}
+          ${{ env.SSH }} git -C ${{ env.PATH_TO_REPO }} pull
 
       - name: Mark Deployment as Successful
         if: success()

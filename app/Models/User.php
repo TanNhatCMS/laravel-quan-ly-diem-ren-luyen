@@ -10,15 +10,18 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     use CrudTrait;
     use HasRoles;
     use HasFactory;
     use Notifiable;
     use HasApiTokens;
+
+    protected $primaryKey = 'id';
     /**
      * The attributes that are mass assignable.
      *
@@ -58,7 +61,7 @@ class User extends Authenticatable
      *
      * @return mixed
      */
-    public function getJWTIdentifier()
+    public function getJWTIdentifier(): mixed
     {
         return $this->getKey();
     }
@@ -68,7 +71,7 @@ class User extends Authenticatable
      *
      * @return array
      */
-    public function getJWTCustomClaims()
+    public function getJWTCustomClaims(): array
     {
         return [];
     }
@@ -78,7 +81,7 @@ class User extends Authenticatable
         return $this->belongsToMany(Positions::class, 'user_positions', 'user_id', 'position_id');
     }
 
-    public function classes(): BelongsToMany
+    public function class(): BelongsToMany
     {
         return $this->belongsToMany(Classes::class, 'user_classes', 'user_id', 'class_id');
     }

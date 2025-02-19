@@ -16,8 +16,9 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('code')->nullable();
             $table->date('birth_date')->nullable();
-            $table->enum('gender', ['Nam', 'Nữ', 'Khác'])->nullable();
-            $table->string('email')->nullable();
+            $table->enum('gender', ['male', 'female', 'other'])->default('other');
+            $table->enum('type', ['student', 'teacher'])->nullable();
+            $table->enum('education_system', ['TH', 'CD', 'CL'])->nullable();
             $table->string('phone_number')->nullable();
             $table->foreignId('academic_degree_id')->nullable()->constrained('academic_degrees')->onDelete('set null');
             $table->foreignId('class_id')->nullable()->constrained('classes')->onDelete('set null');

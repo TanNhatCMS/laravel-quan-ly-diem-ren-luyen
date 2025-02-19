@@ -6,6 +6,7 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Classes extends Model
 {
@@ -22,7 +23,7 @@ class Classes extends Model
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
-    protected $fillable = ['name', 'organization_id', 'major_id', 'academic_year_id'];
+    protected $fillable = ['name', 'organization_id', 'major_id', 'course_id'];
     // protected $hidden = [];
 
     /*
@@ -65,13 +66,18 @@ class Classes extends Model
         return $this->belongsTo(Majors::class, 'major_id');
     }
 
-    public function academicYear(): BelongsTo
+    public function course(): BelongsTo
     {
-        return $this->belongsTo(AcademicYears::class, 'academic_year_id');
+        return $this->belongsTo(Course::class, 'course_id');
+    }
+
+    public function userClasses(): HasMany
+    {
+        return $this->hasMany(UserClasses::class, 'class_id');
     }
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'user_classes')->withTimestamps();
+        return $this->belongsToMany(User::class, 'user_classes');
     }
 }
