@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        if (!DB::table('users')->where('id', 1)->exists()) {
+        if (! DB::table('users')->where('id', 1)->exists()) {
             DB::table('users')->insert([
                 'id' => 1,
                 'name' => 'Super Admin',
