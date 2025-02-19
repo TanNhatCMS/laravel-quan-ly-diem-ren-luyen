@@ -3,23 +3,17 @@
 @php
 $userCount = App\Models\User::count();
 
-Widget::add()->to('after_content')->type('div')->class('row mt-3')->content([
-// notice we use Widget::make() to add widgets as content (not in a group)
-Widget::make()
-->type('card')
-->class('text-white bg-primary mb-2')
-->content([
-'header' => 'Người dùng đã đăng ký',
-'body'   => $userCount,
-])
-]);
-Widget::add()->type('script')->content('https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js');
-Widget::add()->type('script')->content('https://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js');
-Widget::add()->type('script')
-->content('https://cdnjs.cloudflare.com/ajax/libs/Counter-Up/1.0.0/jquery.counterup.min.js')
-->integrity('sha512-d8F1J2kyiRowBB/8/pAWsqUl0wSEOkG5KATkVV4slfblq9VRQ6MyDZVxWl2tWd+mPhuCbpTB4M7uU/x9FlgQ9Q==')
-->crossorigin('anonymous')
-->referrerpolicy('no-referrer');
+$userStudent = App\Models\User::whereHas('profile', function ($query) {
+    $query->where('type', 'student');
+})->count();
+
+$userTeacher = App\Models\User::whereHas('profile', function ($query) {
+    $query->where('type', 'teacher');
+})->count();
+
+$facultyCount = App\Models\Organizations::where('type', 'faculty')->count();
+$departmentCount = App\Models\Organizations::where('type', 'department')->count();
+$classCount = App\Models\Classes::count();
 
 $widgets['before_content'][] = [
 'type'         => 'alert',
@@ -33,145 +27,118 @@ $widgets['before_content'][] = [
 
 
 @push('after_styles')
-<style>
-    .card-counter {
-        box-shadow: 2px 2px 10px #DADADA;
-        margin: 5px 0;
-        padding: 20px 10px;
-        background-color: #fff;
-        height: 100px;
-        border-radius: 5px;
-        transition: .3s linear all;
-    }
 
-    .card-counter:hover {
-        box-shadow: 4px 4px 20px #DADADA;
-        transition: .3s linear all;
-    }
-
-    .card-counter.primary {
-        background-color: #007bff;
-        color: #FFF;
-    }
-
-    .card-counter.danger {
-        background-color: #ef5350;
-        color: #FFF;
-    }
-
-    .card-counter.success {
-        background-color: #66bb6a;
-        color: #FFF;
-    }
-
-    .card-counter.info {
-        background-color: #26c6da;
-        color: #FFF;
-    }
-
-    .card-counter i {
-        font-size: 5em;
-        opacity: 0.2;
-    }
-
-    .card-counter .count-numbers {
-        position: absolute;
-        right: 35px;
-        top: 20px;
-        font-size: 32px;
-        display: block;
-    }
-
-    .card-counter .count-name {
-        position: absolute;
-        right: 35px;
-        top: 65px;
-        font-style: italic;
-        text-transform: capitalize;
-        opacity: 0.5;
-        display: block;
-        font-size: 18px;
-    }
-</style>
 @endpush
 @section('content')
-<script>
-    jQuery(document).ready(function($) {
-        $('.counter').counterUp({
-            delay: 10,
-            time: 500
-        });
-    });
-</script>
 <style>
     .card-counter {
         box-shadow: 2px 2px 10px #DADADA;
-        margin: 5px 0;
-        padding: 20px 10px;
+        padding: 20px;
         background-color: #fff;
-        height: 100px;
-        border-radius: 5px;
-        transition: .3s linear all;
+        height: 120px;
+        border-radius: 10px;
+        transition: 0.3s ease-in-out;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        position: relative;
     }
 
     .card-counter:hover {
         box-shadow: 4px 4px 20px #DADADA;
-        transition: .3s linear all;
-    }
-
-    .card-counter.primary {
-        background-color: #007bff;
-        color: #FFF;
-    }
-
-    .card-counter.danger {
-        background-color: #ef5350;
-        color: #FFF;
-    }
-
-    .card-counter.success {
-        background-color: #66bb6a;
-        color: #FFF;
-    }
-
-    .card-counter.info {
-        background-color: #26c6da;
-        color: #FFF;
     }
 
     .card-counter i {
-        font-size: 5em;
-        opacity: 0.2;
+        font-size: 2.5rem;
+        opacity: 0.6;
     }
 
-    .card-counter .count-numbers {
-        position: absolute;
-        right: 35px;
-        top: 20px;
-        font-size: 32px;
-        display: block;
+    .count-numbers {
+        font-size: 28px;
+        font-weight: bold;
+        margin-top: 5px;
     }
 
-    .card-counter .count-name {
-        position: absolute;
-        right: 35px;
-        top: 65px;
-        font-style: italic;
-        text-transform: capitalize;
-        opacity: 0.5;
-        display: block;
-        font-size: 18px;
+    .count-name {
+        font-size: 16px;
+        opacity: 0.7;
+    }
+
+    .primary {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .info {
+        background-color: #17a2b8;
+        color: white;
+    }
+
+    .danger {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .success {
+        background-color: #28a745;
+        color: white;
     }
 </style>
-<div class="row">
-    <div class="col-md-2">
-        <div class="card-counter success">
-            <i class="las la-user"></i>
-            <span class="count-numbers counter">{{ $userCount }}</span>
-            <span class="count-name">Người dùng</span>
+<div class="container mt-4">
+    <div class="row g-3">
+
+        <div class="col-6 col-sm-4 col-md-2">
+            <div class="card-counter success">
+                <i class="fas fa-user"></i>
+                <span class="count-numbers counter">{{$userCount}}</span>
+                <span class="count-name">Tổng Tài khoản người dùng</span>
+            </div>
+        </div>
+
+
+        <div class="col-6 col-sm-4 col-md-2">
+            <div class="card-counter primary">
+                <i class="fas fa-film"></i>
+                <span class="count-numbers counter">{{$userStudent}}</span>
+                <span class="count-name">Tổng sinh viên</span>
+            </div>
+        </div>
+
+        <div class="col-6 col-sm-4 col-md-2">
+            <div class="card-counter info">
+                <i class="fas fa-server"></i>
+                <span class="count-numbers counter">{{$userTeacher}}</span>
+                <span class="count-name">Tổng giáo viên</span>
+            </div>
+        </div>
+
+        <div class="col-6 col-sm-4 col-md-2">
+            <div class="card-counter danger">
+                <i class="fas fa-bug"></i>
+                <span class="count-numbers counter">{{$facultyCount}}</span>
+                <span class="count-name">Tổng Khoa</span>
+            </div>
+        </div>
+
+        <div class="col-6 col-sm-4 col-md-2">
+            <div class="card-counter primary">
+                <i class="fas fa-paint-brush"></i>
+                <span class="count-numbers counter">{{$departmentCount}}</span>
+                <span class="count-name">Tổng Phòng</span>
+            </div>
+        </div>
+
+        <div class="col-6 col-sm-4 col-md-2">
+            <div class="card-counter">
+                <i class="fas fa-puzzle-piece"></i>
+                <span class="count-numbers">{{$classCount}}</span>
+                <span class="count-name">Tổng lớp</span>
+            </div>
         </div>
     </div>
 </div>
-    {{-- In case widgets have been added to a 'content' group, show those widgets. --}}
-    @include(backpack_view('inc.widgets'), [ 'widgets' => app('widgets')->where('group', 'content')->toArray() ])
+{{-- In case widgets have been added to a 'content' group, show those widgets. --}}
+@include(backpack_view('inc.widgets'), [ 'widgets' => app('widgets')->where('group', 'content')->toArray() ])
 @endsection

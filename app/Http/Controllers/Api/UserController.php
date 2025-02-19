@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\RoleChangeRequest;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -90,10 +89,10 @@ class UserController extends BaseController
      * Change User Role.
      *
      * @param  int  $id
-     * @param  RoleChangeRequest  $request
+     * @param  Request  $request
      * @return JsonResponse
      */
-    public function changeRole($id, RoleChangeRequest $request): JsonResponse
+    public function changeRole($id, Request $request): JsonResponse
     {
         if ($user = User::find($id)) {
             // assign role to user
