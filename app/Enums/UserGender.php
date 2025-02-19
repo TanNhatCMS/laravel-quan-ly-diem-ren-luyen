@@ -4,9 +4,10 @@ namespace App\Enums;
 
 enum UserGender: string
 {
-    case OTHER = 'Khác';
-    case MALE = 'Nam';
-    case FEMALE = 'Nữ';
+
+    case MALE = 'male';
+    case FEMALE = 'female';
+    case OTHER = 'other';
 
     public function toVN(): string
     {

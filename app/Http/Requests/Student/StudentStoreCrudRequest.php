@@ -25,7 +25,7 @@ class StudentStoreCrudRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'code' => 'unique:user_profiles,code',
+            'profile.code' => 'required|unique:user_profiles,code',
             'email' => 'required|unique:'.config('backpack.permissionmanager.models.user', 'users').',email',
             'name' => 'required',
             'password' => 'required|confirmed',
@@ -40,7 +40,15 @@ class StudentStoreCrudRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'code.unique' => 'Mã sinh viên đã tồn tại',
+            'profile.code.unique' => 'Mã sinh viên đã tồn tại',
+            'profile.code.required' => 'Mã sinh viên không được để trống',
+            'email.required' => 'Email không được để trống',
+            'email.unique' => 'Email đã tồn tại',
+            'name.required' => 'Tên sinh viên không được để trống',
+            'password.required' => 'Mật khẩu không được để trống',
+            'password.confirmed' => 'Mật khẩu không khớp',
+            'password.min' => 'Mật khẩu phải có ít nhất 8 ký tự',
+            'password.max' => 'Mật khẩu không được vượt quá 255 ký tự'
         ];
     }
 }

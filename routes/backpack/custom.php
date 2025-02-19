@@ -28,7 +28,7 @@ Route::group([
     Route::crud('organizations', 'OrganizationsCrudController');
     Route::crud('majors', 'MajorsCrudController');
     Route::crud('classes', 'ClassesCrudController');
-    Route::crud('academic-years', 'AcademicYearsCrudController');
+    Route::crud('course', 'CourseCrudController');
     Route::crud('students', 'StudentsCrudController');
     Route::crud('teachers', 'TeachersCrudController');
     Route::crud('academic-degrees', 'AcademicDegreesCrudController');
@@ -37,6 +37,8 @@ Route::group([
     Route::crud('user-organizations', 'UserOrganizationsCrudController');
     Route::crud('user-classes', 'UserClassesCrudController');
     Route::crud('user-profiles', 'UserProfilesCrudController');
+    Route::crud('faculty', 'FacultyCrudController');
+    Route::crud('department', 'DepartmentCrudController');
 }); // this should be the absolute last line of this file
 
 /**

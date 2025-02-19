@@ -24,7 +24,7 @@ class UserProfiles extends Model
     */
 
     protected $table = 'user_profiles';
-    // protected $primaryKey = 'id';
+    protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
     protected $fillable = [
@@ -36,6 +36,7 @@ class UserProfiles extends Model
         'academic_degree_id',
         'class_id',
         'type',
+        'education_system',
     ];
 
     protected $hidden = [];
@@ -110,47 +111,10 @@ class UserProfiles extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function getGenderAttribute($value): string
-    {
-        $gender = UserGender::from(strtolower($value));
-        $language = app()->getLocale();
-
-        return $language === 'en' ? $gender->toEN() : $gender->toVN();
-    }
-
-    public function getTypeAttribute($value): string
-    {
-        $type = UserType::from(strtolower($value));
-        $language = app()->getLocale();
-
-        return $language === 'en' ? $type->toEN() : $type->toVN();
-    }
-
-    public function getEducationSystemAttribute($value): string
-    {
-        $educationSystem = EducationSystem::from(strtoupper($value));
-        $language = app()->getLocale();
-
-        return $language === 'en' ? $educationSystem->toEN() : $educationSystem->toVN();
-    }
     /*
     |--------------------------------------------------------------------------
     | MUTATORS
     |--------------------------------------------------------------------------
     */
 
-    public function setGenderAttribute($value): void
-    {
-        $this->attributes['gender'] = UserGender::from(strtolower($value))->value;
-    }
-
-    public function setTypeAttribute($value): void
-    {
-        $this->attributes['type'] = UserType::from(strtolower($value))->value;
-    }
-
-    public function setEducationSystemAttribute($value): void
-    {
-        $this->attributes['education_system'] = EducationSystem::from(strtoupper($value))->value;
-    }
 }

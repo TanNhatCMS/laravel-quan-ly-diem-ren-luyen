@@ -6,6 +6,8 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -80,7 +82,7 @@ class User extends Authenticatable
         return $this->belongsToMany(Positions::class, 'user_positions', 'user_id', 'position_id');
     }
 
-    public function classes(): BelongsToMany
+    public function class(): BelongsToMany
     {
         return $this->belongsToMany(Classes::class, 'user_classes', 'user_id', 'class_id');
     }

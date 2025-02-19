@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\ClassesRequest;
-use App\Models\AcademicYears;
+use App\Models\Course;
 use App\Models\Classes;
 use App\Models\Majors;
 use App\Models\Organizations;
@@ -50,7 +50,14 @@ class ClassesCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        //CRUD::setFromDb(); // set columns from db columns.
+
+        $this->crud->addColumn([
+            'name' => 'stt',
+            'label' => 'STT',
+            'type' => 'row_number',
+            'orderable' => false,
+        ]);
+
         $this->crud->addColumn([
             'name' => 'name',
             'label' => 'Tên Lớp',
@@ -60,12 +67,23 @@ class ClassesCrudController extends CrudController
             },
         ]);
         $this->crud->addColumn([
-            'name' => 'academicYear',
-            'label' => 'Niên Khóa',
+            'name' => 'course',
+            'label' => 'Khóa',
             'type' => 'select',
-            'entity' => 'academicYear',
-            'attribute' => 'year',
+            'entity' => 'course',
+            'attribute' => 'name',
         ]);
+
+        $this->crud->addColumn([
+            'name' => 'course_year',
+            'label' => 'Niên Khóa',
+            'type' => 'text',
+            'entity' => 'course',
+            'value' => function ($entry) {
+                return $entry->course->year_start . ' - ' . $entry->course->year_end;
+            },
+        ]);
+
         $this->crud->addColumn([
             'name' => 'major',
             'label' => 'Chuyên Ngành',
@@ -80,19 +98,6 @@ class ClassesCrudController extends CrudController
             'entity' => 'organization',
             'attribute' => 'name',
         ]);
-//        $this->crud->addColumn([
-//            'name' => 'organization',
-//            'label' => 'Khoa',
-//            'type' => 'select',
-//            'entity' => 'department',
-//            'attribute' => 'name',
-//            'visibleInTable' => true,
-//            'visibleInModal' => false,
-//        ]);
-        /**
-         * Columns can be defined using the fluent syntax:
-         * - CRUD::column('price')->type('number');
-         */
     }
 
     /**
@@ -121,10 +126,10 @@ class ClassesCrudController extends CrudController
         ]);
 
         $this->crud->addField([
-            'name' => 'academicYear',
+            'name' => 'course',
             'label' => 'Niên Khóa',
             'type' => 'select_from_array',
-            'options' => AcademicYears::all()->pluck('year', 'id')->toArray(),
+            'options' => Course::all()->pluck('name', 'id')->toArray(),
         ]);
 
         $this->crud->addField([
@@ -134,10 +139,6 @@ class ClassesCrudController extends CrudController
             'placeholder' => 'Nhập tên lớp',
         ]);
 
-        /**
-         * Fields can be defined using the fluent syntax:
-         * - CRUD::field('price')->type('number');
-         */
     }
 
     /**
