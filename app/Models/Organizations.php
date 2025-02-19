@@ -5,6 +5,7 @@ namespace App\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Organizations extends Model
@@ -39,6 +40,11 @@ class Organizations extends Model
     |--------------------------------------------------------------------------
     */
 
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'user_organizations');
+    }
+
     /*
     |--------------------------------------------------------------------------
     | SCOPES
@@ -66,4 +72,6 @@ class Organizations extends Model
     {
         return $this->hasMany(Classes::class, 'organization_id');
     }
+
+
 }

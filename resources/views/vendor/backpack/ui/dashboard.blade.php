@@ -18,7 +18,7 @@ $classCount = App\Models\Classes::count();
 $widgets['before_content'][] = [
 'type'         => 'alert',
 'class' => 'alert alert-info  mb-2 col-12',
-'heading' =>'QUẢN LÝ ĐIỂM RÈN LUYỆN SINH VIÊN',
+'heading' =>'QUẢN LÝ SINH VIÊN',
 'content' =>'Phiên bản LMS: <span class="text-danger text-break"> </span>'.get_lms_version().'<br>Phiên bản CRUD:<span
     class="text-danger text-break"> '.get_crud_version().' </span>',
 'close_button' => true,

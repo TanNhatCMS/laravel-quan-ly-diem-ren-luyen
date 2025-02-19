@@ -51,7 +51,7 @@ class StudentsCrudController extends CrudController
     public function setup()
     {
         $this->crud->setModel(User::class);
-        CRUD::setRoute(config('backpack.base.route_prefix').'/students');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/students');
         CRUD::setEntityNameStrings('Sinh Viên', 'Danh Sách Sinh Viên');
     }
 
@@ -80,7 +80,7 @@ class StudentsCrudController extends CrudController
             'label' => 'Tên',
             'type' => 'text',
             'searchLogic' => function ($query, $column, $searchTerm) {
-                $query->where('name', 'like', '%'.$searchTerm.'%');
+                $query->where('name', 'like', '%' . $searchTerm . '%');
             },
         ]);
 
@@ -93,7 +93,7 @@ class StudentsCrudController extends CrudController
             'model' => UserProfiles::class,
             'searchLogic' => function ($query, $column, $searchTerm) {
                 $query->whereHas('profile', function ($query) use ($searchTerm) {
-                    $query->where('code', 'like', '%'.$searchTerm.'%');
+                    $query->where('code', 'like', '%' . $searchTerm . '%');
                 });
             },
         ]);
@@ -103,7 +103,7 @@ class StudentsCrudController extends CrudController
             'label' => 'Email',
             'type' => 'email',
             'searchLogic' => function ($query, $column, $searchTerm) {
-                $query->where('email', 'like', '%'.$searchTerm.'%');
+                $query->where('email', 'like', '%' . $searchTerm . '%');
             },
         ]);
 
@@ -253,7 +253,7 @@ class StudentsCrudController extends CrudController
                 'name' => 'profile.gender',
                 'label' => 'Giới tính',
                 'type' => 'select_from_array',
-                'options' => collect(UserGender::cases())->mapWithKeys(fn ($g) => [$g->value => $g->toVN()])->toArray(),
+                'options' => collect(UserGender::cases())->mapWithKeys(fn($g) => [$g->value => $g->toVN()])->toArray(),
                 'allows_null' => false,
                 'default' => UserGender::OTHER->value,
             ],
@@ -280,16 +280,44 @@ class StudentsCrudController extends CrudController
                 'entity' => 'class',
                 'model' => Classes::class,
             ],
-            //            [
-            //                'name' => 'profile.education_system',
-            //                'label' => 'Hệ đào tạo',
-            //                'type' => 'select_from_array',
-            //                'entity' => 'profile',
-            //                'attribute' => 'education_system',
-            //                'options' => collect(EducationSystem::cases())->mapWithKeys(fn($g) => [$g->value => $g->toVN()])->toArray(),
-            //                'allows_null' => false,
-            //                'default' => EducationSystem::CD->value,
-            //            ],
+            [
+                'name' => 'profile.education_system',
+                'label' => 'Hệ đào tạo',
+                'type' => 'select_from_array',
+                'entity' => 'profile.education_system',
+                'options' => collect(EducationSystem::cases())->mapWithKeys(fn($g) => [$g->value => $g->toVN()])->toArray(),
+                'allows_null' => false,
+                'default' => EducationSystem::CD->value,
+            ],
+            [
+                // two interconnected entities
+                'label' => trans('backpack::permissionmanager.user_role_permission'),
+                'field_unique_name' => 'user_role_permission',
+                'type' => 'checklist_dependency',
+                'name' => 'roles,permissions',
+                'subfields' => [
+                    'primary' => [
+                        'label' => trans('backpack::permissionmanager.roles'),
+                        'name' => 'roles', // the method that defines the relationship in your Model
+                        'entity' => 'roles', // the method that defines the relationship in your Model
+                        'entity_secondary' => 'permissions', // the method that defines the relationship in your Model
+                        'attribute' => 'name', // foreign key attribute that is shown to user
+                        'model' => config('permission.models.role'), // foreign key model
+                        'pivot' => true, // on create&update, do you need to add/delete pivot table entries?]
+                        'number_columns' => 3, //can be 1,2,3,4,6
+                    ],
+                    'secondary' => [
+                        'label' => mb_ucfirst(trans('backpack::permissionmanager.permission_plural')),
+                        'name' => 'permissions', // the method that defines the relationship in your Model
+                        'entity' => 'permissions', // the method that defines the relationship in your Model
+                        'entity_primary' => 'roles', // the method that defines the relationship in your Model
+                        'attribute' => 'name', // foreign key attribute that is shown to user
+                        'model' => config('permission.models.permission'), // foreign key model
+                        'pivot' => true, // on create&update, do you need to add/delete pivot table entries?]
+                        'number_columns' => 3, //can be 1,2,3,4,6
+                    ],
+                ],
+            ],
             [
                 'name' => 'profile.type',
                 'type' => 'hidden',

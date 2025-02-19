@@ -5,6 +5,7 @@ namespace App\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Positions extends Model
 {
@@ -36,6 +37,11 @@ class Positions extends Model
     |--------------------------------------------------------------------------
     */
 
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'user_positions');
+    }
+
     /*
     |--------------------------------------------------------------------------
     | SCOPES
@@ -53,8 +59,5 @@ class Positions extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
-    public function users()
-    {
-        return $this->belongsToMany(User::class, 'user_positions')->withTimestamps();
-    }
+
 }

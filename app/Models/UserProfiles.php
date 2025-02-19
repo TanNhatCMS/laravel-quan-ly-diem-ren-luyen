@@ -42,9 +42,9 @@ class UserProfiles extends Model
     protected $hidden = [];
 
     protected $casts = [
-        'gender' => UserGender::class,
-        'type' => UserType::class,
-        'education_system' => EducationSystem::class,
+        //'gender' => UserGender::class,
+        //'type' => UserType::class,
+        //'education_system' => EducationSystem::class,
     ];
 
     /*
@@ -79,9 +79,9 @@ class UserProfiles extends Model
         return $this->hasMany(UserClasses::class, 'user_id', 'user_id');
     }
 
-    public function userOrganizations(): HasMany
+    public function userOrganizations(): belongsTo
     {
-        return $this->hasMany(UserOrganizations::class, 'user_id', 'user_id');
+        return $this->belongsTo(UserOrganizations::class, 'user_id');
     }
 
     public function userPositions(): HasMany
