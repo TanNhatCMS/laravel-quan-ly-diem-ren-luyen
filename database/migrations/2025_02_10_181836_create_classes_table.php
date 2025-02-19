@@ -16,7 +16,7 @@ return new class() extends Migration
             $table->string('name');
             $table->foreignId('organization_id')->constrained('organizations')->onDelete('cascade');
             $table->foreignId('major_id')->constrained('majors')->onDelete('cascade');
-            $table->foreignId('academic_year_id')->constrained('academic_years')->onDelete('cascade');
+            $table->foreignId('course_id')->constrained('courses')->onDelete('cascade');
             $table->timestamps();
         });
     }

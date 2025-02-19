@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\AcademicYearsRequest;
-use App\Models\AcademicYears;
+use App\Models\Course;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
@@ -18,7 +18,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
  *
  * @property-read CrudPanel $crud
  */
-class AcademicYearsCrudController extends CrudController
+class CourseCrudController extends CrudController
 {
     use ListOperation;
     use CreateOperation;
@@ -33,8 +33,8 @@ class AcademicYearsCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(AcademicYears::class);
-        CRUD::setRoute(config('backpack.base.route_prefix').'/academic-years');
+        CRUD::setModel(Course::class);
+        CRUD::setRoute(config('backpack.base.route_prefix').'/course');
         CRUD::setEntityNameStrings('Niên Khoá', 'Danh Sách Niên Khoá');
     }
 
@@ -48,15 +48,27 @@ class AcademicYearsCrudController extends CrudController
     protected function setupListOperation()
     {
         $this->crud->addColumn([
-            'name' => 'year',
-            'label' => 'Niên Khoá',
+            'name' => 'stt',
+            'label' => 'STT',
+            'type' => 'row_number',
+            'orderable' => false,
+        ]);
+
+
+        $this->crud->addColumn([
+            'name' => 'name',
+            'label' => 'Tên Khoá',
             'type' => 'text',
         ]);
 
-        /**
-         * Columns can be defined using the fluent syntax:
-         * - CRUD::column('price')->type('number');
-         */
+        $this->crud->addColumn([
+            'name' => 'year',
+            'label' => 'Niên Khoá',
+            'type' => 'text',
+            'value' => function ($entry) {
+                return $entry->year_start . ' - ' . $entry->year_end;
+            },
+        ]);
     }
 
     /**
@@ -69,15 +81,24 @@ class AcademicYearsCrudController extends CrudController
     protected function setupCreateOperation()
     {
         CRUD::setValidation(AcademicYearsRequest::class);
+
         $this->crud->addField([
-            'name' => 'year',
-            'label' => 'Niên Khoá',
+            'name' => 'name',
+            'label' => 'Tên Khoá',
             'type' => 'text',
         ]);
-        /**
-         * Fields can be defined using the fluent syntax:
-         * - CRUD::field('price')->type('number');
-         */
+
+        $this->crud->addField([
+            'name' => 'year_start',
+            'label' => 'Năm Bắt Đầu',
+            'type' => 'text',
+        ]);
+
+        $this->crud->addField([
+            'name' => 'year_end',
+            'label' => 'Năm Kết Thúc',
+            'type' => 'text',
+        ]);
     }
 
     /**

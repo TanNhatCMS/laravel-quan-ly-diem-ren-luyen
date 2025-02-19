@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -11,12 +12,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        if (!DB::table('users')->where('id', 1)->exists()) {
+            DB::table('users')->insert([
+                'id' => 1,
+                'name' => 'Super Admin',
+                'email' => 'admin@gmail.com',
+                'password' => bcrypt('admin@1234'),
+                'email_verified_at' => now(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
 
-//        User::factory()->create([
-//            'name' => 'Test User',
-//            'email' => 'test@example.com',
-//        ]);
         $this->call([
             AcademicDegreesSeeder::class,
             MajorsSeeder::class,

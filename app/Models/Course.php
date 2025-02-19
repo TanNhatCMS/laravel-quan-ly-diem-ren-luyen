@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class AcademicYears extends Model
+class Course extends Model
 {
     use CrudTrait;
     use HasFactory;
@@ -18,11 +18,12 @@ class AcademicYears extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'academic_years';
-    // protected $primaryKey = 'id';
+    protected $table = 'courses';
+
+    protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
-    protected $fillable = ['year'];
+    protected $fillable = ['name', 'year_start', 'year_end'];
     // protected $hidden = [];
 
     /*
@@ -57,6 +58,6 @@ class AcademicYears extends Model
 
     public function classes(): HasMany
     {
-        return $this->hasMany(Classes::class, 'academic_year_id');
+        return $this->hasMany(Classes::class, 'course_id');
     }
 }
