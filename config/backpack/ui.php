@@ -46,7 +46,7 @@ return [
     // ----
 
     // Project name - shown in the window title
-    'project_name' => 'Tân Nhật CMS Admin Panel',
+    'project_name' => 'LMS CMS Admin Panel',
 
     // Content of the HTML meta robots tag to prevent indexing and link following
     'meta_robots_content' => 'noindex, nofollow',
@@ -63,7 +63,7 @@ return [
     'home_link' => 'admin',
 
     // Menu logo. You can replace this with an <img> tag if you have a logo.
-    'project_logo' => '<b>LMS</b> CMS',
+    'project_logo' => '<img src="/itc.png" width="72px" height="72px" alt="LMS CMS" /><br /><b>LMS</b> CMS',
 
     // Show / hide breadcrumbs on admin panel pages.
     'breadcrumbs' => true,
