@@ -25,7 +25,7 @@ class FacultyRequest extends FormRequest
     public function rules(): array
     {
         return [
-             'name' => 'required|min:5|max:255'
+            'name' => 'required|min:5|max:255',
         ];
     }
 
@@ -51,7 +51,7 @@ class FacultyRequest extends FormRequest
         return [
             'name.required' => 'Tên khoa không được để trống',
             'name.min' => 'Tên khoa phải có ít nhất 5 ký tự',
-            'name.max' => 'Tên khoa không được vượt quá 255 ký tự'
+            'name.max' => 'Tên khoa không được vượt quá 255 ký tự',
         ];
     }
 }

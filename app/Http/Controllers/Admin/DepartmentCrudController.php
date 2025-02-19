@@ -14,8 +14,8 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class DepartmentCrudController
- * @package App\Http\Controllers\Admin
+ * Class DepartmentCrudController.
+ *
  * @property-read CrudPanel $crud
  */
 class DepartmentCrudController extends CrudController
@@ -34,7 +34,7 @@ class DepartmentCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(Organizations::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/department');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/department');
         CRUD::setEntityNameStrings('Phòng', 'Danh Sách Phòng');
     }
 
@@ -42,11 +42,12 @@ class DepartmentCrudController extends CrudController
      * Define what happens when the List operation is loaded.
      *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
+     *
      * @return void
      */
     protected function setupListOperation()
     {
-        $this->crud->query->where('type','department');
+        $this->crud->query->where('type', 'department');
 
         $this->crud->addColumn([
             'name' => 'stt',
@@ -69,6 +70,7 @@ class DepartmentCrudController extends CrudController
      * Define what happens when the Create operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
+     *
      * @return void
      */
     protected function setupCreateOperation()
@@ -93,6 +95,7 @@ class DepartmentCrudController extends CrudController
      * Define what happens when the Update operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
+     *
      * @return void
      */
     protected function setupUpdateOperation()

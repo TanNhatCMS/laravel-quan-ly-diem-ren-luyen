@@ -14,8 +14,8 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class FacultyCrudController
- * @package App\Http\Controllers\Admin
+ * Class FacultyCrudController.
+ *
  * @property-read CrudPanel $crud
  */
 class FacultyCrudController extends CrudController
@@ -34,7 +34,7 @@ class FacultyCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(Organizations::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/faculty');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/faculty');
         CRUD::setEntityNameStrings('Khoa', 'Danh Sách Khoa');
     }
 
@@ -42,11 +42,12 @@ class FacultyCrudController extends CrudController
      * Define what happens when the List operation is loaded.
      *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
+     *
      * @return void
      */
     protected function setupListOperation()
     {
-        $this->crud->query->where('type','faculty');
+        $this->crud->query->where('type', 'faculty');
 
         $this->crud->addColumn([
             'name' => 'stt',
@@ -69,6 +70,7 @@ class FacultyCrudController extends CrudController
      * Define what happens when the Create operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
+     *
      * @return void
      */
     protected function setupCreateOperation()
@@ -87,13 +89,13 @@ class FacultyCrudController extends CrudController
             'type' => 'hidden',
             'value' => 'faculty',
         ]);
-
     }
 
     /**
      * Define what happens when the Update operation is loaded.
      *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
+     *
      * @return void
      */
     protected function setupUpdateOperation()

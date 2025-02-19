@@ -25,7 +25,7 @@ class DepartmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-             'name' => 'required|min:5|max:255'
+            'name' => 'required|min:5|max:255',
         ];
     }
 
@@ -37,7 +37,7 @@ class DepartmentRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'name' => 'Tên Phòng'
+            'name' => 'Tên Phòng',
         ];
     }
 
@@ -51,7 +51,7 @@ class DepartmentRequest extends FormRequest
         return [
             'name.required' => 'Tên Phòng không được để trống',
             'name.min' => 'Tên Phòng phải có ít nhất 5 ký tự',
-            'name.max' => 'Tên Phòng không được vượt quá 255 ký tự'
+            'name.max' => 'Tên Phòng không được vượt quá 255 ký tự',
         ];
     }
 }
