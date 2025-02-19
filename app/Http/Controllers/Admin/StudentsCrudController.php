@@ -5,9 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Enums\UserGender;
 use App\Http\Requests\Student\StudentStoreCrudRequest;
 use App\Http\Requests\Student\StudentUpdateCrudRequest;
-use App\Http\Requests\StudentsRequest;
 use App\Models\User;
-use App\Models\UserClasses;
 use App\Models\UserOrganizations;
 use App\Models\UserPosition;
 use App\Models\UserProfiles;
@@ -60,7 +58,6 @@ class StudentsCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-
         $this->crud->query->whereHas('profile', function ($query) {
             $query->where('type', 'student');
         });
@@ -211,6 +208,7 @@ class StudentsCrudController extends CrudController
         $this->crud->unsetValidation();
         $response = $this->traitUpdate();
         $this->saveRelatedModels($this->crud->entry);
+
         return $response;
     }
 
@@ -292,35 +290,35 @@ class StudentsCrudController extends CrudController
                 'allows_null' => false,
                 'default' => UserGender::OTHER,
             ],
-            [ 'name' => 'class_id',
+            ['name' => 'class_id',
                 'label' => 'Lớp',
                 'type' => 'select',
                 'entity' => 'profile.class_id',
                 'attribute' => 'name',
                 'model' => "App\Models\Classes",
             ],
-//            [
-//                'name' => 'academic_degree_id',
-//                'label' => 'Trình độ chuyên môn',
-//                'type' => 'select',
-//                'entity' => 'academicDegree',
-//                'attribute' => 'name',
-//                'model' => "App\Models\AcademicDegrees",
-//            ],
-//            [
-//                'name' => 'education_system',
-//                'label' => 'Hệ đào tạo',
-//                'type' => 'select_from_array',
-//                'options' => [
-//                    '0' => 'Chính quy',
-//                    '1' => 'Văn bằng 2',
-//                    '2' => 'Văn bằng 3',
-//                    '3' => 'Liên thông',
-//                    '4' => 'Cao học',
-//                ],
-//                'allows_null' => false,
-//                'default' => '0',
-//            ],
+            //            [
+            //                'name' => 'academic_degree_id',
+            //                'label' => 'Trình độ chuyên môn',
+            //                'type' => 'select',
+            //                'entity' => 'academicDegree',
+            //                'attribute' => 'name',
+            //                'model' => "App\Models\AcademicDegrees",
+            //            ],
+            //            [
+            //                'name' => 'education_system',
+            //                'label' => 'Hệ đào tạo',
+            //                'type' => 'select_from_array',
+            //                'options' => [
+            //                    '0' => 'Chính quy',
+            //                    '1' => 'Văn bằng 2',
+            //                    '2' => 'Văn bằng 3',
+            //                    '3' => 'Liên thông',
+            //                    '4' => 'Cao học',
+            //                ],
+            //                'allows_null' => false,
+            //                'default' => '0',
+            //            ],
 
         ]);
     }
