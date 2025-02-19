@@ -54,12 +54,12 @@ class MajorsSeeder extends Seeder
                 if ($existing) {
                     DB::table('majors')->where('id', $existing->id)->update([
                         'name' => $major['name'],
-                        'updated_at' => now()
+                        'updated_at' => now(),
                     ]);
                 } else {
                     DB::table('majors')->insert(array_merge($major, [
                         'created_at' => now(),
-                        'updated_at' => now()
+                        'updated_at' => now(),
                     ]));
                 }
             }

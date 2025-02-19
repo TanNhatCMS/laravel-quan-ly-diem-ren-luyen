@@ -41,12 +41,12 @@ class PositionsSeeder extends Seeder
                 if ($existing) {
                     DB::table('positions')->where('id', $existing->id)->update([
                         'name' => $position['name'],
-                        'updated_at' => now()
+                        'updated_at' => now(),
                     ]);
                 } else {
                     DB::table('positions')->insert(array_merge($position, [
                         'created_at' => now(),
-                        'updated_at' => now()
+                        'updated_at' => now(),
                     ]));
                 }
             }

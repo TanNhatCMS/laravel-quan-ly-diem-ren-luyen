@@ -21,6 +21,7 @@ class OrganizationsSeeder extends Seeder
 
     /**
      * Run the database seeds.
+     *
      * @throws Exception
      */
     public function run(): void
@@ -28,7 +29,7 @@ class OrganizationsSeeder extends Seeder
         DB::beginTransaction();
         try {
             DB::table('organizations')->upsert(
-                array_map(fn($organization) => [
+                array_map(fn ($organization) => [
                     'name' => $organization['name'],
                     'type' => $organization['type'],
                     'updated_at' => now(),
