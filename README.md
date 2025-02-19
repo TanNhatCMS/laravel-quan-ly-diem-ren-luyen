@@ -19,11 +19,11 @@
 - Create database
 - Create file .env from .env.example
 - Config database in .env
-- Run `php artisan migrate`
-- Run `php artisan db:seed`
 - Run `npm install`
 - Run `npm run build`
 - Run `composer install`
+- Run `php artisan migrate`
+- Run `php artisan db:seed`
 - Run `php artisan key:generate`
 - Run `php artisan storage:link`
 - Run `php artisan tannhatcms:lms:setup`
