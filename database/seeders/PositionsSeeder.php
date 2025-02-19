@@ -33,14 +33,23 @@ class PositionsSeeder extends Seeder
     {
         DB::beginTransaction();
         try {
-            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-            DB::table('positions')->truncate();
-            DB::statement('ALTER TABLE positions AUTO_INCREMENT = 14;');
-            DB::table('positions')->insert(array_map(function ($position) {
-                return array_merge(['created_at' => now(), 'updated_at' => now()], $position);
-            }, $this->positions));
-
-            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+            foreach ($this->positions as $position) {
+                $existing = DB::table('positions')
+                    ->where('name', $position['name'])
+                    ->orWhere('id', $position['id'])
+                    ->first();
+                if ($existing) {
+                    DB::table('positions')->where('id', $existing->id)->update([
+                        'name' => $position['name'],
+                        'updated_at' => now()
+                    ]);
+                } else {
+                    DB::table('positions')->insert(array_merge($position, [
+                        'created_at' => now(),
+                        'updated_at' => now()
+                    ]));
+                }
+            }
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();

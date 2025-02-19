@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class MajorsSeeder extends Seeder
 {
-    protected array $major_list = [
+    protected array $major = [
         ['id' => 1, 'name' => 'Công nghệ thông tin', 'code' => 'CT'],
         ['id' => 2, 'name' => 'Truyền thông và mạng máy tính', 'code' => 'TM'],
         ['id' => 3, 'name' => 'Hệ thống thông tin', 'code' => 'HT'],
@@ -46,14 +46,23 @@ class MajorsSeeder extends Seeder
     {
         DB::beginTransaction();
         try {
-            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-            DB::table('majors')->truncate();
-            DB::statement('ALTER TABLE majors AUTO_INCREMENT = 27;');
-            DB::table('majors')->insert(array_map(function ($major) {
-                return array_merge(['created_at' => now(), 'updated_at' => now()], $major);
-            }, $this->major_list));
-
-            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+            foreach ($this->major as $major) {
+                $existing = DB::table('majors')
+                    ->where('name', $major['name'])
+                    ->orWhere('id', $major['id'])
+                    ->first();
+                if ($existing) {
+                    DB::table('majors')->where('id', $existing->id)->update([
+                        'name' => $major['name'],
+                        'updated_at' => now()
+                    ]);
+                } else {
+                    DB::table('majors')->insert(array_merge($major, [
+                        'created_at' => now(),
+                        'updated_at' => now()
+                    ]));
+                }
+            }
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();

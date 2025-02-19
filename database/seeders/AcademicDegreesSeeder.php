@@ -37,14 +37,23 @@ class AcademicDegreesSeeder extends Seeder
     {
         DB::beginTransaction();
         try {
-            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-            DB::table('academic_degrees')->truncate();
-            DB::statement('ALTER TABLE academic_degrees AUTO_INCREMENT = 18;');
-            DB::table('academic_degrees')->insert(array_map(function ($degree) {
-                return array_merge(['created_at' => now(), 'updated_at' => now()], $degree);
-            }, $this->academic_degrees));
-
-            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+            foreach ($this->academic_degrees as $degree) {
+                $existing = DB::table('academic_degrees')
+                    ->where('name', $degree['name'])
+                    ->orWhere('id', $degree['id'])
+                    ->first();
+                if ($existing) {
+                    DB::table('academic_degrees')->where('id', $existing->id)->update([
+                        'name' => $degree['name'],
+                        'updated_at' => now()
+                    ]);
+                } else {
+                    DB::table('academic_degrees')->insert(array_merge($degree, [
+                        'created_at' => now(),
+                        'updated_at' => now()
+                    ]));
+                }
+            }
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();

@@ -26,8 +26,8 @@
 <x-backpack::menu-dropdown title="QUẢN TRỊ" icon="la la-puzzle-piece">
     <x-backpack::menu-dropdown-header title="Quản Lý Tổ Chức" />
     <x-backpack::menu-item title="Danh Sách Tổ Chức" icon="la la-question" :link="backpack_url('organizations')" />
-    <x-backpack::menu-item title="Danh Sách Khoa" icon="la la-question" :link="backpack_url('organizations?type=department')" />
-    <x-backpack::menu-item title="Danh Sách Phòng" icon="la la-question" :link="backpack_url('organizations?type=faculty')" />
+    <x-backpack::menu-item title="Danh Sách Khoa" icon="la la-question" :link="backpack_url('organizations?type=faculty')" />
+    <x-backpack::menu-item title="Danh Sách Phòng" icon="la la-question" :link="backpack_url('organizations?type=department')" />
     <x-backpack::menu-item title="Thêm Phòng/Khoa" icon="la la-question" :link="backpack_url('organizations/create')" />
     <x-backpack::menu-dropdown-header title="Quản Lý Tài Khoản" />
     <x-backpack::menu-dropdown-item title="Users" icon="la la-user" :link="backpack_url('user')" />
