@@ -33,6 +33,7 @@ class TeachersCrudController extends CrudController
      * Configure the CrudPanel object. Apply settings to all operations.
      *
      * @return void
+     *
      * @throws Exception
      */
     public function setup()
