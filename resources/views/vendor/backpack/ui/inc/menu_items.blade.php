@@ -44,4 +44,5 @@
     <x-backpack::menu-item title='Cài Đặt' icon='la la-cog' :link="backpack_url('setting')" />
     <x-backpack::menu-item title='Logs' icon='la la-terminal' :link="backpack_url('log')" />
     <x-backpack::menu-item title="Activity Logs" icon="la la-stream" :link="backpack_url('activity-log')" />
+    <x-backpack::menu-item link="/api/documentation" title="API Documentation" icon="la la-book" />
 </x-backpack::menu-dropdown>
