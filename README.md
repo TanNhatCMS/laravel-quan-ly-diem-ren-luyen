@@ -7,9 +7,34 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## Getting Started
+### Prerequisites
+- PHP >= 8.2
+- MariaDB >= 10.4 or MySQL >= 8.0
+- Composer
+- Node.js >= 20.0
+### Installation
+- Clone project
+- Run `git clone https://github.com/TanNhatCMS/laravel-quan-ly-diem-ren-luyen.git`
+- Create database
+- Create file .env from .env.example
+- Config database in .env
+- Run `php artisan migrate`
+- Run `php artisan db:seed`
+- Run `npm install`
+- Run `npm run build`
+- Run `composer install`
+- Run `php artisan key:generate`
+- Run `php artisan storage:link`
+- Run `php artisan tannhatcms:lms:setup`
+### Run project
+- Run `php artisan serve`
+- Open browser and access `http://localhost:8000`
+- Login with account admin
+- Done
 ## About Project
 <img src="https://raw.githubusercontent.com/TanNhatCMS/laravel-quan-ly-diem-ren-luyen/ce20cbf3e42f4a8b08865bcf9ec1791c7e47b92d/test-coverage.svg" alt="test coverage"><br>
-- user admin 
+- account admin
 - email: admin@gmail.com
 - pass: admin@1234
 ## About Laravel
