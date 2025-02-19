@@ -54,7 +54,6 @@ class CourseCrudController extends CrudController
             'orderable' => false,
         ]);
 
-
         $this->crud->addColumn([
             'name' => 'name',
             'label' => 'Tên Khoá',
@@ -66,7 +65,7 @@ class CourseCrudController extends CrudController
             'label' => 'Niên Khoá',
             'type' => 'text',
             'value' => function ($entry) {
-                return $entry->year_start . ' - ' . $entry->year_end;
+                return $entry->year_start.' - '.$entry->year_end;
             },
         ]);
     }
