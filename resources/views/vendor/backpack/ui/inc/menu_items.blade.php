@@ -6,9 +6,6 @@
     </a>
 </li>
 
-
-<x-backpack::menu-item title="Học kỳ" icon="la la-question" :link="backpack_url('semester-scores')" />
-
 <x-backpack::menu-dropdown title="THÔNG TIN CHUNG" icon="la la-puzzle-piece">
     <x-backpack::menu-dropdown-header title="Tổ Chức" />
     <x-backpack::menu-item title="Danh Sách Tổ Chức" icon="la la-question" :link="backpack_url('organizations')" />
@@ -31,11 +28,10 @@
 <x-backpack::menu-dropdown title="QUẢN TRỊ" icon="la la-puzzle-piece">
     <x-backpack::menu-dropdown-header title="Quản Lý Tổ Chức" />
     <x-backpack::menu-item title="Thêm Phòng/Khoa" icon="la la-question" :link="backpack_url('organizations/create')" />
-
     <x-backpack::menu-dropdown-header title="Quản Lý Tài Khoản" />
-    <x-backpack::menu-dropdown-item title="Users" icon="la la-user" :link="backpack_url('user')" />
-    <x-backpack::menu-dropdown-item title="Roles" icon="la la-group" :link="backpack_url('role')" />
-    <x-backpack::menu-dropdown-item title="Permissions" icon="la la-key" :link="backpack_url('permission')" />
+    <x-backpack::menu-dropdown-item title="Tài khoản" icon="la la-user" :link="backpack_url('user')" />
+    <x-backpack::menu-dropdown-item title="Vai trò" icon="la la-group" :link="backpack_url('role')" />
+    <x-backpack::menu-dropdown-item title="Quyền" icon="la la-key" :link="backpack_url('permission')" />
     <x-backpack::menu-item title="Trình Độ Chuyên Môn" icon="la la-question" :link="backpack_url('academic-degrees')" />
     <x-backpack::menu-item title="Chức Vụ" icon="la la-question" :link="backpack_url('positions')" />
     <x-backpack::menu-item title="Chuyên Nghành" icon="la la-question" :link="backpack_url('majors')" />
@@ -49,8 +45,3 @@
     <x-backpack::menu-item title='Logs' icon='la la-terminal' :link="backpack_url('log')" />
     <x-backpack::menu-item title="Activity Logs" icon="la la-stream" :link="backpack_url('activity-log')" />
 </x-backpack::menu-dropdown>
-
-<x-backpack::menu-item title="User positions" icon="la la-question" :link="backpack_url('user-position')" />
-<x-backpack::menu-item title="User organizations" icon="la la-question" :link="backpack_url('user-organizations')" />
-<x-backpack::menu-item title="User classes" icon="la la-question" :link="backpack_url('user-classes')" />
-<x-backpack::menu-item title="User profiles" icon="la la-question" :link="backpack_url('user-profiles')" />
