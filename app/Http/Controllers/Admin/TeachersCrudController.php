@@ -9,7 +9,6 @@ use App\Models\Classes;
 use App\Models\Organizations;
 use App\Models\Positions;
 use App\Models\User;
-use App\Models\UserOrganizations;
 use App\Models\UserPosition;
 use App\Models\UserProfiles;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -32,7 +31,6 @@ use Illuminate\Support\Facades\Hash;
  */
 class TeachersCrudController extends CrudController
 {
-
     use ListOperation;
     use CreateOperation {
         store as traitStore;
@@ -53,7 +51,7 @@ class TeachersCrudController extends CrudController
     public function setup()
     {
         $this->crud->setModel(User::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/teachers');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/teachers');
         CRUD::setEntityNameStrings('Giáo Viên', 'Danh Sách Giáo Viên');
     }
 
@@ -82,7 +80,7 @@ class TeachersCrudController extends CrudController
             'label' => 'Tên',
             'type' => 'text',
             'searchLogic' => function ($query, $column, $searchTerm) {
-                $query->where('name', 'like', '%' . $searchTerm . '%');
+                $query->where('name', 'like', '%'.$searchTerm.'%');
             },
         ]);
 
@@ -91,10 +89,9 @@ class TeachersCrudController extends CrudController
             'label' => 'Email',
             'type' => 'email',
             'searchLogic' => function ($query, $column, $searchTerm) {
-                $query->where('email', 'like', '%' . $searchTerm . '%');
+                $query->where('email', 'like', '%'.$searchTerm.'%');
             },
         ]);
-
 
         $this->crud->addColumn([
             'name' => 'profile.academicDegree',
@@ -150,7 +147,6 @@ class TeachersCrudController extends CrudController
     {
         CRUD::setValidation(LecturersRequest::class);
         $this->addUserFields();
-
     }
 
     /**
@@ -232,7 +228,7 @@ class TeachersCrudController extends CrudController
                 'name' => 'profile.gender',
                 'label' => 'Giới tính',
                 'type' => 'select_from_array',
-                'options' => collect(UserGender::cases())->mapWithKeys(fn($g) => [$g->value => $g->toVN()])->toArray(),
+                'options' => collect(UserGender::cases())->mapWithKeys(fn ($g) => [$g->value => $g->toVN()])->toArray(),
                 'allows_null' => false,
                 'default' => UserGender::OTHER->value,
             ],
@@ -325,5 +321,4 @@ class TeachersCrudController extends CrudController
 
         return $request;
     }
-
 }
