@@ -45,6 +45,21 @@ return [
             'throw' => false,
         ],
 
+        'uploads' => [ // used for Backpack/CRUD (in elFinder)
+            'driver' => 'local',
+            'root'   => public_path('uploads'),
+        ],
+
+        'backups' => [ // used for Backpack/BackupManager
+            'driver' => 'local',
+            'root'   => storage_path('backups'), // that's where your backups are stored by default: storage/backups
+        ],
+
+        'storage' => [ // used for Backpack/LogManager
+            'driver' => 'local',
+            'root'   => storage_path(),
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
