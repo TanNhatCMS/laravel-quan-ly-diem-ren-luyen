@@ -23,14 +23,14 @@ Route::group([
 Route::group([
     'prefix' => config('backpack.base.route_prefix', 'admin'),
     'middleware' => array_merge(
-        (array)config('backpack.base.web_middleware', 'web'),
-        (array)config('backpack.base.middleware_key', 'admin')
+        (array) config('backpack.base.web_middleware', 'web'),
+        (array) config('backpack.base.middleware_key', 'admin')
     ),
     'namespace' => 'App\Http\Controllers\Admin',
 ], function () { // custom admin routes
     // Allow demo users to switch between available themes and layouts
     Route::post('switch-layout', function (Request $request) {
-        $theme = 'backpack.theme-' . $request->get('theme', 'tabler') . '::';
+        $theme = 'backpack.theme-'.$request->get('theme', 'tabler').'::';
         Session::put('backpack.ui.view_namespace', $theme);
 
         if ($theme === 'backpack.theme-tabler::') {
@@ -69,15 +69,14 @@ Route::group([
             'notification-statuses',
         ];
         foreach ($cruds as $name) {
-            Route::delete($name . '/{id}', function () {
+            Route::delete($name.'/{id}', function () {
                 return false;
             });
-            Route::post($name . '/bulk-delete', function () {
+            Route::post($name.'/bulk-delete', function () {
                 return false;
             });
         }
     }
-
 
     Route::crud('organizations', 'OrganizationsCrudController');
     Route::crud('majors', 'MajorsCrudController');
