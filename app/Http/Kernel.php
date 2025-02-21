@@ -60,11 +60,11 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middlewareAliases = [
-        'auth'       => Authenticate::class,
+        'auth' => Authenticate::class,
         'auth.basic' => AuthenticateWithBasicAuth::class,
-        'guest'      => RedirectIfAuthenticated::class,
-        'throttle'   => ThrottleRequests::class,
-        'verified'   => EnsureEmailIsVerified::class,
-        'signed'     => ValidateSignature::class,
+        'guest' => RedirectIfAuthenticated::class,
+        'throttle' => ThrottleRequests::class,
+        'verified' => EnsureEmailIsVerified::class,
+        'signed' => ValidateSignature::class,
     ];
 }
