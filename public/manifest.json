@@ -2,6 +2,11 @@
 	"name": "ITC LMS CMS",
 	"short_name": "ITC LMS CMS",
 	"description": "LMS CMS Quản Lý học tập",
+    "background_color": "#FFD700",
+    "theme_color": "#FFD700",
+    "start_url": "/admin",
+    "display": "standalone",
+    "version": "0.1.1",
 	"icons": [
 		 {
               "src": "/itc.png",
@@ -38,10 +43,5 @@
               "sizes": "96x96",
               "type": "image/png"
             }
-	],
-    "background_color": "#FFD700",
-    "theme_color": "#FFD700",
-	"start_url": "/admin",
-	"display": "standalone",
-	"version": "0.1.1",
+	]
 }
