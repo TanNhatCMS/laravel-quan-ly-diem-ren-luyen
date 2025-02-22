@@ -46,17 +46,17 @@ return Application::configure(basePath: dirname(__DIR__))
 
         // Middleware nhóm 'api'
         $middleware->group('api', [
-            ThrottleRequests::class . ':60,1',
+            ThrottleRequests::class.':60,1',
         ]);
 
         // Middleware alias (tên ngắn để dùng trong routes)
         $middleware->alias([
-            'auth'       => Authenticate::class,
+            'auth' => Authenticate::class,
             'auth.basic' => AuthenticateWithBasicAuth::class,
-            'guest'      => RedirectIfAuthenticated::class,
-            'throttle'   => ThrottleRequests::class,
-            'verified'   => EnsureEmailIsVerified::class,
-            'signed'     => ValidateSignature::class,
+            'guest' => RedirectIfAuthenticated::class,
+            'throttle' => ThrottleRequests::class,
+            'verified' => EnsureEmailIsVerified::class,
+            'signed' => ValidateSignature::class,
         ]);
         $middleware->validateCsrfTokens(except: [
             '*',
