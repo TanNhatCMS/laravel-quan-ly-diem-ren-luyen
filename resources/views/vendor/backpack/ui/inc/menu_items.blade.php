@@ -15,7 +15,9 @@
     <x-backpack::menu-dropdown-item title="Thêm Sinh Viên" icon="la la-question" :link="backpack_url('students/create')"/>
     <x-backpack::menu-dropdown-item title="Thêm Giáo Viên" icon="la la-question" :link="backpack_url('teachers/create')"/>
 </x-backpack::menu-dropdown>
+
 <x-backpack::menu-dropdown title="THÔNG BÁO" icon="la la-puzzle-piece">
+    <x-backpack::menu-dropdown-item title="Danh sách thông báo" icon="la la-question" :link="backpack_url('notifications')" />
 </x-backpack::menu-dropdown>
 
 <x-backpack::menu-dropdown title="QUẢN TRỊ" icon="la la-puzzle-piece">
@@ -37,13 +39,12 @@
 <x-backpack::menu-dropdown title="TIỆN ÍCH" icon="la la-puzzle-piece">
     <x-backpack::menu-dropdown-item title='Cài Đặt' icon='la la-cog' :link="backpack_url('setting')" />
 <x-backpack::menu-dropdown-item title='Logs' icon='la la-terminal' :link="backpack_url('log')"/>
-    <x-backpack::menu-dropdown-item title="Activity Logs" icon="la la-stream" :link="backpack_url('activity-log')" />
-<x-backpack::menu-dropdown-item link="/api/documentation" title="API Documentation" icon="la la-book"/>
+    <!--    <x-backpack::menu-dropdown-item title="Activity Logs" icon="la la-stream" :link="backpack_url('activity-log')" />-->
+    <x-backpack::menu-dropdown-item link="/api/documentation" title="API Documentation" icon="la la-book"/>
 </x-backpack::menu-dropdown>
 @endif
 
 
 <!--<x-backpack::menu-item title="Evaluation scores" icon="la la-question" :link="backpack_url('evaluation-scores')" />-->
 <!--<x-backpack::menu-item title="Semester scores" icon="la la-question" :link="backpack_url('semester-scores')" />-->
-<!--<x-backpack::menu-item title="Notifications" icon="la la-question" :link="backpack_url('notifications')" />-->
 <!--<x-backpack::menu-item title="Notification statuses" icon="la la-question" :link="backpack_url('notification-statuses')" />-->

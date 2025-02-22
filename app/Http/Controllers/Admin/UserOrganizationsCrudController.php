@@ -55,6 +55,7 @@ class UserOrganizationsCrudController extends CrudController
             'type' => 'row_number',
             'orderable' => false,
         ]);
+
         CRUD::addColumn([
             'name' => 'user',
             'label' => 'Người dùng',

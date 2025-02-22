@@ -40,6 +40,13 @@ class EvaluationScoresCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+        CRUD::addColumn([
+            'name' => 'stt',
+            'label' => 'STT',
+            'type' => 'row_number',
+            'orderable' => false,
+        ]);
+
         CRUD::setFromDb(); // set columns from db columns.
 
         /**

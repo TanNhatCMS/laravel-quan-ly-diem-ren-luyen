@@ -58,10 +58,12 @@ class UserProfilesCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        $this->crud->addColumn([
+
+        CRUD::addColumn([
             'name' => 'stt',
             'label' => 'STT',
             'type' => 'row_number',
+            'orderable' => false,
         ]);
 
         $this->crud->addColumn([
