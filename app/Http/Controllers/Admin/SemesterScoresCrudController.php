@@ -34,7 +34,7 @@ class SemesterScoresCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(SemesterScores::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/semester-scores');
+        CRUD::setRoute(config('backpack.base.route_prefix').'/semester-scores');
         CRUD::setEntityNameStrings('Học kỳ', 'Điểm rèn luyện học kỳ');
     }
 
@@ -60,7 +60,7 @@ class SemesterScoresCrudController extends CrudController
                 'options' => [
                     '1' => 'Học Kỳ 1',
                     '2' => 'Học Kỳ 2',
-                    '3' => 'Học Kỳ 3'
+                    '3' => 'Học Kỳ 3',
                 ],
             ],
             [
@@ -100,7 +100,7 @@ class SemesterScoresCrudController extends CrudController
                 'options' => [
                     '1' => 'Học Kỳ 1',
                     '2' => 'Học Kỳ 2',
-                    '3' => 'Học Kỳ 3'
+                    '3' => 'Học Kỳ 3',
                 ],
             ],
             [

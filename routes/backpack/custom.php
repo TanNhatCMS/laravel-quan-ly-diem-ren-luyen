@@ -30,7 +30,7 @@ Route::group([
 ], function () { // custom admin routes
     // Allow demo users to switch between available themes and layouts
     Route::post('switch-layout', function (Request $request) {
-        $theme = 'tannhatcms.theme-' . $request->get('theme', 'tabler-lms') . '::';
+        $theme = 'tannhatcms.theme-'.$request->get('theme', 'tabler-lms').'::';
         Session::put('backpack.ui.view_namespace', $theme);
 
         if ($theme === 'tannhatcms.theme-tabler-lms::') {
