@@ -21,7 +21,7 @@ class SemesterScores extends Model
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
-    // protected $fillable = [];
+    protected $fillable = ['year', 'semester', 'evaluation_start', 'evaluation_end'];
     // protected $hidden = [];
 
     /*

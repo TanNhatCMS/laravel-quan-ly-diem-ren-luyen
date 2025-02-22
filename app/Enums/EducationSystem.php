@@ -8,6 +8,15 @@ enum EducationSystem: string
     case CD = 'CD';
     case CL = 'CL';
 
+    public function getReadableStatus()
+    {
+        return match ($this) {
+            EducationSystem::TH => 'Trung Cấp',
+            EducationSystem::CD => 'Cao Đẳng',
+            EducationSystem::CL => 'Cao Đẳng Liên Thông',
+        };
+    }
+
     public function toVN(): string
     {
         return match ($this) {

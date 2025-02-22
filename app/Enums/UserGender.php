@@ -8,6 +8,15 @@ enum UserGender: string
     case FEMALE = 'female';
     case OTHER = 'other';
 
+    public function getReadableStatus()
+    {
+        return match ($this) {
+            UserGender::MALE => 'Nam',
+            UserGender::FEMALE => 'Nữ',
+            UserGender::OTHER => 'Khác',
+        };
+    }
+
     public function toVN(): string
     {
         return match ($this) {

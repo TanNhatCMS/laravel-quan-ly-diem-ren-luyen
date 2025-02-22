@@ -8,6 +8,15 @@ enum UserType: string
     case TEACHER = 'teacher';
     case OTHER = 'other';
 
+    public function getReadableStatus()
+    {
+        return match ($this) {
+            UserType::STUDENT => 'Sinh viên',
+            UserType::TEACHER => 'Giáo viên',
+            UserType::OTHER => 'Khác',
+        };
+    }
+
     public function toVN(): string
     {
         return match ($this) {

@@ -47,6 +47,13 @@ class AcademicDegreesCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+        CRUD::addColumn([
+            'name' => 'stt',
+            'label' => 'STT',
+            'type' => 'row_number',
+            'orderable' => false,
+        ]);
+
         $this->crud->addColumn([
             'name' => 'name',
             'label' => 'Tên Trình Độ Chuyên Môn',
