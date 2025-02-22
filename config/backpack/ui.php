@@ -18,8 +18,8 @@ return [
     // and choosing that view_namespace instead of the default one. Backpack will load a file from there
     // if it exists, otherwise it will load it from the fallback namespace.
 
-    'view_namespace' => 'tannhatcms.theme-coreuiv4-lms::',
-    'view_namespace_fallback' => 'tannhatcms.theme-coreuiv4-lms::',
+    'view_namespace' => 'tannhatcms.theme-tabler-lms::',
+    'view_namespace_fallback' => 'tannhatcms.theme-tabler-lms::',
 
     /*
     |--------------------------------------------------------------------------
@@ -63,7 +63,7 @@ return [
     'home_link' => 'admin',
 
     // Menu logo. You can replace this with an <img> tag if you have a logo.
-    'project_logo' => '<img src="/itc.png" width="72px" height="72px" alt="LMS CMS" /><br /><b>LMS</b> CMS',
+    'project_logo' => '<div style="width: max-content"><img src="/itc.png" width="72px" height="72px" alt="LMS CMS" class="project-logo"/><br /><b>LMS</b> CMS</div>',
 
     // Show / hide breadcrumbs on admin panel pages.
     'breadcrumbs' => true,

@@ -3,21 +3,28 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\SemesterScoresRequest;
+use App\Models\SemesterScores;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
  * Class SemesterScoresCrudController.
  *
- * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
+ * @property-read CrudPanel $crud
  */
 class SemesterScoresCrudController extends CrudController
 {
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    use ListOperation;
+    use CreateOperation;
+    use UpdateOperation;
+    use DeleteOperation;
+    use ShowOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -26,9 +33,9 @@ class SemesterScoresCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\SemesterScores::class);
-        CRUD::setRoute(config('backpack.base.route_prefix').'/semester-scores');
-        CRUD::setEntityNameStrings('Học kỳ', 'Danhs sách học kỳ');
+        CRUD::setModel(SemesterScores::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/semester-scores');
+        CRUD::setEntityNameStrings('Học kỳ', 'Điểm rèn luyện học kỳ');
     }
 
     /**
@@ -40,12 +47,33 @@ class SemesterScoresCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::setFromDb(); // set columns from db columns.
-
-        /**
-         * Columns can be defined using the fluent syntax:
-         * - CRUD::column('price')->type('number');
-         */
+        CRUD::addColumns([
+            [
+                'name' => 'year',
+                'label' => 'Năm học',
+                'type' => 'text',
+            ],
+            [
+                'name' => 'semester',
+                'label' => 'Học kỳ',
+                'type' => 'select_from_array',
+                'options' => [
+                    '1' => 'Học Kỳ 1',
+                    '2' => 'Học Kỳ 2',
+                    '3' => 'Học Kỳ 3'
+                ],
+            ],
+            [
+                'name' => 'evaluation_start',
+                'label' => 'Ngày bắt đầu',
+                'type' => 'date',
+            ],
+            [
+                'name' => 'evaluation_end',
+                'label' => 'Ngày kết thúc',
+                'type' => 'date',
+            ],
+        ]);
     }
 
     /**
@@ -58,12 +86,34 @@ class SemesterScoresCrudController extends CrudController
     protected function setupCreateOperation()
     {
         CRUD::setValidation(SemesterScoresRequest::class);
-        CRUD::setFromDb(); // set fields from db columns.
 
-        /**
-         * Fields can be defined using the fluent syntax:
-         * - CRUD::field('price')->type('number');
-         */
+        CRUD::addFields([
+            [
+                'name' => 'year',
+                'label' => 'Năm học',
+                'type' => 'text',
+            ],
+            [
+                'name' => 'semester',
+                'label' => 'Học kỳ',
+                'type' => 'select_from_array',
+                'options' => [
+                    '1' => 'Học Kỳ 1',
+                    '2' => 'Học Kỳ 2',
+                    '3' => 'Học Kỳ 3'
+                ],
+            ],
+            [
+                'name' => 'evaluation_start',
+                'label' => 'Ngày bắt đầu',
+                'type' => 'date',
+            ],
+            [
+                'name' => 'evaluation_end',
+                'label' => 'Ngày kết thúc',
+                'type' => 'date',
+            ],
+        ]);
     }
 
     /**

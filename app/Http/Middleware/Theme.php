@@ -16,8 +16,8 @@ class Theme
         }
 
         // Set layout if exist in session — only for Tabler
-        if (Session::get('backpack.ui.view_namespace') === 'backpack.theme-tabler::') {
-            Config::set('backpack.theme-tabler.layout', Session::get('backpack.theme-tabler.layout') ?? config('backpack.theme-tabler.layout'));
+        if (Session::get('backpack.ui.view_namespace') === 'tannhatcms.theme-tabler-lms::') {
+            Config::set('tannhatcms.theme-tabler-lms.layout', Session::get('backpack.theme-tabler.layout') ?? config('tannhatcms.theme-tabler-lms.layout'));
         }
 
         return $next($request);

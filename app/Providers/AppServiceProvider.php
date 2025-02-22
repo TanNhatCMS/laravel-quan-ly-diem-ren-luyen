@@ -24,10 +24,5 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->environment('production')) {
             URL::forceScheme('https');
         }
-
-        // Ensure directories are created
-        if (! File::exists(storage_path('app/public/basset'))) {
-            File::makeDirectory(storage_path('app/public/basset'), 0755, true);
-        }
     }
 }
