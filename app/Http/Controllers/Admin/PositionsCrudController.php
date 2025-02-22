@@ -47,7 +47,6 @@ class PositionsCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-
         CRUD::addColumn([
             'name' => 'stt',
             'label' => 'STT',
