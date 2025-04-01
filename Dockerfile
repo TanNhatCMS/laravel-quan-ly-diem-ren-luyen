@@ -44,8 +44,8 @@ RUN docker-php-serversideup-set-id www-data $USER_ID:$GROUP_ID  && \
 
 
 # make npm & node available in the container
-COPY --chown=www-data:www-data --from=node:22.4.1 /usr/local/bin /usr/local/bin
+COPY --chown=www-data:www-data --from=node:23.11.0 /usr/local/bin /usr/local/bin
 
-COPY --chown=www-data:www-data --from=node:22.4.1 /usr/local/lib/node_modules/npm /usr/local/lib/node_modules/npm
+COPY --chown=www-data:www-data --from=node:23.11.0 /usr/local/lib/node_modules/npm /usr/local/lib/node_modules/npm
 
 USER www-data
