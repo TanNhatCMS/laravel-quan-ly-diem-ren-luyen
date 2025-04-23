@@ -35,7 +35,7 @@ class BaseController extends Controller
      * @return JsonResponse
      */
     protected function failedResponse(
-        string $message = null,
+        ?string $message = null,
         mixed $data = null,
         int $code = 400,
         array $headers = []
