@@ -1,4 +1,4 @@
-FROM serversideup/php:8.3-fpm-nginx as base
+FROM serversideup/php:8.4-fpm-nginx as base
 
 ENV S6_CMD_WAIT_FOR_SERVICES=1
 
