@@ -24,9 +24,12 @@ class UserProfiles extends Model
     */
 
     protected $table = 'user_profiles';
+
     protected $primaryKey = 'id';
+
     // public $timestamps = false;
     protected $guarded = ['id'];
+
     protected $fillable = [
         'user_id',
         'code',
@@ -42,9 +45,9 @@ class UserProfiles extends Model
     protected $hidden = [];
 
     protected $casts = [
-        //'gender' => UserGender::class,
-        //'type' => UserType::class,
-        //'education_system' => EducationSystem::class,
+        'gender' => UserGender::class,
+        'type' => UserType::class,
+        'education_system' => EducationSystem::class,
     ];
 
     /*
@@ -79,9 +82,9 @@ class UserProfiles extends Model
         return $this->hasMany(UserClasses::class, 'user_id', 'user_id');
     }
 
-    public function userOrganizations(): belongsTo
+    public function userOrganizations(): BelongsToMany
     {
-        return $this->belongsTo(UserOrganizations::class, 'user_id');
+        return $this->belongsToMany(UserOrganizations::class, 'user_organizations', 'user_id', 'organization_id');
     }
 
     public function userPositions(): HasMany

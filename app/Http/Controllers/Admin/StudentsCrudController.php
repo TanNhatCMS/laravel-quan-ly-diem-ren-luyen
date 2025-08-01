@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\EducationSystem;
 use App\Enums\UserGender;
+use App\Http\Controllers\Admin\Traits\UserCrudTrait;
 use App\Http\Requests\Student\StudentStoreCrudRequest;
 use App\Http\Requests\Student\StudentUpdateCrudRequest;
 use App\Models\Classes;
@@ -20,9 +21,6 @@ use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Exception;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 /**
  * Class StudentsCrudController.
@@ -31,15 +29,16 @@ use Illuminate\Support\Facades\Hash;
  */
 class StudentsCrudController extends CrudController
 {
-    use ListOperation;
     use CreateOperation {
         store as traitStore;
     }
+    use DeleteOperation;
+    use ListOperation;
+    use ShowOperation;
     use UpdateOperation {
         update as traitUpdate;
     }
-    use DeleteOperation;
-    use ShowOperation;
+    use UserCrudTrait;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -182,35 +181,23 @@ class StudentsCrudController extends CrudController
 
     /**
      * Store a newly created resource in the database.
-     *
-     * @return RedirectResponse
      */
     public function store()
     {
-        $this->crud->setRequest($this->crud->validateRequest());
-        $this->crud->setRequest($this->handlePasswordInput($this->crud->getRequest()));
-        $this->crud->unsetValidation();
-
-        return $this->traitStore();
+        return $this->storeUserEntity();
     }
 
     /**
      * Update the specified resource in the database.
-     *
-     * @return RedirectResponse
      */
     public function update()
     {
-        $this->crud->setRequest($this->crud->validateRequest());
-        $this->crud->setRequest($this->handlePasswordInput($this->crud->getRequest()));
-        $this->crud->unsetValidation();
-
-        return $this->traitUpdate();
+        return $this->updateUserEntity();
     }
 
     private function addUserFields()
     {
-        $this->crud->addFields([
+        $fields = [
             [
                 'name' => 'name',
                 'label' => 'Tên',
@@ -233,16 +220,12 @@ class StudentsCrudController extends CrudController
                 'entity' => 'profile.phone_number',
                 'type' => 'text',
             ],
-            [
-                'name' => 'password',
-                'label' => trans('backpack::permissionmanager.password'),
-                'type' => 'password',
-            ],
-            [
-                'name' => 'password_confirmation',
-                'label' => trans('backpack::permissionmanager.password_confirmation'),
-                'type' => 'password',
-            ],
+        ];
+
+        // Add password fields from trait
+        $fields = array_merge($fields, $this->getPasswordFields());
+
+        $fields = array_merge($fields, [
             [
                 'name' => 'profile.birth_date',
                 'label' => 'Ngày sinh',
@@ -289,61 +272,18 @@ class StudentsCrudController extends CrudController
                 'allows_null' => false,
                 'default' => EducationSystem::CD->value,
             ],
-            [
-                // two interconnected entities
-                'label' => trans('backpack::permissionmanager.user_role_permission'),
-                'field_unique_name' => 'user_role_permission',
-                'type' => 'checklist_dependency',
-                'name' => 'roles,permissions',
-                'subfields' => [
-                    'primary' => [
-                        'label' => trans('backpack::permissionmanager.roles'),
-                        'name' => 'roles', // the method that defines the relationship in your Model
-                        'entity' => 'roles', // the method that defines the relationship in your Model
-                        'entity_secondary' => 'permissions', // the method that defines the relationship in your Model
-                        'attribute' => 'name', // foreign key attribute that is shown to user
-                        'model' => config('permission.models.role'), // foreign key model
-                        'pivot' => true, // on create&update, do you need to add/delete pivot table entries?]
-                        'number_columns' => 3, //can be 1,2,3,4,6
-                    ],
-                    'secondary' => [
-                        'label' => mb_ucfirst(trans('backpack::permissionmanager.permission_plural')),
-                        'name' => 'permissions', // the method that defines the relationship in your Model
-                        'entity' => 'permissions', // the method that defines the relationship in your Model
-                        'entity_primary' => 'roles', // the method that defines the relationship in your Model
-                        'attribute' => 'name', // foreign key attribute that is shown to user
-                        'model' => config('permission.models.permission'), // foreign key model
-                        'pivot' => true, // on create&update, do you need to add/delete pivot table entries?]
-                        'number_columns' => 3, //can be 1,2,3,4,6
-                    ],
-                ],
-            ],
-            [
-                'name' => 'profile.type',
-                'type' => 'hidden',
-                'value' => 'student',
-                'entity' => 'profile.type',
-            ],
         ]);
-    }
 
-    /**
-     * Handle password input fields.
-     */
-    private function handlePasswordInput(Request $request)
-    {
-        // Remove fields not present on the user.
-        $request->request->remove('password_confirmation');
-        $request->request->remove('roles_show');
-        $request->request->remove('permissions_show');
+        // Add permission fields from trait
+        $fields = array_merge($fields, $this->getUserPermissionFields());
 
-        // Encrypt password if specified.
-        if ($request->input('password')) {
-            $request->merge(['password' => Hash::make($request->input('password'))]);
-        } else {
-            $request->request->remove('password');
-        }
+        $fields[] = [
+            'name' => 'profile.type',
+            'type' => 'hidden',
+            'value' => 'student',
+            'entity' => 'profile.type',
+        ];
 
-        return $request;
+        $this->crud->addFields($fields);
     }
 }
