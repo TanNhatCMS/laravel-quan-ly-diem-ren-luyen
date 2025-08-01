@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 /**
- * Trait UserCrudTrait
+ * Trait UserCrudTrait.
  *
  * Common functionality for User-based CRUD controllers
  */
@@ -58,7 +58,7 @@ trait UserCrudTrait
     }
 
     /**
-     * Add common user permission fields
+     * Add common user permission fields.
      */
     protected function getUserPermissionFields(): array
     {
@@ -96,7 +96,7 @@ trait UserCrudTrait
     }
 
     /**
-     * Add common password fields
+     * Add common password fields.
      */
     protected function getPasswordFields(): array
     {
