@@ -38,6 +38,36 @@ trait UserCrudTrait
     }
 
     /**
+     * Handle storing of user entity with password processing and related models.
+     */
+    protected function storeUserEntityWithRelations(): RedirectResponse
+    {
+        $this->crud->setRequest($this->crud->validateRequest());
+        $this->crud->setRequest($this->handlePasswordInput($this->crud->getRequest()));
+        $this->crud->unsetValidation();
+        $response = $this->traitStore();
+        $this->saveRelatedModels($this->crud->entry);
+
+        return $response;
+    }
+
+    /**
+     * Handle updating of user entity with password processing and related models.
+     */
+    protected function updateUserEntityWithRelations(): RedirectResponse
+    {
+        $this->crud->setRequest($this->crud->validateRequest());
+        $this->crud->setRequest($this->handlePasswordInput($this->crud->getRequest()));
+        $this->crud->unsetValidation();
+
+        $response = $this->traitUpdate();
+
+        $this->saveRelatedModels($this->crud->entry);
+
+        return $response;
+    }
+
+    /**
      * Handle password input fields.
      */
     protected function handlePasswordInput(Request $request): Request
