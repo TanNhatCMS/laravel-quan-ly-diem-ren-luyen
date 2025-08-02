@@ -2,8 +2,8 @@
 
 namespace Tests\Unit;
 
-use App\Models\UserProfiles;
 use App\Models\User;
+use App\Models\UserProfiles;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -67,18 +67,18 @@ class UserProfilesTest extends TestCase
     public function test_mass_assignment_protection(): void
     {
         $userProfile = new UserProfiles();
-        
+
         // Test common profile fields (assuming these are fillable)
         $profileData = [
             'user_id' => 1,
             'phone' => '0123456789',
             'address' => '123 Test Street',
             'date_of_birth' => '1990-01-01',
-            'student_id' => 'ST123456'
+            'student_id' => 'ST123456',
         ];
-        
+
         $userProfile->fill($profileData);
-        
+
         // Should not be able to fill id (guarded)
         $userProfile->fill(['id' => 999]);
         $this->assertNull($userProfile->id);
@@ -90,11 +90,11 @@ class UserProfilesTest extends TestCase
     public function test_profile_data_validation(): void
     {
         $userProfile = new UserProfiles();
-        
+
         // Test phone number format (if applicable)
         $userProfile->fill(['phone' => '0123456789']);
         $this->assertEquals('0123456789', $userProfile->phone);
-        
+
         // Test date of birth format
         $userProfile->fill(['date_of_birth' => '1990-01-01']);
         $this->assertEquals('1990-01-01', $userProfile->date_of_birth);

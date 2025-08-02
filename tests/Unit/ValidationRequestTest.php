@@ -2,8 +2,8 @@
 
 namespace Tests\Unit;
 
-use App\Http\Requests\UserRequest;
 use App\Http\Requests\EvaluationScoresRequest;
+use App\Http\Requests\UserRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
@@ -75,7 +75,7 @@ class ValidationRequestTest extends TestCase
         $this->assertArrayHasKey('user_id', $rules);
         $this->assertArrayHasKey('score', $rules);
         $this->assertArrayHasKey('evaluation_type', $rules);
-        
+
         $this->assertContains('required', explode('|', $rules['user_id']));
         $this->assertContains('required', explode('|', $rules['score']));
         $this->assertContains('required', explode('|', $rules['evaluation_type']));
@@ -129,7 +129,7 @@ class ValidationRequestTest extends TestCase
 
         // Test valid evaluation types
         $validTypes = ['self', 'class', 'organization'];
-        
+
         foreach ($validTypes as $type) {
             $data = [
                 'user_id' => 1,
@@ -177,9 +177,9 @@ class ValidationRequestTest extends TestCase
         $messages = $userRequest->messages();
 
         $this->assertIsArray($messages);
-        
+
         // Test that important messages are defined
-        if (!empty($messages)) {
+        if (! empty($messages)) {
             $this->assertNotEmpty($messages);
         }
     }
@@ -198,7 +198,7 @@ class ValidationRequestTest extends TestCase
         ];
 
         $validator = Validator::make($maliciousData, $request->rules());
-        
+
         // The validation should still pass, but the data will be sanitized during processing
         // This depends on your application's XSS protection implementation
         $this->assertTrue($validator->passes());
@@ -218,7 +218,7 @@ class ValidationRequestTest extends TestCase
         ];
 
         $validator = Validator::make($maliciousData, $request->rules());
-        
+
         // Validation should pass, protection happens at the database layer
         $this->assertTrue($validator->passes());
     }

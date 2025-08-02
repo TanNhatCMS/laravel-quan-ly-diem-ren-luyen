@@ -67,20 +67,20 @@ class SemesterScoresTest extends TestCase
     public function test_mass_assignment_protection(): void
     {
         $semesterScore = new SemesterScores();
-        
+
         // Should be able to fill allowed attributes
         $semesterScore->fill([
             'year' => 2024,
             'semester' => 1,
             'evaluation_start' => '2024-01-01',
-            'evaluation_end' => '2024-06-30'
+            'evaluation_end' => '2024-06-30',
         ]);
-        
+
         $this->assertEquals(2024, $semesterScore->year);
         $this->assertEquals(1, $semesterScore->semester);
         $this->assertEquals('2024-01-01', $semesterScore->evaluation_start);
         $this->assertEquals('2024-06-30', $semesterScore->evaluation_end);
-        
+
         // Should not be able to fill id (guarded)
         $semesterScore->fill(['id' => 999]);
         $this->assertNull($semesterScore->id);
@@ -92,7 +92,7 @@ class SemesterScoresTest extends TestCase
     public function test_semester_validation(): void
     {
         $semesterScore = new SemesterScores();
-        
+
         // Test valid semester values (assuming 1-2 for annual system or 1-3 for trimester)
         $validSemesters = [1, 2, 3];
         foreach ($validSemesters as $semester) {
@@ -107,12 +107,12 @@ class SemesterScoresTest extends TestCase
     public function test_year_validation(): void
     {
         $semesterScore = new SemesterScores();
-        
+
         // Test current and future years
         $currentYear = date('Y');
         $semesterScore->fill(['year' => $currentYear]);
         $this->assertEquals($currentYear, $semesterScore->year);
-        
+
         $futureYear = $currentYear + 1;
         $semesterScore->fill(['year' => $futureYear]);
         $this->assertEquals($futureYear, $semesterScore->year);

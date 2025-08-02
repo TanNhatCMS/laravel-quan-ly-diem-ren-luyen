@@ -2,11 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
+use Tests\TestCase;
 
 class AuthApiSecurityTest extends TestCase
 {
@@ -15,7 +15,7 @@ class AuthApiSecurityTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         // Create basic roles for testing
         Role::create(['name' => 'admin', 'guard_name' => 'web']);
         Role::create(['name' => 'student', 'guard_name' => 'web']);
@@ -41,7 +41,7 @@ class AuthApiSecurityTest extends TestCase
                 'access_token',
                 'token_type',
                 'expires_in',
-                'user' => ['id', 'name', 'email', 'roles']
+                'user' => ['id', 'name', 'email', 'roles'],
             ]);
     }
 
@@ -57,7 +57,7 @@ class AuthApiSecurityTest extends TestCase
 
         $response->assertStatus(401)
             ->assertJson([
-                'message' => 'Invalid credentials'
+                'message' => 'Invalid credentials',
             ]);
     }
 
@@ -119,12 +119,12 @@ class AuthApiSecurityTest extends TestCase
         $token = JWTAuth::fromUser($user);
 
         $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $token,
+            'Authorization' => 'Bearer '.$token,
         ])->postJson('/api/auth/profile');
 
         $response->assertStatus(200)
             ->assertJsonStructure([
-                'data' => ['id', 'name', 'email', 'roles', 'permissions']
+                'data' => ['id', 'name', 'email', 'roles', 'permissions'],
             ]);
     }
 
@@ -137,12 +137,12 @@ class AuthApiSecurityTest extends TestCase
         $token = JWTAuth::fromUser($user);
 
         $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $token,
+            'Authorization' => 'Bearer '.$token,
         ])->postJson('/api/auth/logout');
 
         $response->assertStatus(200)
             ->assertJson([
-                'message' => 'Logged out successfully'
+                'message' => 'Logged out successfully',
             ]);
     }
 
@@ -155,14 +155,14 @@ class AuthApiSecurityTest extends TestCase
         $token = JWTAuth::fromUser($user);
 
         $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $token,
+            'Authorization' => 'Bearer '.$token,
         ])->postJson('/api/auth/refresh');
 
         $response->assertStatus(200)
             ->assertJsonStructure([
                 'access_token',
                 'token_type',
-                'expires_in'
+                'expires_in',
             ]);
     }
 

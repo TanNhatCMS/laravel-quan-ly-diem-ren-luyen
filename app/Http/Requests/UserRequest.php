@@ -25,13 +25,13 @@ class UserRequest extends FormRequest
     public function rules()
     {
         $userId = $this->route('id') ?? $this->route('user');
-        
+
         return [
             'name' => 'required|string|min:2|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . $userId,
+            'email' => 'required|email|max:255|unique:users,email,'.$userId,
             'password' => $this->isMethod('post') ? 'required|string|min:8|confirmed' : 'nullable|string|min:8|confirmed',
             'roles' => 'nullable|array',
-            'roles.*' => 'string|exists:roles,name'
+            'roles.*' => 'string|exists:roles,name',
         ];
     }
 
@@ -65,7 +65,7 @@ class UserRequest extends FormRequest
             'password.min' => 'The password must be at least 8 characters.',
             'password.confirmed' => 'The password confirmation does not match.',
             'roles.array' => 'Roles must be provided as an array.',
-            'roles.*.exists' => 'One or more selected roles do not exist.'
+            'roles.*.exists' => 'One or more selected roles do not exist.',
         ];
     }
 }

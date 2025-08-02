@@ -18,7 +18,7 @@ class AuthController extends BaseController
     {
         $request->validate([
             'email' => 'required|email|max:255',
-            'password' => 'required|string|min:6|max:255'
+            'password' => 'required|string|min:6|max:255',
         ]);
 
         $credentials = $request->only('email', 'password');
@@ -28,7 +28,7 @@ class AuthController extends BaseController
         }
 
         $user = Auth::user();
-        
+
         return response()->json([
             'access_token' => $token,
             'token_type' => 'Bearer',
@@ -37,7 +37,7 @@ class AuthController extends BaseController
                 'id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,
-                'roles' => $user->getRoleNames()
+                'roles' => $user->getRoleNames(),
             ],
         ]);
     }
@@ -50,8 +50,8 @@ class AuthController extends BaseController
     public function profile()
     {
         $user = Auth::user();
-        
-        if (!$user) {
+
+        if (! $user) {
             return response()->json(['message' => 'User not authenticated'], 401);
         }
 
@@ -60,7 +60,7 @@ class AuthController extends BaseController
             'name' => $user->name,
             'email' => $user->email,
             'roles' => $user->getRoleNames(),
-            'permissions' => $user->getAllPermissions()->pluck('name')
+            'permissions' => $user->getAllPermissions()->pluck('name'),
         ], 'User profile retrieved successfully.');
     }
 
@@ -73,6 +73,7 @@ class AuthController extends BaseController
     {
         try {
             JWTAuth::invalidate(JWTAuth::getToken());
+
             return response()->json(['message' => 'Logged out successfully']);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Failed to logout, token may be invalid'], 400);
@@ -88,7 +89,7 @@ class AuthController extends BaseController
     {
         try {
             $token = JWTAuth::refresh();
-            
+
             return response()->json([
                 'access_token' => $token,
                 'token_type' => 'Bearer',
