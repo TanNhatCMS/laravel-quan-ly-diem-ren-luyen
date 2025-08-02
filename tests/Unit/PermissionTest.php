@@ -32,7 +32,7 @@ class PermissionTest extends TestCase
     {
         $permission = new Permission();
         $expected = ['name', 'guard_name', 'updated_at', 'created_at'];
-        
+
         $this->assertEquals($expected, $permission->getFillable());
     }
 

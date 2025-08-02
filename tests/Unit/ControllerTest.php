@@ -39,7 +39,7 @@ class ControllerTest extends TestCase
     public function test_controller_uses_traits(): void
     {
         $traits = class_uses(Controller::class);
-        
+
         $this->assertContains(\Illuminate\Foundation\Auth\Access\AuthorizesRequests::class, $traits);
         $this->assertContains(\Illuminate\Foundation\Bus\DispatchesJobs::class, $traits);
         $this->assertContains(\Illuminate\Foundation\Validation\ValidatesRequests::class, $traits);

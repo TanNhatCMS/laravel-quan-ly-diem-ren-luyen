@@ -32,7 +32,7 @@ class RoleTest extends TestCase
     {
         $role = new Role();
         $expected = ['name', 'guard_name', 'updated_at', 'created_at'];
-        
+
         $this->assertEquals($expected, $role->getFillable());
     }
 

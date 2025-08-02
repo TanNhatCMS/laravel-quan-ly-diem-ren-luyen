@@ -13,7 +13,7 @@ class AuthApiTest extends TestCase
     {
         $response = $this->postJson('/api/auth/login', [
             'email' => 'test@example.com',
-            'password' => 'wrongpassword'
+            'password' => 'wrongpassword',
         ]);
 
         // Should not return 404 (route exists)
@@ -26,7 +26,7 @@ class AuthApiTest extends TestCase
     public function test_logout_endpoint_exists(): void
     {
         $response = $this->postJson('/api/auth/logout');
-        
+
         // This might return 401 (unauthorized) or 500, but the route should exist
         $this->assertNotEquals(404, $response->getStatusCode());
     }
@@ -37,7 +37,7 @@ class AuthApiTest extends TestCase
     public function test_refresh_endpoint_exists(): void
     {
         $response = $this->postJson('/api/auth/refresh');
-        
+
         // This might return 401 (unauthorized) or 500, but the route should exist
         $this->assertNotEquals(404, $response->getStatusCode());
     }
@@ -48,8 +48,8 @@ class AuthApiTest extends TestCase
     public function test_profile_endpoint_exists(): void
     {
         $response = $this->postJson('/api/auth/profile');
-        
-        // This might return 401 (unauthorized) or 500, but the route should exist  
+
+        // This might return 401 (unauthorized) or 500, but the route should exist
         $this->assertNotEquals(404, $response->getStatusCode());
     }
 }
