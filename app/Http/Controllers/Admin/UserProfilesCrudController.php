@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Admin\Traits\UserCrudTrait;
 use App\Http\Requests\UserProfilesRequest;
 use App\Models\AcademicDegrees;
 use App\Models\User;
@@ -19,8 +20,6 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Exception;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 /**
  * Class UserProfilesCrudController.
@@ -29,11 +28,12 @@ use Illuminate\Support\Facades\Hash;
  */
 class UserProfilesCrudController extends CrudController
 {
-    use ListOperation;
     use CreateOperation { store as traitStore; }
-    use UpdateOperation { update as traitUpdate; }
     use DeleteOperation;
+    use ListOperation;
     use ShowOperation;
+    use UpdateOperation { update as traitUpdate; }
+    use UserCrudTrait;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -95,24 +95,24 @@ class UserProfilesCrudController extends CrudController
             },
         ]);
 
-//        $this->crud->addColumn([
-//            'name' => 'class_id',
-//            'label' => 'Lớp',
-//            'type' => 'select',
-//            'entity' => 'profile',
-//            'attribute' => 'name',
-//            'model' => UserProfiles::class,
-//        ]);
+        //        $this->crud->addColumn([
+        //            'name' => 'class_id',
+        //            'label' => 'Lớp',
+        //            'type' => 'select',
+        //            'entity' => 'profile',
+        //            'attribute' => 'name',
+        //            'model' => UserProfiles::class,
+        //        ]);
 
-//        $this->crud->addColumn([
-//            'name' => 'academic_degree_id',
-//            'label' => 'Trình độ chuyên môn',
-//            'type' => 'select',
-//            'entity' => 'academicDegree',
-//            'attribute' => 'name',
-//            'model' => AcademicDegrees::class,
-//        ]);
-//
+        //        $this->crud->addColumn([
+        //            'name' => 'academic_degree_id',
+        //            'label' => 'Trình độ chuyên môn',
+        //            'type' => 'select',
+        //            'entity' => 'academicDegree',
+        //            'attribute' => 'name',
+        //            'model' => AcademicDegrees::class,
+        //        ]);
+        //
         $this->crud->addColumn([
             'name' => 'organizations',
             'label' => 'Phòng ban/Khoa',
@@ -178,36 +178,18 @@ class UserProfilesCrudController extends CrudController
 
     /**
      * Store a newly created resource in the database.
-     *
-     * @return RedirectResponse
      */
-    public function store()
+    public function store(): RedirectResponse
     {
-        $this->crud->setRequest($this->crud->validateRequest());
-        $this->crud->setRequest($this->handlePasswordInput($this->crud->getRequest()));
-        $this->crud->unsetValidation();
-        $response = $this->traitStore();
-        $this->saveRelatedModels($this->crud->entry);
-
-        return $response;
+        return $this->storeUserEntityWithRelations();
     }
 
     /**
      * Update the specified resource in the database.
-     *
-     * @return RedirectResponse
      */
-    public function update()
+    public function update(): RedirectResponse
     {
-        $this->crud->setRequest($this->crud->validateRequest());
-        $this->crud->setRequest($this->handlePasswordInput($this->crud->getRequest()));
-        $this->crud->unsetValidation();
-
-        $response = $this->traitUpdate();
-
-        $this->saveRelatedModels($this->crud->entry);
-
-        return $response;
+        return $this->updateUserEntityWithRelations();
     }
 
     private function saveRelatedModels(UserProfiles $profile)
@@ -298,7 +280,7 @@ class UserProfilesCrudController extends CrudController
                         'attribute' => 'name', // foreign key attribute that is shown to user
                         'model' => config('permission.models.role'), // foreign key model
                         'pivot' => true, // on create&update, do you need to add/delete pivot table entries?]
-                        'number_columns' => 3, //can be 1,2,3,4,6
+                        'number_columns' => 3, // can be 1,2,3,4,6
                     ],
                     'secondary' => [
                         'label' => mb_ucfirst(trans('backpack::permissionmanager.permission_plural')),
@@ -308,30 +290,10 @@ class UserProfilesCrudController extends CrudController
                         'attribute' => 'name', // foreign key attribute that is shown to user
                         'model' => config('permission.models.permission'), // foreign key model
                         'pivot' => true, // on create&update, do you need to add/delete pivot table entries?]
-                        'number_columns' => 3, //can be 1,2,3,4,6
+                        'number_columns' => 3, // can be 1,2,3,4,6
                     ],
                 ],
             ],
         ]);
-    }
-
-    /**
-     * Handle password input fields.
-     */
-    private function handlePasswordInput(Request $request)
-    {
-        // Remove fields not present on the user.
-        $request->request->remove('password_confirmation');
-        $request->request->remove('roles_show');
-        $request->request->remove('permissions_show');
-
-        // Encrypt password if specified.
-        if ($request->input('password')) {
-            $request->request->set('password', Hash::make($request->input('password')));
-        } else {
-            $request->request->remove('password');
-        }
-
-        return $request;
     }
 }
