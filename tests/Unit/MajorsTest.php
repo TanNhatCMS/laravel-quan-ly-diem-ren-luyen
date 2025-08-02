@@ -3,7 +3,6 @@
 namespace Tests\Unit;
 
 use App\Models\Majors;
-use App\Models\Organizations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -77,11 +76,11 @@ class MajorsTest extends TestCase
     public function test_mass_assignment_protection(): void
     {
         $major = new Majors();
-        
+
         // Test fillable attributes (assuming name is fillable)
         $major->fill(['name' => 'Computer Science']);
         $this->assertEquals('Computer Science', $major->name);
-        
+
         // Should not be able to fill id (guarded)
         $major->fill(['id' => 999]);
         $this->assertNull($major->id);

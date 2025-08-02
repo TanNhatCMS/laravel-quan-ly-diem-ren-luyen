@@ -24,22 +24,22 @@ class EvaluationScores extends Model
     protected $guarded = ['id'];
     protected $fillable = [
         'user_id',
-        'semester_score_id', 
+        'semester_score_id',
         'score',
         'evaluation_type',
         'notes',
         'submitted_at',
         'approved_at',
-        'approved_by'
+        'approved_by',
     ];
-    
+
     protected $casts = [
         'score' => 'decimal:2',
         'submitted_at' => 'datetime',
         'approved_at' => 'datetime',
         'user_id' => 'integer',
         'semester_score_id' => 'integer',
-        'approved_by' => 'integer'
+        'approved_by' => 'integer',
     ];
 
     /*
@@ -80,7 +80,7 @@ class EvaluationScores extends Model
      */
     public function getFormattedScoreAttribute(): string
     {
-        return $this->score . '%';
+        return $this->score.'%';
     }
 
     /*

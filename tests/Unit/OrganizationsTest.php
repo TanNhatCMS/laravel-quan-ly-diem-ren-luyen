@@ -2,10 +2,9 @@
 
 namespace Tests\Unit;
 
-use App\Models\Organizations;
 use App\Models\Classes;
-use App\Models\User;
 use App\Models\Majors;
+use App\Models\Organizations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -100,12 +99,12 @@ class OrganizationsTest extends TestCase
     public function test_mass_assignment_protection(): void
     {
         $organization = new Organizations();
-        
+
         // Should be able to fill name and type
         $organization->fill(['name' => 'Test Org', 'type' => 'department']);
         $this->assertEquals('Test Org', $organization->name);
         $this->assertEquals('department', $organization->type);
-        
+
         // Should not be able to fill id (guarded)
         $organization->fill(['id' => 999]);
         $this->assertNull($organization->id);

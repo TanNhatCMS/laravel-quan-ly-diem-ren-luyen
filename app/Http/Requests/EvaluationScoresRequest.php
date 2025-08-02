@@ -32,7 +32,7 @@ class EvaluationScoresRequest extends FormRequest
             'notes' => 'nullable|string|max:1000',
             'submitted_at' => 'nullable|date',
             'approved_at' => 'nullable|date|after_or_equal:submitted_at',
-            'approved_by' => 'nullable|integer|exists:users,id'
+            'approved_by' => 'nullable|integer|exists:users,id',
         ];
     }
 
@@ -68,7 +68,7 @@ class EvaluationScoresRequest extends FormRequest
             'evaluation_type.in' => 'Evaluation type must be one of: self, class, organization.',
             'notes.max' => 'Notes must not exceed 1000 characters.',
             'approved_at.after_or_equal' => 'Approval date must be after or equal to submission date.',
-            'approved_by.exists' => 'Selected approver does not exist.'
+            'approved_by.exists' => 'Selected approver does not exist.',
         ];
     }
 }

@@ -2,11 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
+use Tests\TestCase;
 
 class UserApiSecurityTest extends TestCase
 {
@@ -20,7 +20,7 @@ class UserApiSecurityTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         // Create roles
         $adminRole = Role::create(['name' => 'admin', 'guard_name' => 'web']);
         $studentRole = Role::create(['name' => 'student', 'guard_name' => 'web']);
@@ -28,9 +28,9 @@ class UserApiSecurityTest extends TestCase
         // Create test users
         $this->user = User::factory()->create();
         $this->user->assignRole('student');
-        
+
         $this->adminUser = User::factory()->create([
-            'email' => 'admin@example.com'
+            'email' => 'admin@example.com',
         ]);
         $this->adminUser->assignRole('admin');
 
@@ -45,7 +45,7 @@ class UserApiSecurityTest extends TestCase
     public function test_user_list_pagination_validation(): void
     {
         $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $this->adminToken,
+            'Authorization' => 'Bearer '.$this->adminToken,
         ])->getJson('/api/users?per_page=1000'); // Exceeds max limit
 
         $response->assertStatus(422)
@@ -58,14 +58,14 @@ class UserApiSecurityTest extends TestCase
     public function test_user_list_returns_filtered_data(): void
     {
         $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $this->adminToken,
+            'Authorization' => 'Bearer '.$this->adminToken,
         ])->getJson('/api/users');
 
         $response->assertStatus(200)
             ->assertJsonStructure([
                 'data' => [
-                    '*' => ['id', 'name', 'email', 'created_at', 'updated_at']
-                ]
+                    '*' => ['id', 'name', 'email', 'created_at', 'updated_at'],
+                ],
             ])
             ->assertJsonMissing(['password', 'remember_token']);
     }
@@ -76,7 +76,7 @@ class UserApiSecurityTest extends TestCase
     public function test_user_creation_validation(): void
     {
         $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $this->adminToken,
+            'Authorization' => 'Bearer '.$this->adminToken,
         ])->postJson('/api/users', [
             'name' => 'A', // Too short
             'email' => 'invalid-email', // Invalid email
@@ -93,7 +93,7 @@ class UserApiSecurityTest extends TestCase
     public function test_user_creation_duplicate_email(): void
     {
         $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $this->adminToken,
+            'Authorization' => 'Bearer '.$this->adminToken,
         ])->postJson('/api/users', [
             'name' => 'Test User',
             'email' => $this->user->email, // Duplicate email
@@ -111,7 +111,7 @@ class UserApiSecurityTest extends TestCase
     public function test_user_creation_success(): void
     {
         $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $this->adminToken,
+            'Authorization' => 'Bearer '.$this->adminToken,
         ])->postJson('/api/users', [
             'name' => 'New User',
             'email' => 'newuser@example.com',
@@ -140,7 +140,7 @@ class UserApiSecurityTest extends TestCase
     public function test_user_profile_not_found(): void
     {
         $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $this->adminToken,
+            'Authorization' => 'Bearer '.$this->adminToken,
         ])->getJson('/api/users/99999/profile');
 
         $response->assertStatus(404);
@@ -152,12 +152,12 @@ class UserApiSecurityTest extends TestCase
     public function test_user_profile_safe_data(): void
     {
         $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $this->adminToken,
-        ])->getJson('/api/users/' . $this->user->id . '/profile');
+            'Authorization' => 'Bearer '.$this->adminToken,
+        ])->getJson('/api/users/'.$this->user->id.'/profile');
 
         $response->assertStatus(200)
             ->assertJsonStructure([
-                'data' => ['id', 'name', 'email', 'created_at', 'updated_at', 'roles']
+                'data' => ['id', 'name', 'email', 'created_at', 'updated_at', 'roles'],
             ])
             ->assertJsonMissing(['password', 'remember_token']);
     }
@@ -168,8 +168,8 @@ class UserApiSecurityTest extends TestCase
     public function test_user_cannot_delete_self(): void
     {
         $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $this->adminToken,
-        ])->deleteJson('/api/users/' . $this->adminUser->id);
+            'Authorization' => 'Bearer '.$this->adminToken,
+        ])->deleteJson('/api/users/'.$this->adminUser->id);
 
         $response->assertStatus(403)
             ->assertJson(['message' => 'Cannot delete your own account']);
@@ -181,7 +181,7 @@ class UserApiSecurityTest extends TestCase
     public function test_user_deletion_not_found(): void
     {
         $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $this->adminToken,
+            'Authorization' => 'Bearer '.$this->adminToken,
         ])->deleteJson('/api/users/99999');
 
         $response->assertStatus(404);
@@ -195,8 +195,8 @@ class UserApiSecurityTest extends TestCase
         $userToDelete = User::factory()->create();
 
         $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $this->adminToken,
-        ])->deleteJson('/api/users/' . $userToDelete->id);
+            'Authorization' => 'Bearer '.$this->adminToken,
+        ])->deleteJson('/api/users/'.$userToDelete->id);
 
         $response->assertStatus(200)
             ->assertJson(['data' => ['message' => 'User has been deleted successfully']]);
@@ -210,9 +210,9 @@ class UserApiSecurityTest extends TestCase
     public function test_role_change_validation(): void
     {
         $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $this->adminToken,
-        ])->putJson('/api/users/' . $this->user->id . '/role', [
-            'roles' => ['nonexistent_role']
+            'Authorization' => 'Bearer '.$this->adminToken,
+        ])->putJson('/api/users/'.$this->user->id.'/role', [
+            'roles' => ['nonexistent_role'],
         ]);
 
         $response->assertStatus(422)
@@ -225,9 +225,9 @@ class UserApiSecurityTest extends TestCase
     public function test_role_change_success(): void
     {
         $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $this->adminToken,
-        ])->putJson('/api/users/' . $this->user->id . '/role', [
-            'roles' => ['admin']
+            'Authorization' => 'Bearer '.$this->adminToken,
+        ])->putJson('/api/users/'.$this->user->id.'/role', [
+            'roles' => ['admin'],
         ]);
 
         $response->assertStatus(200)
@@ -261,7 +261,7 @@ class UserApiSecurityTest extends TestCase
     public function test_mass_assignment_protection(): void
     {
         $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $this->adminToken,
+            'Authorization' => 'Bearer '.$this->adminToken,
         ])->postJson('/api/users', [
             'name' => 'Test User',
             'email' => 'test@example.com',
