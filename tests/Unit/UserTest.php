@@ -2,11 +2,9 @@
 
 namespace Tests\Unit;
 
-use App\Models\User;
-use App\Models\Positions;
-use App\Models\Classes;
 use App\Models\Organizations;
-use App\Models\UserProfiles;
+use App\Models\Positions;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -21,13 +19,13 @@ class UserTest extends TestCase
     {
         $user = User::factory()->create([
             'name' => 'Test User',
-            'email' => 'test@example.com'
+            'email' => 'test@example.com',
         ]);
 
         $this->assertDatabaseHas('users', [
             'id' => $user->id,
             'name' => 'Test User',
-            'email' => 'test@example.com'
+            'email' => 'test@example.com',
         ]);
     }
 
@@ -37,7 +35,7 @@ class UserTest extends TestCase
     public function test_get_jwt_identifier(): void
     {
         $user = User::factory()->create();
-        
+
         $this->assertEquals($user->getKey(), $user->getJWTIdentifier());
     }
 
@@ -47,7 +45,7 @@ class UserTest extends TestCase
     public function test_get_jwt_custom_claims(): void
     {
         $user = User::factory()->create();
-        
+
         $this->assertIsArray($user->getJWTCustomClaims());
         $this->assertEquals([], $user->getJWTCustomClaims());
     }
@@ -58,7 +56,7 @@ class UserTest extends TestCase
     public function test_user_positions_relationship(): void
     {
         $user = User::factory()->create();
-        
+
         $this->assertInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsToMany::class, $user->positions());
     }
 
@@ -68,7 +66,7 @@ class UserTest extends TestCase
     public function test_user_class_relationship(): void
     {
         $user = User::factory()->create();
-        
+
         $this->assertInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsToMany::class, $user->class());
     }
 
@@ -78,7 +76,7 @@ class UserTest extends TestCase
     public function test_user_organizations_relationship(): void
     {
         $user = User::factory()->create();
-        
+
         $this->assertInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsToMany::class, $user->organizations());
     }
 
@@ -88,7 +86,7 @@ class UserTest extends TestCase
     public function test_user_profile_relationship(): void
     {
         $user = User::factory()->create();
-        
+
         $this->assertInstanceOf(\Illuminate\Database\Eloquent\Relations\HasOne::class, $user->profile());
     }
 
@@ -99,7 +97,7 @@ class UserTest extends TestCase
     {
         $user = new User();
         $expected = ['name', 'email', 'password'];
-        
+
         $this->assertEquals($expected, $user->getFillable());
     }
 
@@ -110,7 +108,7 @@ class UserTest extends TestCase
     {
         $user = new User();
         $expected = ['password', 'remember_token'];
-        
+
         $this->assertEquals($expected, $user->getHidden());
     }
 }

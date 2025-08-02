@@ -2,8 +2,8 @@
 
 namespace Tests\Unit;
 
-use App\Models\Course;
 use App\Models\Classes;
+use App\Models\Course;
 use Tests\TestCase;
 
 class CourseTest extends TestCase
@@ -33,7 +33,7 @@ class CourseTest extends TestCase
     {
         $course = new Course();
         $expected = ['name', 'year_start', 'year_end'];
-        
+
         $this->assertEquals($expected, $course->getFillable());
     }
 
@@ -44,7 +44,7 @@ class CourseTest extends TestCase
     {
         $course = new Course();
         $expected = ['id'];
-        
+
         $this->assertEquals($expected, $course->getGuarded());
     }
 
@@ -54,7 +54,7 @@ class CourseTest extends TestCase
     public function test_classes_relationship(): void
     {
         $course = new Course();
-        
+
         $this->assertInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class, $course->classes());
     }
 
@@ -64,7 +64,7 @@ class CourseTest extends TestCase
     public function test_course_uses_traits(): void
     {
         $traits = class_uses(Course::class);
-        
+
         $this->assertContains(\Backpack\CRUD\app\Models\Traits\CrudTrait::class, $traits);
         $this->assertContains(\Illuminate\Database\Eloquent\Factories\HasFactory::class, $traits);
     }

@@ -35,7 +35,7 @@ class FacultyTest extends TestCase
     {
         $faculty = new Faculty();
         $expected = ['id'];
-        
+
         $this->assertEquals($expected, $faculty->getGuarded());
     }
 
