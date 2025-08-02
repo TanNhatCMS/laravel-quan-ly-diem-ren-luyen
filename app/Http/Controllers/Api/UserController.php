@@ -17,8 +17,14 @@ class UserController extends BaseController
      */
     public function list(Request $request): JsonResponse
     {
+        $request->validate([
+            'per_page' => 'nullable|integer|min:1|max:100'
+        ]);
+
         $perPage = $request->per_page ?? 10;
-        $users = User::paginate($perPage);
+        $users = User::select(['id', 'name', 'email', 'created_at', 'updated_at'])
+            ->with('roles:id,name')
+            ->paginate($perPage);
 
         return $this->successResponse($users);
     }
@@ -31,22 +37,33 @@ class UserController extends BaseController
      */
     public function store(UserRequest $request): JsonResponse
     {
-        // store user information
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => $request->password,
+        $request->validate([
+            'name' => 'required|string|min:2|max:255',
+            'email' => 'required|email|unique:users,email|max:255',
+            'password' => 'required|string|min:8|confirmed',
+            'role' => 'nullable|array',
+            'role.*' => 'string|exists:roles,name'
         ]);
 
-        if ($user) {
-            $role = $user->syncRoles($request->role);
+        try {
+            // store user information
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+            ]);
+
+            if ($user && $request->has('role')) {
+                $user->syncRoles($request->role);
+            }
 
             return $this->successResponse([
-                'message' => 'User created succesfully!',
+                'message' => 'User created successfully!',
+                'user_id' => $user->id
             ]);
+        } catch (\Exception $e) {
+            return $this->failedResponse('Failed to create user: ' . $e->getMessage());
         }
-
-        return $this->failedResponse();
     }
 
     /**
@@ -58,11 +75,19 @@ class UserController extends BaseController
      */
     public function profile($id, Request $request): JsonResponse
     {
-        if ($user = User::find($id)) {
-            return $this->successResponse($user);
+        $request->validate([
+            'id' => 'integer|min:1'
+        ]);
+
+        $user = User::select(['id', 'name', 'email', 'created_at', 'updated_at'])
+            ->with(['roles:id,name', 'permissions:id,name'])
+            ->find($id);
+
+        if (!$user) {
+            return $this->failedResponse('User not found!', 404);
         }
 
-        return $this->failedResponse('Not found!');
+        return $this->successResponse($user);
     }
 
     /**
@@ -74,15 +99,29 @@ class UserController extends BaseController
      */
     public function delete($id, Request $request): JsonResponse
     {
-        if ($user = User::find($id)) {
-            $user->delete();
+        $request->validate([
+            'id' => 'integer|min:1'
+        ]);
 
-            return $this->successResponse([
-                'message' => 'User has been deleted',
-            ]);
+        $user = User::find($id);
+        
+        if (!$user) {
+            return $this->failedResponse('User not found!', 404);
         }
 
-        return $this->failedResponse('Not found!');
+        // Prevent deletion of current authenticated user
+        if (auth()->user() && auth()->user()->id == $id) {
+            return $this->failedResponse('Cannot delete your own account', 403);
+        }
+
+        try {
+            $user->delete();
+            return $this->successResponse([
+                'message' => 'User has been deleted successfully',
+            ]);
+        } catch (\Exception $e) {
+            return $this->failedResponse('Failed to delete user: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -94,15 +133,27 @@ class UserController extends BaseController
      */
     public function changeRole($id, Request $request): JsonResponse
     {
-        if ($user = User::find($id)) {
+        $request->validate([
+            'roles' => 'required|array|min:1',
+            'roles.*' => 'string|exists:roles,name'
+        ]);
+
+        $user = User::find($id);
+        
+        if (!$user) {
+            return $this->failedResponse('User not found!', 404);
+        }
+
+        try {
             // assign role to user
             $user->syncRoles($request->roles);
 
             return $this->successResponse([
-                'message' => 'Users Role has been updated!',
+                'message' => 'User roles have been updated successfully!',
+                'roles' => $user->getRoleNames()
             ]);
+        } catch (\Exception $e) {
+            return $this->failedResponse('Failed to update user roles: ' . $e->getMessage());
         }
-
-        return $this->failedResponse();
     }
 }

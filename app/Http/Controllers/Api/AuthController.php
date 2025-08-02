@@ -16,17 +16,29 @@ class AuthController extends BaseController
      */
     public function login(Request $request)
     {
+        $request->validate([
+            'email' => 'required|email|max:255',
+            'password' => 'required|string|min:6|max:255'
+        ]);
+
         $credentials = $request->only('email', 'password');
 
         if (! $token = JWTAuth::attempt($credentials)) {
-            return response()->json(['message' => 'Unauthorized'], 401);
+            return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
+        $user = Auth::user();
+        
         return response()->json([
             'access_token' => $token,
             'token_type' => 'Bearer',
             'expires_in' => auth('api')->factory()->getTTL() * 60,
-            'user' => Auth::user(),
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'roles' => $user->getRoleNames()
+            ],
         ]);
     }
 
@@ -37,11 +49,19 @@ class AuthController extends BaseController
      */
     public function profile()
     {
-        if ($user = Auth::user()) {
-            return $this->sendResponse($user, 'User profile retrieved successfully.');
+        $user = Auth::user();
+        
+        if (!$user) {
+            return response()->json(['message' => 'User not authenticated'], 401);
         }
 
-        return $this->failedResponse();
+        return $this->sendResponse([
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'roles' => $user->getRoleNames(),
+            'permissions' => $user->getAllPermissions()->pluck('name')
+        ], 'User profile retrieved successfully.');
     }
 
     /**
@@ -51,9 +71,12 @@ class AuthController extends BaseController
      */
     public function logout()
     {
-        JWTAuth::invalidate(JWTAuth::getToken());
-
-        return response()->json(['message' => 'Logged out successfully']);
+        try {
+            JWTAuth::invalidate(JWTAuth::getToken());
+            return response()->json(['message' => 'Logged out successfully']);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Failed to logout, token may be invalid'], 400);
+        }
     }
 
     /**
@@ -63,10 +86,16 @@ class AuthController extends BaseController
      */
     public function refresh()
     {
-        return response()->json([
-            'access_token' => JWTAuth::refresh(),
-            'token_type' => 'Bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 60,
-        ]);
+        try {
+            $token = JWTAuth::refresh();
+            
+            return response()->json([
+                'access_token' => $token,
+                'token_type' => 'Bearer',
+                'expires_in' => auth('api')->factory()->getTTL() * 60,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Token refresh failed'], 401);
+        }
     }
 }
