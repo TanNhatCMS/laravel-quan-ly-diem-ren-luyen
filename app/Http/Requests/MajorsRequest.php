@@ -25,9 +25,9 @@ class MajorsRequest extends FormRequest
     public function rules(): array
     {
         $majorId = $this->route('id') ?? $this->route('major');
-        
+
         return [
-            'code' => 'required|string|max:255|unique:majors,code,' . $majorId,
+            'code' => 'required|string|max:255|unique:majors,code,'.$majorId,
             'name' => 'required|string|min:2|max:255',
             'organization_id' => 'required|integer|exists:organizations,id',
         ];
