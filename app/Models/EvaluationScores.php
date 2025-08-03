@@ -133,6 +133,12 @@ class EvaluationScores extends Model
      */
     public function scopeByType($query, $type)
     {
-        return $query->where('evaluation_type', $type);
+        $allowedTypes = ['self', 'class', 'organization'];
+        
+        if (!in_array($type, $allowedTypes, true)) {
+            return $query->whereRaw('1 = 0'); // Return empty result for invalid types
+        }
+        
+        return $query->where('evaluation_type', '=', $type);
     }
 }
