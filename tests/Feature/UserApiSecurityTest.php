@@ -153,7 +153,7 @@ class UserApiSecurityTest extends TestCase
     {
         $response = $this->withHeaders([
             'Authorization' => 'Bearer '.$this->adminToken,
-        ])->getJson('/api/users/'.$this->user->id.'/profile');
+        ])->getJson('/api/users/'.$this->user->id);
 
         $response->assertStatus(200)
             ->assertJsonStructure([
@@ -211,7 +211,7 @@ class UserApiSecurityTest extends TestCase
     {
         $response = $this->withHeaders([
             'Authorization' => 'Bearer '.$this->adminToken,
-        ])->putJson('/api/users/'.$this->user->id.'/role', [
+        ])->putJson('/api/users/'.$this->user->id.'/roles', [
             'roles' => ['nonexistent_role'],
         ]);
 
@@ -226,7 +226,7 @@ class UserApiSecurityTest extends TestCase
     {
         $response = $this->withHeaders([
             'Authorization' => 'Bearer '.$this->adminToken,
-        ])->putJson('/api/users/'.$this->user->id.'/role', [
+        ])->putJson('/api/users/'.$this->user->id.'/roles', [
             'roles' => ['admin'],
         ]);
 
@@ -244,9 +244,9 @@ class UserApiSecurityTest extends TestCase
         $endpoints = [
             ['GET', '/api/users'],
             ['POST', '/api/users'],
-            ['GET', '/api/users/1/profile'],
+            ['GET', '/api/users/1'],
             ['DELETE', '/api/users/1'],
-            ['PUT', '/api/users/1/role'],
+            ['PUT', '/api/users/1/roles'],
         ];
 
         foreach ($endpoints as [$method, $endpoint]) {

@@ -4,6 +4,8 @@ namespace Tests\Unit;
 
 use App\Http\Requests\EvaluationScoresRequest;
 use App\Http\Requests\UserRequest;
+use App\Models\SemesterScores;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
@@ -86,13 +88,22 @@ class ValidationRequestTest extends TestCase
      */
     public function test_evaluation_scores_score_validation(): void
     {
+        // Create necessary records for foreign key validation
+        $user = User::factory()->create();
+        $semesterScore = SemesterScores::create([
+            'year' => 2024,
+            'semester' => 'Học Kỳ 1',
+            'evaluation_start' => '2024-01-01',
+            'evaluation_end' => '2024-06-30',
+        ]);
+
         $request = new EvaluationScoresRequest();
         $rules = $request->rules();
 
         // Test valid score
         $validData = [
-            'user_id' => 1,
-            'semester_score_id' => 1,
+            'user_id' => $user->id,
+            'semester_score_id' => $semesterScore->id,
             'score' => 85,
             'evaluation_type' => 'self',
         ];
@@ -102,8 +113,8 @@ class ValidationRequestTest extends TestCase
 
         // Test invalid score (above maximum)
         $invalidData = [
-            'user_id' => 1,
-            'semester_score_id' => 1,
+            'user_id' => $user->id,
+            'semester_score_id' => $semesterScore->id,
             'score' => 150, // Above 100
             'evaluation_type' => 'self',
         ];
@@ -124,6 +135,15 @@ class ValidationRequestTest extends TestCase
      */
     public function test_evaluation_scores_type_validation(): void
     {
+        // Create necessary records for foreign key validation
+        $user = User::factory()->create();
+        $semesterScore = SemesterScores::create([
+            'year' => 2024,
+            'semester' => 'Học Kỳ 1',
+            'evaluation_start' => '2024-01-01',
+            'evaluation_end' => '2024-06-30',
+        ]);
+
         $request = new EvaluationScoresRequest();
         $rules = $request->rules();
 
@@ -132,8 +152,8 @@ class ValidationRequestTest extends TestCase
 
         foreach ($validTypes as $type) {
             $data = [
-                'user_id' => 1,
-                'semester_score_id' => 1,
+                'user_id' => $user->id,
+                'semester_score_id' => $semesterScore->id,
                 'score' => 85,
                 'evaluation_type' => $type,
             ];
@@ -144,8 +164,8 @@ class ValidationRequestTest extends TestCase
 
         // Test invalid evaluation type
         $invalidData = [
-            'user_id' => 1,
-            'semester_score_id' => 1,
+            'user_id' => $user->id,
+            'semester_score_id' => $semesterScore->id,
             'score' => 85,
             'evaluation_type' => 'invalid_type',
         ];

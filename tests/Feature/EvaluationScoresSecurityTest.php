@@ -28,7 +28,7 @@ class EvaluationScoresSecurityTest extends TestCase
         $this->user = User::factory()->create();
         $this->semesterScore = SemesterScores::create([
             'year' => 2024,
-            'semester' => 1,
+            'semester' => 'Học Kỳ 1',
             'evaluation_start' => '2024-01-01',
             'evaluation_end' => '2024-06-30',
         ]);
