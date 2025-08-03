@@ -13,8 +13,8 @@ class EvaluationScoresRequest extends FormRequest
      */
     public function authorize()
     {
-        // only allow updates if the user is logged in
-        return backpack_auth()->check();
+        // Check both backpack auth (for web routes) and API auth (for JWT routes)
+        return backpack_auth()->check() || auth('api')->check();
     }
 
     /**

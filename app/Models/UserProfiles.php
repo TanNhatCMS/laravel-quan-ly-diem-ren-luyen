@@ -122,6 +122,14 @@ class UserProfiles extends Model
         return $this->phone_number;
     }
 
+    /**
+     * Get the date_of_birth attribute (alias for birth_date).
+     */
+    public function getDateOfBirthAttribute(): ?string
+    {
+        return $this->birth_date;
+    }
+
     /*
     |--------------------------------------------------------------------------
     | MUTATORS
@@ -134,5 +142,13 @@ class UserProfiles extends Model
     public function setPhoneAttribute(?string $value): void
     {
         $this->attributes['phone_number'] = $value;
+    }
+
+    /**
+     * Set the date_of_birth attribute (alias for birth_date).
+     */
+    public function setDateOfBirthAttribute(?string $value): void
+    {
+        $this->attributes['birth_date'] = $value;
     }
 }
