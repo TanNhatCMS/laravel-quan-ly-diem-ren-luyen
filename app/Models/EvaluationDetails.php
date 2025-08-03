@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class EvaluationDetails extends Model
 {
     protected $table = 'evaluation_details';
-    
+
     protected $fillable = [
         'name',
         'score',

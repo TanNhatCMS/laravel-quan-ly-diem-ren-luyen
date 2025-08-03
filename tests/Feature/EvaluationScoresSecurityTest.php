@@ -125,10 +125,10 @@ class EvaluationScoresSecurityTest extends TestCase
         // Test that the model accepts data but security is handled at middleware level
         $evaluationScore = new EvaluationScores();
         $evaluationScore->score = 85;
-        
+
         // Test that score boundaries are enforced
         $this->assertEquals(85, $evaluationScore->score);
-        
+
         // Test that invalid values are handled
         $evaluationScore->score = 150;
         $this->assertEquals(100, $evaluationScore->score); // Should be capped at 100
@@ -164,11 +164,11 @@ class EvaluationScoresSecurityTest extends TestCase
         $evaluationScore = new EvaluationScores();
         $evaluationScore->score = 85;
         $this->assertEquals(85, $evaluationScore->score);
-        
+
         // Test score upper boundary
         $evaluationScore->score = 150; // Above maximum
         $this->assertEquals(100, $evaluationScore->score); // Should be capped
-        
+
         // Test score lower boundary
         $evaluationScore->score = -10; // Below minimum
         $this->assertEquals(0, $evaluationScore->score); // Should be capped
@@ -191,17 +191,17 @@ class EvaluationScoresSecurityTest extends TestCase
     public function test_data_type_casting(): void
     {
         $evaluationScore = new EvaluationScores();
-        
+
         // Test score assignment and casting
         $evaluationScore->score = '85';
         $this->assertIsInt($evaluationScore->score);
         $this->assertEquals(85, $evaluationScore->score);
-        
+
         // Test ID assignments
         $evaluationScore->student_id = '123';
         $evaluationScore->semester_score_id = '456';
         $evaluationScore->evaluation_detail_id = '789';
-        
+
         $this->assertEquals(123, $evaluationScore->student_id);
         $this->assertEquals(456, $evaluationScore->semester_score_id);
         $this->assertEquals(789, $evaluationScore->evaluation_detail_id);
