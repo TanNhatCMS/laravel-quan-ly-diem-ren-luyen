@@ -25,7 +25,10 @@ class ClassesRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'name' => 'required|string|min:2|max:255',
+            'organization_id' => 'required|integer|exists:organizations,id',
+            'major_id' => 'required|integer|exists:majors,id',
+            'course_id' => 'required|integer|exists:courses,id',
         ];
     }
 
@@ -37,7 +40,10 @@ class ClassesRequest extends FormRequest
     public function attributes()
     {
         return [
-            //
+            'name' => 'Tên lớp',
+            'organization_id' => 'Tổ chức',
+            'major_id' => 'Ngành học',
+            'course_id' => 'Khóa học',
         ];
     }
 
@@ -49,7 +55,19 @@ class ClassesRequest extends FormRequest
     public function messages()
     {
         return [
-            //
+            'name.required' => 'Tên lớp không được để trống.',
+            'name.string' => 'Tên lớp phải là chuỗi ký tự.',
+            'name.min' => 'Tên lớp phải có ít nhất 2 ký tự.',
+            'name.max' => 'Tên lớp không được vượt quá 255 ký tự.',
+            'organization_id.required' => 'Tổ chức không được để trống.',
+            'organization_id.integer' => 'Tổ chức phải là số nguyên.',
+            'organization_id.exists' => 'Tổ chức được chọn không tồn tại.',
+            'major_id.required' => 'Ngành học không được để trống.',
+            'major_id.integer' => 'Ngành học phải là số nguyên.',
+            'major_id.exists' => 'Ngành học được chọn không tồn tại.',
+            'course_id.required' => 'Khóa học không được để trống.',
+            'course_id.integer' => 'Khóa học phải là số nguyên.',
+            'course_id.exists' => 'Khóa học được chọn không tồn tại.',
         ];
     }
 }

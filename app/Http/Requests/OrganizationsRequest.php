@@ -25,7 +25,8 @@ class OrganizationsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'name' => 'required|string|min:2|max:255',
+            'type' => 'nullable|string|in:department,faculty',
         ];
     }
 
@@ -37,7 +38,8 @@ class OrganizationsRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            //
+            'name' => 'Tên tổ chức',
+            'type' => 'Loại tổ chức',
         ];
     }
 
@@ -49,7 +51,12 @@ class OrganizationsRequest extends FormRequest
     public function messages(): array
     {
         return [
-            //
+            'name.required' => 'Tên tổ chức không được để trống.',
+            'name.string' => 'Tên tổ chức phải là chuỗi ký tự.',
+            'name.min' => 'Tên tổ chức phải có ít nhất 2 ký tự.',
+            'name.max' => 'Tên tổ chức không được vượt quá 255 ký tự.',
+            'type.string' => 'Loại tổ chức phải là chuỗi ký tự.',
+            'type.in' => 'Loại tổ chức phải là phòng ban hoặc khoa.',
         ];
     }
 }

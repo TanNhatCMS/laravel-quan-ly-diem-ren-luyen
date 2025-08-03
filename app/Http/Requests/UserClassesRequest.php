@@ -25,7 +25,8 @@ class UserClassesRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'user_id' => 'required|integer|exists:users,id',
+            'class_id' => 'required|integer|exists:classes,id',
         ];
     }
 
@@ -37,7 +38,8 @@ class UserClassesRequest extends FormRequest
     public function attributes()
     {
         return [
-            //
+            'user_id' => 'Người dùng',
+            'class_id' => 'Lớp học',
         ];
     }
 
@@ -49,7 +51,12 @@ class UserClassesRequest extends FormRequest
     public function messages()
     {
         return [
-            //
+            'user_id.required' => 'Người dùng không được để trống.',
+            'user_id.integer' => 'Người dùng phải là số nguyên.',
+            'user_id.exists' => 'Người dùng được chọn không tồn tại.',
+            'class_id.required' => 'Lớp học không được để trống.',
+            'class_id.integer' => 'Lớp học phải là số nguyên.',
+            'class_id.exists' => 'Lớp học được chọn không tồn tại.',
         ];
     }
 }
