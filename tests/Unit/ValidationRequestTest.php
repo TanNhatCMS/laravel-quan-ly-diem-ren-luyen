@@ -96,13 +96,13 @@ class ValidationRequestTest extends TestCase
             'evaluation_start' => '2024-01-01',
             'evaluation_end' => '2024-06-30',
         ]);
-        
+
         // Create evaluation criteria first
         $evaluationCriteria = \App\Models\EvaluationCriteria::create([
             'name' => 'Test Criteria',
             'parent_id' => null,
         ]);
-        
+
         // Create evaluation detail for foreign key validation
         $evaluationDetail = \App\Models\EvaluationDetails::create([
             'name' => 'Test Evaluation',
@@ -156,13 +156,13 @@ class ValidationRequestTest extends TestCase
             'evaluation_start' => '2024-01-01',
             'evaluation_end' => '2024-06-30',
         ]);
-        
+
         // Create evaluation criteria first
         $evaluationCriteria = \App\Models\EvaluationCriteria::create([
             'name' => 'Test Criteria',
             'parent_id' => null,
         ]);
-        
+
         // Create evaluation detail for foreign key validation
         $evaluationDetail = \App\Models\EvaluationDetails::create([
             'name' => 'Test Evaluation',
@@ -182,7 +182,7 @@ class ValidationRequestTest extends TestCase
         ];
 
         $validator = Validator::make($data, $rules);
-        $this->assertTrue($validator->passes(), "Failed for valid evaluation detail");
+        $this->assertTrue($validator->passes(), 'Failed for valid evaluation detail');
 
         // Test invalid evaluation detail (non-existent ID)
         $invalidData = [
