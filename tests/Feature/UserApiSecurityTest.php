@@ -75,7 +75,7 @@ class UserApiSecurityTest extends TestCase
                         '*' => ['id', 'name', 'email', 'created_at', 'updated_at'],
                     ],
                     'current_page',
-                    'total'
+                    'total',
                 ],
             ])
             ->assertJsonMissing(['password', 'remember_token']);
