@@ -27,7 +27,7 @@ class AuthController extends BaseController
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
-        $user = Auth::user();
+        $user = auth('api')->user();
 
         return response()->json([
             'access_token' => $token,
