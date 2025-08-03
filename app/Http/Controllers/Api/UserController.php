@@ -110,7 +110,7 @@ class UserController extends BaseController
         }
 
         // Prevent deletion of current authenticated user
-        if (auth()->user() && auth()->user()->id == $id) {
+        if (auth('api')->user() && auth('api')->user()->id == $id) {
             return $this->failedResponse('Cannot delete your own account', 403);
         }
 

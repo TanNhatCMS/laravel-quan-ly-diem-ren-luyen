@@ -20,9 +20,11 @@ class EvaluationScoresSecurityTest extends TestCase
     {
         parent::setUp();
 
-        // Create roles
+        // Create roles (support both web and api guards)
         Role::create(['name' => 'admin', 'guard_name' => 'web']);
         Role::create(['name' => 'student', 'guard_name' => 'web']);
+        Role::create(['name' => 'admin', 'guard_name' => 'api']);
+        Role::create(['name' => 'student', 'guard_name' => 'api']);
 
         // Create test data
         $this->user = User::factory()->create();

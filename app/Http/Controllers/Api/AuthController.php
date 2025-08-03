@@ -49,7 +49,7 @@ class AuthController extends BaseController
      */
     public function profile()
     {
-        $user = Auth::user();
+        $user = auth('api')->user();
 
         if (! $user) {
             return response()->json(['message' => 'User not authenticated'], 401);

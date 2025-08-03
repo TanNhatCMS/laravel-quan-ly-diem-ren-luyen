@@ -16,9 +16,11 @@ class AuthApiSecurityTest extends TestCase
     {
         parent::setUp();
 
-        // Create basic roles for testing
+        // Create basic roles for testing (support both web and api guards)
         Role::create(['name' => 'admin', 'guard_name' => 'web']);
         Role::create(['name' => 'student', 'guard_name' => 'web']);
+        Role::create(['name' => 'admin', 'guard_name' => 'api']);
+        Role::create(['name' => 'student', 'guard_name' => 'api']);
     }
 
     /**

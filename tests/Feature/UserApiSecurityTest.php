@@ -21,9 +21,11 @@ class UserApiSecurityTest extends TestCase
     {
         parent::setUp();
 
-        // Create roles
+        // Create roles (support both web and api guards)
         $adminRole = Role::create(['name' => 'admin', 'guard_name' => 'web']);
         $studentRole = Role::create(['name' => 'student', 'guard_name' => 'web']);
+        Role::create(['name' => 'admin', 'guard_name' => 'api']);
+        Role::create(['name' => 'student', 'guard_name' => 'api']);
 
         // Create test users
         $this->user = User::factory()->create();
