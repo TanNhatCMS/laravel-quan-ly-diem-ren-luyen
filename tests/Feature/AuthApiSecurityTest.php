@@ -125,9 +125,7 @@ class AuthApiSecurityTest extends TestCase
         ])->postJson('/api/auth/profile');
 
         $response->assertStatus(200)
-            ->assertJsonStructure([
-                'data' => ['id', 'name', 'email', 'roles', 'permissions'],
-            ]);
+            ->assertJsonStructure(['id', 'name', 'email', 'roles', 'permissions']);
     }
 
     /**

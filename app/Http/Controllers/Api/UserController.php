@@ -45,8 +45,8 @@ class UserController extends BaseController
                 'password' => bcrypt($request->password),
             ]);
 
-            if ($user && $request->has('role')) {
-                $user->syncRoles($request->role);
+            if ($user && $request->has('roles')) {
+                $user->syncRoles($request->roles);
             }
 
             return $this->successResponse([

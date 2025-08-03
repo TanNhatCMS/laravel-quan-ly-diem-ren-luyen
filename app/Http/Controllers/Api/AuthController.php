@@ -54,13 +54,13 @@ class AuthController extends BaseController
             return response()->json(['message' => 'User not authenticated'], 401);
         }
 
-        return $this->sendResponse([
+        return response()->json([
             'id' => $user->id,
             'name' => $user->name,
             'email' => $user->email,
             'roles' => $user->getRoleNames(),
             'permissions' => $user->getAllPermissions()->pluck('name'),
-        ], 'User profile retrieved successfully.');
+        ]);
     }
 
     /**

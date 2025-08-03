@@ -92,6 +92,7 @@ class UserApiSecurityTest extends TestCase
             'name' => 'A', // Too short
             'email' => 'invalid-email', // Invalid email
             'password' => '123', // Too short
+            'password_confirmation' => '123', // Also too short but matches
         ]);
 
         $response->assertStatus(422)
@@ -128,7 +129,7 @@ class UserApiSecurityTest extends TestCase
             'email' => 'newuser@example.com',
             'password' => 'password123',
             'password_confirmation' => 'password123',
-            'role' => ['student'],
+            'roles' => ['student'],
         ]);
 
         $response->assertStatus(200)
