@@ -71,13 +71,13 @@ class SemesterScoresTest extends TestCase
         // Should be able to fill allowed attributes
         $semesterScore->fill([
             'year' => 2024,
-            'semester' => 1,
+            'semester' => 'Học Kỳ 1',
             'evaluation_start' => '2024-01-01',
             'evaluation_end' => '2024-06-30',
         ]);
 
         $this->assertEquals(2024, $semesterScore->year);
-        $this->assertEquals(1, $semesterScore->semester);
+        $this->assertEquals('Học Kỳ 1', $semesterScore->semester);
         $this->assertEquals('2024-01-01', $semesterScore->evaluation_start);
         $this->assertEquals('2024-06-30', $semesterScore->evaluation_end);
 
