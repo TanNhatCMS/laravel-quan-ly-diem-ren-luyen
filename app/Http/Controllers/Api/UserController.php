@@ -92,7 +92,7 @@ class UserController extends BaseController
     public function delete($id, Request $request): JsonResponse
     {
         // Validate ID parameter
-        if (!is_numeric($id) || $id < 1) {
+        if (! is_numeric($id) || $id < 1) {
             return $this->failedResponse('Invalid user ID', null, 400);
         }
 
