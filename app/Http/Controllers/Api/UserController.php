@@ -37,14 +37,6 @@ class UserController extends BaseController
      */
     public function store(UserRequest $request): JsonResponse
     {
-        $request->validate([
-            'name' => 'required|string|min:2|max:255',
-            'email' => 'required|email|unique:users,email|max:255',
-            'password' => 'required|string|min:8|confirmed',
-            'role' => 'nullable|array',
-            'role.*' => 'string|exists:roles,name',
-        ]);
-
         try {
             // store user information
             $user = User::create([
