@@ -114,9 +114,25 @@ class UserProfiles extends Model
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * Get the phone attribute (alias for phone_number).
+     */
+    public function getPhoneAttribute(): ?string
+    {
+        return $this->phone_number;
+    }
+
     /*
     |--------------------------------------------------------------------------
     | MUTATORS
     |--------------------------------------------------------------------------
     */
+
+    /**
+     * Set the phone attribute (alias for phone_number).
+     */
+    public function setPhoneAttribute(?string $value): void
+    {
+        $this->attributes['phone_number'] = $value;
+    }
 }

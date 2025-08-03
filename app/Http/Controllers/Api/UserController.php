@@ -91,19 +91,20 @@ class UserController extends BaseController
      */
     public function delete($id, Request $request): JsonResponse
     {
-        $request->validate([
-            'id' => 'integer|min:1',
-        ]);
+        // Validate ID parameter
+        if (!is_numeric($id) || $id < 1) {
+            return $this->failedResponse('Invalid user ID', null, 400);
+        }
 
         $user = User::find($id);
 
         if (! $user) {
-            return $this->failedResponse('User not found!', 404);
+            return $this->failedResponse('User not found!', null, 404);
         }
 
         // Prevent deletion of current authenticated user
         if (auth('api')->user() && auth('api')->user()->id == $id) {
-            return $this->failedResponse('Cannot delete your own account', 403);
+            return $this->failedResponse('Cannot delete your own account', null, 403);
         }
 
         try {

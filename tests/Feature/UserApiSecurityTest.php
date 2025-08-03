@@ -24,17 +24,21 @@ class UserApiSecurityTest extends TestCase
         // Create roles (support both web and api guards)
         $adminRole = Role::create(['name' => 'admin', 'guard_name' => 'web']);
         $studentRole = Role::create(['name' => 'student', 'guard_name' => 'web']);
-        Role::create(['name' => 'admin', 'guard_name' => 'api']);
-        Role::create(['name' => 'student', 'guard_name' => 'api']);
+        $apiAdminRole = Role::create(['name' => 'admin', 'guard_name' => 'api']);
+        $apiStudentRole = Role::create(['name' => 'student', 'guard_name' => 'api']);
 
         // Create test users
         $this->user = User::factory()->create();
         $this->user->assignRole('student');
+        // Also assign API role for JWT context
+        $this->user->assignRole($apiStudentRole);
 
         $this->adminUser = User::factory()->create([
             'email' => 'admin@example.com',
         ]);
         $this->adminUser->assignRole('admin');
+        // Also assign API role for JWT context
+        $this->adminUser->assignRole($apiAdminRole);
 
         // Generate tokens
         $this->token = JWTAuth::fromUser($this->user);
@@ -65,8 +69,13 @@ class UserApiSecurityTest extends TestCase
 
         $response->assertStatus(200)
             ->assertJsonStructure([
+                'status',
                 'data' => [
-                    '*' => ['id', 'name', 'email', 'created_at', 'updated_at'],
+                    'data' => [
+                        '*' => ['id', 'name', 'email', 'created_at', 'updated_at'],
+                    ],
+                    'current_page',
+                    'total'
                 ],
             ])
             ->assertJsonMissing(['password', 'remember_token']);
