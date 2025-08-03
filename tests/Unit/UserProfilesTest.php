@@ -96,8 +96,8 @@ class UserProfilesTest extends TestCase
         $this->assertEquals('0123456789', $userProfile->phone_number);
 
         // Test date of birth format (using correct field name)
-        $userProfile->fill(['birth_date' => '1990-01-01']);
-        $this->assertEquals('1990-01-01', $userProfile->birth_date);
+        $userProfile->fill(['date_of_birth' => '1990-01-01']);
+        $this->assertEquals('1990-01-01', $userProfile->date_of_birth);
     }
 
     /**
