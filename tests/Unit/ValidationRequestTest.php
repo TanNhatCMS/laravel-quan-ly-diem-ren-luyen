@@ -76,11 +76,11 @@ class ValidationRequestTest extends TestCase
         // Test that key validation rules exist
         $this->assertArrayHasKey('student_id', $rules);
         $this->assertArrayHasKey('score', $rules);
-        $this->assertArrayHasKey('evaluation_type', $rules);
+        $this->assertArrayHasKey('evaluation_detail_id', $rules);
 
         $this->assertContains('required', explode('|', $rules['student_id']));
         $this->assertContains('required', explode('|', $rules['score']));
-        $this->assertContains('required', explode('|', $rules['evaluation_type']));
+        $this->assertContains('required', explode('|', $rules['evaluation_detail_id']));
     }
 
     /**
@@ -96,16 +96,29 @@ class ValidationRequestTest extends TestCase
             'evaluation_start' => '2024-01-01',
             'evaluation_end' => '2024-06-30',
         ]);
+        
+        // Create evaluation criteria first
+        $evaluationCriteria = \App\Models\EvaluationCriteria::create([
+            'name' => 'Test Criteria',
+            'parent_id' => null,
+        ]);
+        
+        // Create evaluation detail for foreign key validation
+        $evaluationDetail = \App\Models\EvaluationDetails::create([
+            'name' => 'Test Evaluation',
+            'score' => 10,
+            'evaluation_criteria_id' => $evaluationCriteria->id,
+        ]);
 
         $request = new EvaluationScoresRequest();
         $rules = $request->rules();
 
         // Test valid score
         $validData = [
-            'user_id' => $user->id,
+            'student_id' => $user->id,
             'semester_score_id' => $semesterScore->id,
+            'evaluation_detail_id' => $evaluationDetail->id,
             'score' => 85,
-            'evaluation_type' => 'self',
         ];
 
         $validator = Validator::make($validData, $rules);
@@ -113,10 +126,10 @@ class ValidationRequestTest extends TestCase
 
         // Test invalid score (above maximum)
         $invalidData = [
-            'user_id' => $user->id,
+            'student_id' => $user->id,
             'semester_score_id' => $semesterScore->id,
+            'evaluation_detail_id' => $evaluationDetail->id,
             'score' => 150, // Above 100
-            'evaluation_type' => 'self',
         ];
 
         $validator = Validator::make($invalidData, $rules);
@@ -131,9 +144,9 @@ class ValidationRequestTest extends TestCase
     }
 
     /**
-     * Test EvaluationScoresRequest evaluation type validation.
+     * Test EvaluationScoresRequest evaluation detail validation.
      */
-    public function test_evaluation_scores_type_validation(): void
+    public function test_evaluation_scores_detail_validation(): void
     {
         // Create necessary records for foreign key validation
         $user = User::factory()->create();
@@ -143,36 +156,45 @@ class ValidationRequestTest extends TestCase
             'evaluation_start' => '2024-01-01',
             'evaluation_end' => '2024-06-30',
         ]);
+        
+        // Create evaluation criteria first
+        $evaluationCriteria = \App\Models\EvaluationCriteria::create([
+            'name' => 'Test Criteria',
+            'parent_id' => null,
+        ]);
+        
+        // Create evaluation detail for foreign key validation
+        $evaluationDetail = \App\Models\EvaluationDetails::create([
+            'name' => 'Test Evaluation',
+            'score' => 10,
+            'evaluation_criteria_id' => $evaluationCriteria->id,
+        ]);
 
         $request = new EvaluationScoresRequest();
         $rules = $request->rules();
 
-        // Test valid evaluation types
-        $validTypes = ['self', 'class', 'organization'];
-
-        foreach ($validTypes as $type) {
-            $data = [
-                'user_id' => $user->id,
-                'semester_score_id' => $semesterScore->id,
-                'score' => 85,
-                'evaluation_type' => $type,
-            ];
-
-            $validator = Validator::make($data, $rules);
-            $this->assertTrue($validator->passes(), "Failed for evaluation type: {$type}");
-        }
-
-        // Test invalid evaluation type
-        $invalidData = [
-            'user_id' => $user->id,
+        // Test valid evaluation detail
+        $data = [
+            'student_id' => $user->id,
             'semester_score_id' => $semesterScore->id,
+            'evaluation_detail_id' => $evaluationDetail->id,
             'score' => 85,
-            'evaluation_type' => 'invalid_type',
+        ];
+
+        $validator = Validator::make($data, $rules);
+        $this->assertTrue($validator->passes(), "Failed for valid evaluation detail");
+
+        // Test invalid evaluation detail (non-existent ID)
+        $invalidData = [
+            'student_id' => $user->id,
+            'semester_score_id' => $semesterScore->id,
+            'evaluation_detail_id' => 99999, // Non-existent ID
+            'score' => 85,
         ];
 
         $validator = Validator::make($invalidData, $rules);
         $this->assertTrue($validator->fails());
-        $this->assertTrue($validator->errors()->has('evaluation_type'));
+        $this->assertTrue($validator->errors()->has('evaluation_detail_id'));
     }
 
     /**

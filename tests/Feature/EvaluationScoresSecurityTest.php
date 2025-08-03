@@ -74,25 +74,6 @@ class EvaluationScoresSecurityTest extends TestCase
     }
 
     /**
-     * Test evaluation type validation.
-     */
-    public function test_evaluation_type_validation(): void
-    {
-        $evaluationScore = new EvaluationScores();
-
-        // Test valid types
-        $validTypes = ['self', 'class', 'organization'];
-        foreach ($validTypes as $type) {
-            $evaluationScore->evaluation_type = $type;
-            $this->assertEquals($type, $evaluationScore->evaluation_type);
-        }
-
-        // Test invalid type defaults to 'self'
-        $evaluationScore->evaluation_type = 'invalid_type';
-        $this->assertEquals('self', $evaluationScore->evaluation_type);
-    }
-
-    /**
      * Test mass assignment protection.
      */
     public function test_mass_assignment_protection(): void

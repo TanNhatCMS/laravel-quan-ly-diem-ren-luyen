@@ -98,15 +98,6 @@ class EvaluationScores extends Model
         $this->attributes['score'] = max(0, min(100, (float) $value));
     }
 
-    /**
-     * Sanitize evaluation type.
-     */
-    public function setEvaluationTypeAttribute($value): void
-    {
-        $allowedTypes = ['self', 'class', 'organization'];
-        $this->attributes['evaluation_type'] = in_array($value, $allowedTypes) ? $value : 'self';
-    }
-
     /*
     |--------------------------------------------------------------------------
     | SCOPES
@@ -127,19 +118,5 @@ class EvaluationScores extends Model
     public function scopePending($query)
     {
         return $query->whereNull('approved_at');
-    }
-
-    /**
-     * Scope for specific evaluation type.
-     */
-    public function scopeByType($query, $type)
-    {
-        $allowedTypes = ['self', 'class', 'organization'];
-
-        if (! in_array($type, $allowedTypes, true)) {
-            throw new InvalidArgumentException("Invalid evaluation type: {$type}");
-        }
-
-        return $query->where('evaluation_type', '=', $type);
     }
 }
