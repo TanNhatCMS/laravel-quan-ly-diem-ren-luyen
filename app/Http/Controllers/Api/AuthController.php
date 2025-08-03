@@ -90,10 +90,10 @@ class AuthController extends BaseController
         try {
             // Try to get current token and refresh it
             $token = JWTAuth::getToken();
-            if (!$token) {
+            if (! $token) {
                 return response()->json(['message' => 'Token not provided'], 401);
             }
-            
+
             $newToken = JWTAuth::refresh($token);
 
             return response()->json([
