@@ -25,7 +25,7 @@ class EvaluationScoresRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'required|integer|exists:users,id',
+            'student_id' => 'required|integer|exists:users,id',
             'semester_score_id' => 'required|integer|exists:semester_scores,id',
             'score' => 'required|numeric|min:0|max:100',
             'evaluation_type' => 'required|string|in:self,class,organization',
