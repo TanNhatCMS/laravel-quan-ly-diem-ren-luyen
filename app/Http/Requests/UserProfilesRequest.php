@@ -25,10 +25,10 @@ class UserProfilesRequest extends FormRequest
     public function rules()
     {
         $userId = $this->route('id') ?? $this->route('user_profile');
-        
+
         return [
             'user_id' => 'required|integer|exists:users,id',
-            'code' => 'nullable|string|max:255|unique:user_profiles,code,' . $userId,
+            'code' => 'nullable|string|max:255|unique:user_profiles,code,'.$userId,
             'birth_date' => 'nullable|date|before:today',
             'gender' => 'required|in:male,female,other',
             'type' => 'nullable|in:student,teacher',
