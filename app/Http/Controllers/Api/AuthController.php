@@ -26,7 +26,8 @@ class AuthController extends BaseController
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
-        $user = auth('api')->user();
+        // Get user from JWT token instead of auth()->user()
+        $user = JWTAuth::user();
 
         return response()->json([
             'access_token' => $token,
@@ -87,10 +88,16 @@ class AuthController extends BaseController
     public function refresh()
     {
         try {
-            $token = JWTAuth::refresh();
+            // Try to get current token and refresh it
+            $token = JWTAuth::getToken();
+            if (!$token) {
+                return response()->json(['message' => 'Token not provided'], 401);
+            }
+            
+            $newToken = JWTAuth::refresh($token);
 
             return response()->json([
-                'access_token' => $token,
+                'access_token' => $newToken,
                 'token_type' => 'Bearer',
                 'expires_in' => auth('api')->factory()->getTTL() * 60,
             ]);

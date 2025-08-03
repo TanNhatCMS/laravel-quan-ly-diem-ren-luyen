@@ -23,23 +23,19 @@ class EvaluationScores extends Model
     // public $timestamps = false;
     protected $guarded = ['id'];
     protected $fillable = [
-        'user_id',
+        'student_id',
+        'teacher_id',
+        'evaluation_detail_id',
         'semester_score_id',
         'score',
-        'evaluation_type',
-        'notes',
-        'submitted_at',
-        'approved_at',
-        'approved_by',
     ];
 
     protected $casts = [
-        'score' => 'decimal:2',
-        'submitted_at' => 'datetime',
-        'approved_at' => 'datetime',
-        'user_id' => 'integer',
+        'score' => 'integer',
+        'student_id' => 'integer',
+        'teacher_id' => 'integer',
+        'evaluation_detail_id' => 'integer',
         'semester_score_id' => 'integer',
-        'approved_by' => 'integer',
     ];
 
     /*
@@ -54,19 +50,24 @@ class EvaluationScores extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function user(): BelongsTo
+    public function student(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'student_id');
+    }
+
+    public function teacher(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'teacher_id');
+    }
+
+    public function evaluationDetail(): BelongsTo
+    {
+        return $this->belongsTo(EvaluationDetails::class, 'evaluation_detail_id');
     }
 
     public function semesterScore(): BelongsTo
     {
         return $this->belongsTo(SemesterScores::class, 'semester_score_id');
-    }
-
-    public function approvedBy(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'approved_by');
     }
 
     /*

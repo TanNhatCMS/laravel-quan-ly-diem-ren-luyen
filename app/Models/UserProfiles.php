@@ -34,8 +34,10 @@ class UserProfiles extends Model
         'user_id',
         'code',
         'birth_date',
+        'date_of_birth', // Alias for birth_date
         'gender',
         'phone_number',
+        'phone', // Alias for phone_number
         'academic_degree_id',
         'class_id',
         'type',
