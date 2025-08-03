@@ -74,11 +74,11 @@ class ValidationRequestTest extends TestCase
         $rules = $request->rules();
 
         // Test that key validation rules exist
-        $this->assertArrayHasKey('user_id', $rules);
+        $this->assertArrayHasKey('student_id', $rules);
         $this->assertArrayHasKey('score', $rules);
         $this->assertArrayHasKey('evaluation_type', $rules);
 
-        $this->assertContains('required', explode('|', $rules['user_id']));
+        $this->assertContains('required', explode('|', $rules['student_id']));
         $this->assertContains('required', explode('|', $rules['score']));
         $this->assertContains('required', explode('|', $rules['evaluation_type']));
     }
