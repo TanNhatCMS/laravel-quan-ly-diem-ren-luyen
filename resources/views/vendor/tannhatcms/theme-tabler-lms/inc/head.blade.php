@@ -12,11 +12,14 @@
 @yield('before_styles')
 @stack('before_styles')
 
-{{-- Add Vite assets for custom CSS/JS --}}
-@vite(['resources/css/app.css', 'resources/js/app.js'])
-
+{{-- Load theme styles first (includes Tabler and dependencies) --}}
 @include(backpack_view('inc.theme_styles'))
+
+{{-- Then load Backpack styles --}}
 @include(backpack_view('inc.styles'))
+
+{{-- Finally load Vite assets for custom CSS/JS (will override if needed) --}}
+@vite(['resources/css/app.css', 'resources/js/app.js'])
 
 @yield('after_styles')
 @stack('after_styles')
