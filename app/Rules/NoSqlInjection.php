@@ -27,6 +27,7 @@ class NoSqlInjection implements ValidationRule
         foreach ($patterns as $pattern) {
             if (preg_match($pattern, $value)) {
                 $fail('The :attribute contains potentially malicious content.');
+
                 return;
             }
         }

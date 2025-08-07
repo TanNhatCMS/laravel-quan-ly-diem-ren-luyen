@@ -16,7 +16,8 @@ class UserController extends BaseController
 {
     public function __construct(
         private readonly UserServiceInterface $userService
-    ) {}
+    ) {
+    }
 
     /**
      * Show Users List.
@@ -47,7 +48,7 @@ class UserController extends BaseController
                 'user_id' => $user->id,
             ]);
         } catch (\Exception $e) {
-            return ApiResponseService::error('Failed to create user: ' . $e->getMessage());
+            return ApiResponseService::error('Failed to create user: '.$e->getMessage());
         }
     }
 
@@ -90,7 +91,7 @@ class UserController extends BaseController
         } catch (UserDeletionException $e) {
             return ApiResponseService::forbidden($e->getMessage());
         } catch (\Exception $e) {
-            return ApiResponseService::error('Failed to delete user: ' . $e->getMessage());
+            return ApiResponseService::error('Failed to delete user: '.$e->getMessage());
         }
     }
 
@@ -114,7 +115,7 @@ class UserController extends BaseController
         } catch (UserNotFoundException $e) {
             return ApiResponseService::notFound($e->getMessage());
         } catch (\Exception $e) {
-            return ApiResponseService::error('Failed to update user roles: ' . $e->getMessage());
+            return ApiResponseService::error('Failed to update user roles: '.$e->getMessage());
         }
     }
 }

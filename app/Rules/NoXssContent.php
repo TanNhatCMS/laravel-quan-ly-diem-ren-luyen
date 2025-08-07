@@ -33,6 +33,7 @@ class NoXssContent implements ValidationRule
         foreach ($patterns as $pattern) {
             if (preg_match($pattern, $value)) {
                 $fail('The :attribute contains potentially dangerous content.');
+
                 return;
             }
         }
