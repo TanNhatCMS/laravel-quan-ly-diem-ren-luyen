@@ -54,14 +54,24 @@ class PermissionManagerTablesSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        $dbType = config('database.default');
+        
+        if ($dbType === 'mysql') {
+            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        } elseif ($dbType === 'sqlite') {
+            DB::statement('PRAGMA foreign_keys=OFF;');
+        }
 
         DB::table(Config::get('permission.table_names.model_has_roles'))->truncate();
         DB::table(Config::get('permission.table_names.role_has_permissions'))->truncate();
         Permission::truncate();
         Role::truncate();
 
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        if ($dbType === 'mysql') {
+            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        } elseif ($dbType === 'sqlite') {
+            DB::statement('PRAGMA foreign_keys=ON;');
+        }
 
         foreach ($this->roles as $role) {
             Role::create(['name' => $role, 'guard_name' => 'web']);
