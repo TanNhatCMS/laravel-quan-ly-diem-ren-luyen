@@ -55,7 +55,7 @@ class PermissionManagerTablesSeeder extends Seeder
     public function run(): void
     {
         $dbType = config('database.default');
-        
+
         if ($dbType === 'mysql') {
             DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         } elseif ($dbType === 'sqlite') {
