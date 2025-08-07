@@ -25,7 +25,8 @@ class UserOrganizationsRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'user_id' => 'required|integer|exists:users,id',
+            'organization_id' => 'required|integer|exists:organizations,id',
         ];
     }
 
@@ -37,7 +38,8 @@ class UserOrganizationsRequest extends FormRequest
     public function attributes()
     {
         return [
-            //
+            'user_id' => 'Người dùng',
+            'organization_id' => 'Tổ chức',
         ];
     }
 
@@ -49,7 +51,12 @@ class UserOrganizationsRequest extends FormRequest
     public function messages()
     {
         return [
-            //
+            'user_id.required' => 'Người dùng không được để trống.',
+            'user_id.integer' => 'Người dùng phải là số nguyên.',
+            'user_id.exists' => 'Người dùng được chọn không tồn tại.',
+            'organization_id.required' => 'Tổ chức không được để trống.',
+            'organization_id.integer' => 'Tổ chức phải là số nguyên.',
+            'organization_id.exists' => 'Tổ chức được chọn không tồn tại.',
         ];
     }
 }

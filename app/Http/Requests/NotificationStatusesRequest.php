@@ -25,7 +25,9 @@ class NotificationStatusesRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'user_id' => 'required|integer|exists:users,id',
+            'notification_id' => 'required|integer|exists:notifications,id',
+            'is_read' => 'boolean',
         ];
     }
 
@@ -37,7 +39,9 @@ class NotificationStatusesRequest extends FormRequest
     public function attributes()
     {
         return [
-            //
+            'user_id' => 'Người dùng',
+            'notification_id' => 'Thông báo',
+            'is_read' => 'Đã đọc',
         ];
     }
 
@@ -49,7 +53,13 @@ class NotificationStatusesRequest extends FormRequest
     public function messages()
     {
         return [
-            //
+            'user_id.required' => 'Người dùng không được để trống.',
+            'user_id.integer' => 'Người dùng phải là số nguyên.',
+            'user_id.exists' => 'Người dùng được chọn không tồn tại.',
+            'notification_id.required' => 'Thông báo không được để trống.',
+            'notification_id.integer' => 'Thông báo phải là số nguyên.',
+            'notification_id.exists' => 'Thông báo được chọn không tồn tại.',
+            'is_read.boolean' => 'Trạng thái đọc phải là true hoặc false.',
         ];
     }
 }

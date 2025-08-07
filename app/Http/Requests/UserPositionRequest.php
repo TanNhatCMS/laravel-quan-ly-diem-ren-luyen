@@ -25,7 +25,6 @@ class UserPositionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // 'name' => 'required|min:5|max:255'
             'user' => 'required|exists:users,id',
             'position' => 'required|exists:positions,id',
         ];
@@ -39,7 +38,8 @@ class UserPositionRequest extends FormRequest
     public function attributes()
     {
         return [
-            //
+            'user' => 'Người dùng',
+            'position' => 'Chức vụ',
         ];
     }
 
@@ -51,7 +51,10 @@ class UserPositionRequest extends FormRequest
     public function messages()
     {
         return [
-            //
+            'user.required' => 'Người dùng không được để trống.',
+            'user.exists' => 'Người dùng được chọn không tồn tại.',
+            'position.required' => 'Chức vụ không được để trống.',
+            'position.exists' => 'Chức vụ được chọn không tồn tại.',
         ];
     }
 }
