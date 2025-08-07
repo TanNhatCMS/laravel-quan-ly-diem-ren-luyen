@@ -11,7 +11,7 @@ class ApiResponseService
      */
     public static function success(
         mixed $data = null,
-        string $message = null,
+        ?string $message = null,
         int $statusCode = 200,
         array $headers = []
     ): JsonResponse {

@@ -10,7 +10,8 @@ class UserProfileDTO
         public readonly string $email,
         public readonly array $roles,
         public readonly array $permissions
-    ) {}
+    ) {
+    }
 
     public function toArray(): array
     {

@@ -7,7 +7,8 @@ class UserListQueryDTO
     public function __construct(
         public readonly int $perPage = 10,
         public readonly int $page = 1
-    ) {}
+    ) {
+    }
 
     public static function fromRequest(array $data): self
     {

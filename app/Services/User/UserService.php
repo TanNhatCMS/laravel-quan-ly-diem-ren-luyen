@@ -5,8 +5,8 @@ namespace App\Services\User;
 use App\Contracts\Services\UserServiceInterface;
 use App\DTOs\User\CreateUserDTO;
 use App\DTOs\User\UserListQueryDTO;
-use App\Exceptions\User\UserNotFoundException;
 use App\Exceptions\User\UserDeletionException;
+use App\Exceptions\User\UserNotFoundException;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 

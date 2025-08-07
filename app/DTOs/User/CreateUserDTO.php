@@ -9,7 +9,8 @@ class CreateUserDTO
         public readonly string $email,
         public readonly string $password,
         public readonly ?array $roles = null
-    ) {}
+    ) {
+    }
 
     public static function fromRequest(array $data): self
     {

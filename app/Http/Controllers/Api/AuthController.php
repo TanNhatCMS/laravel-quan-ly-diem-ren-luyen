@@ -14,7 +14,8 @@ class AuthController extends BaseController
 {
     public function __construct(
         private readonly AuthServiceInterface $authService
-    ) {}
+    ) {
+    }
 
     /**
      * Get a JWT via given credentials.
