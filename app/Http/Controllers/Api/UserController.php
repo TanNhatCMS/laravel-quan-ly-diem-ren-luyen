@@ -2,18 +2,24 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Contracts\Services\UserServiceInterface;
+use App\DTOs\User\CreateUserDTO;
+use App\DTOs\User\UserListQueryDTO;
+use App\Exceptions\User\UserDeletionException;
+use App\Exceptions\User\UserNotFoundException;
 use App\Http\Requests\UserRequest;
-use App\Models\User;
+use App\Services\Response\ApiResponseService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class UserController extends BaseController
 {
+    public function __construct(
+        private readonly UserServiceInterface $userService
+    ) {}
+
     /**
      * Show Users List.
-     *
-     * @param  Request  $request
-     * @return JsonResponse
      */
     public function list(Request $request): JsonResponse
     {
@@ -21,49 +27,32 @@ class UserController extends BaseController
             'per_page' => 'nullable|integer|min:1|max:100',
         ]);
 
-        $perPage = $request->per_page ?? 10;
-        $users = User::select(['id', 'name', 'email', 'created_at', 'updated_at'])
-            ->with('roles:id,name')
-            ->paginate($perPage);
+        $query = UserListQueryDTO::fromRequest($request->all());
+        $users = $this->userService->list($query);
 
-        return $this->successResponse($users);
+        return ApiResponseService::success($users);
     }
 
     /**
      * Store User Information.
-     *
-     * @param  UserRequest  $request
-     * @return JsonResponse
      */
     public function store(UserRequest $request): JsonResponse
     {
         try {
-            // store user information
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => bcrypt($request->password),
-            ]);
+            $userData = CreateUserDTO::fromRequest($request->validated());
+            $user = $this->userService->create($userData);
 
-            if ($user && $request->has('roles')) {
-                $user->syncRoles($request->roles);
-            }
-
-            return $this->successResponse([
+            return ApiResponseService::success([
                 'message' => 'User created successfully!',
                 'user_id' => $user->id,
             ]);
         } catch (\Exception $e) {
-            return $this->failedResponse('Failed to create user: '.$e->getMessage());
+            return ApiResponseService::error('Failed to create user: ' . $e->getMessage());
         }
     }
 
     /**
      * Show User Profile.
-     *
-     * @param  int  $id
-     * @param  Request  $request
-     * @return JsonResponse
      */
     public function profile($id, Request $request): JsonResponse
     {
@@ -71,59 +60,42 @@ class UserController extends BaseController
             'id' => 'integer|min:1',
         ]);
 
-        $user = User::select(['id', 'name', 'email', 'created_at', 'updated_at'])
-            ->with(['roles:id,name', 'permissions:id,name'])
-            ->find($id);
+        try {
+            $user = $this->userService->profile((int) $id);
 
-        if (! $user) {
-            return $this->failedResponse('User not found!', 404);
+            return ApiResponseService::success($user);
+        } catch (UserNotFoundException $e) {
+            return ApiResponseService::notFound($e->getMessage());
         }
-
-        return $this->successResponse($user);
     }
 
     /**
      * Delete User.
-     *
-     * @param  int  $id
-     * @param  Request  $request
-     * @return JsonResponse
      */
     public function delete($id, Request $request): JsonResponse
     {
         // Validate ID parameter
         if (! is_numeric($id) || $id < 1) {
-            return $this->failedResponse('Invalid user ID', null, 400);
-        }
-
-        $user = User::find($id);
-
-        if (! $user) {
-            return $this->failedResponse('User not found!', null, 404);
-        }
-
-        // Prevent deletion of current authenticated user
-        if (auth('api')->user() && auth('api')->user()->id == $id) {
-            return $this->failedResponse('Cannot delete your own account', null, 403);
+            return ApiResponseService::error('Invalid user ID', null, 400);
         }
 
         try {
-            $user->delete();
+            $this->userService->delete((int) $id);
 
-            return $this->successResponse([
+            return ApiResponseService::success([
                 'message' => 'User has been deleted successfully',
             ]);
+        } catch (UserNotFoundException $e) {
+            return ApiResponseService::notFound($e->getMessage());
+        } catch (UserDeletionException $e) {
+            return ApiResponseService::forbidden($e->getMessage());
         } catch (\Exception $e) {
-            return $this->failedResponse('Failed to delete user: '.$e->getMessage());
+            return ApiResponseService::error('Failed to delete user: ' . $e->getMessage());
         }
     }
 
     /**
      * Change User Role.
-     *
-     * @param  int  $id
-     * @param  Request  $request
-     * @return JsonResponse
      */
     public function changeRole($id, Request $request): JsonResponse
     {
@@ -132,22 +104,17 @@ class UserController extends BaseController
             'roles.*' => 'string|exists:roles,name',
         ]);
 
-        $user = User::find($id);
-
-        if (! $user) {
-            return $this->failedResponse('User not found!', 404);
-        }
-
         try {
-            // assign role to user
-            $user->syncRoles($request->roles);
+            $user = $this->userService->changeRole((int) $id, $request->roles);
 
-            return $this->successResponse([
+            return ApiResponseService::success([
                 'message' => 'User roles have been updated successfully!',
                 'roles' => $user->getRoleNames(),
             ]);
+        } catch (UserNotFoundException $e) {
+            return ApiResponseService::notFound($e->getMessage());
         } catch (\Exception $e) {
-            return $this->failedResponse('Failed to update user roles: '.$e->getMessage());
+            return ApiResponseService::error('Failed to update user roles: ' . $e->getMessage());
         }
     }
 }

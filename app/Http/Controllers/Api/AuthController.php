@@ -2,107 +2,81 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Contracts\Services\AuthServiceInterface;
+use App\DTOs\Auth\LoginDTO;
+use App\Exceptions\Auth\InvalidCredentialsException;
+use App\Exceptions\Auth\TokenException;
+use App\Services\Response\ApiResponseService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends BaseController
 {
+    public function __construct(
+        private readonly AuthServiceInterface $authService
+    ) {}
+
     /**
      * Get a JWT via given credentials.
-     *
-     * @return JsonResponse
      */
-    public function login(Request $request)
+    public function login(Request $request): JsonResponse
     {
         $request->validate([
             'email' => 'required|email|max:255',
             'password' => 'required|string|min:6|max:255',
         ]);
 
-        $credentials = $request->only('email', 'password');
+        try {
+            $loginData = LoginDTO::fromRequest($request->all());
+            $result = $this->authService->login($loginData);
 
-        if (! $token = JWTAuth::attempt($credentials)) {
-            return response()->json(['message' => 'Invalid credentials'], 401);
+            return ApiResponseService::success($result);
+        } catch (InvalidCredentialsException $e) {
+            return ApiResponseService::unauthorized($e->getMessage());
         }
-
-        // Get user from JWT token instead of auth()->user()
-        $user = JWTAuth::user();
-
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'Bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 60,
-            'user' => [
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-                'roles' => $user->getRoleNames(),
-            ],
-        ]);
     }
 
     /**
      * Get the authenticated User.
-     *
-     * @return JsonResponse
      */
-    public function profile()
+    public function profile(): JsonResponse
     {
-        $user = auth('api')->user();
+        try {
+            $profile = $this->authService->profile();
 
-        if (! $user) {
-            return response()->json(['message' => 'User not authenticated'], 401);
+            return ApiResponseService::success($profile->toArray());
+        } catch (TokenException $e) {
+            return ApiResponseService::unauthorized($e->getMessage());
         }
-
-        return response()->json([
-            'id' => $user->id,
-            'name' => $user->name,
-            'email' => $user->email,
-            'roles' => $user->getRoleNames(),
-            'permissions' => $user->getAllPermissions()->pluck('name'),
-        ]);
     }
 
     /**
      * Log the user out (Invalidate the token).
-     *
-     * @return JsonResponse
      */
-    public function logout()
+    public function logout(): JsonResponse
     {
         try {
-            JWTAuth::invalidate(JWTAuth::getToken());
+            $this->authService->logout();
 
-            return response()->json(['message' => 'Logged out successfully']);
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Failed to logout, token may be invalid'], 400);
+            return ApiResponseService::success(
+                message: 'Logged out successfully'
+            );
+        } catch (TokenException $e) {
+            return ApiResponseService::error($e->getMessage(), null, 400);
         }
     }
 
     /**
      * Refresh a token.
-     *
-     * @return JsonResponse
      */
-    public function refresh()
+    public function refresh(): JsonResponse
     {
         try {
-            // Try to get current token and refresh it
-            $token = JWTAuth::getToken();
-            if (! $token) {
-                return response()->json(['message' => 'Token not provided'], 401);
-            }
+            $result = $this->authService->refresh();
 
-            $newToken = JWTAuth::refresh($token);
-
-            return response()->json([
-                'access_token' => $newToken,
-                'token_type' => 'Bearer',
-                'expires_in' => auth('api')->factory()->getTTL() * 60,
-            ]);
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Token refresh failed'], 401);
+            return ApiResponseService::success($result);
+        } catch (TokenException $e) {
+            return ApiResponseService::unauthorized($e->getMessage());
         }
     }
 }

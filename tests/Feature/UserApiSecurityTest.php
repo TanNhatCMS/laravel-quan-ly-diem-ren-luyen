@@ -169,6 +169,7 @@ class UserApiSecurityTest extends TestCase
 
         $response->assertStatus(200)
             ->assertJsonStructure([
+                'status',
                 'data' => ['id', 'name', 'email', 'created_at', 'updated_at', 'roles'],
             ])
             ->assertJsonMissing(['password', 'remember_token']);

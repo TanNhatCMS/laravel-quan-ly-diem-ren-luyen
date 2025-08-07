@@ -40,10 +40,13 @@ class AuthApiSecurityTest extends TestCase
 
         $response->assertStatus(200)
             ->assertJsonStructure([
-                'access_token',
-                'token_type',
-                'expires_in',
-                'user' => ['id', 'name', 'email', 'roles'],
+                'status',
+                'data' => [
+                    'access_token',
+                    'token_type',
+                    'expires_in',
+                    'user' => ['id', 'name', 'email', 'roles'],
+                ],
             ]);
     }
 
@@ -59,7 +62,7 @@ class AuthApiSecurityTest extends TestCase
 
         $response->assertStatus(401)
             ->assertJson([
-                'message' => 'Invalid credentials',
+                'message' => 'Invalid credentials provided',
             ]);
     }
 
@@ -125,7 +128,10 @@ class AuthApiSecurityTest extends TestCase
         ])->postJson('/api/auth/profile');
 
         $response->assertStatus(200)
-            ->assertJsonStructure(['id', 'name', 'email', 'roles', 'permissions']);
+            ->assertJsonStructure([
+                'status',
+                'data' => ['id', 'name', 'email', 'roles', 'permissions'],
+            ]);
     }
 
     /**
@@ -142,6 +148,7 @@ class AuthApiSecurityTest extends TestCase
 
         $response->assertStatus(200)
             ->assertJson([
+                'status' => true,
                 'message' => 'Logged out successfully',
             ]);
     }
@@ -160,9 +167,12 @@ class AuthApiSecurityTest extends TestCase
 
         $response->assertStatus(200)
             ->assertJsonStructure([
-                'access_token',
-                'token_type',
-                'expires_in',
+                'status',
+                'data' => [
+                    'access_token',
+                    'token_type',
+                    'expires_in',
+                ],
             ]);
     }
 
