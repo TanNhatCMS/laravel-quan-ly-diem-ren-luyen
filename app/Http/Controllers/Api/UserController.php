@@ -2,107 +2,120 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Contracts\Services\UserServiceInterface;
+use App\DTOs\User\CreateUserDTO;
+use App\DTOs\User\UserListQueryDTO;
+use App\Exceptions\User\UserDeletionException;
+use App\Exceptions\User\UserNotFoundException;
 use App\Http\Requests\UserRequest;
-use App\Models\User;
+use App\Services\Response\ApiResponseService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class UserController extends BaseController
 {
+    public function __construct(
+        private readonly UserServiceInterface $userService
+    ) {
+    }
+
     /**
      * Show Users List.
-     *
-     * @param  Request  $request
-     * @return JsonResponse
      */
     public function list(Request $request): JsonResponse
     {
-        $perPage = $request->per_page ?? 10;
-        $users = User::paginate($perPage);
+        $request->validate([
+            'per_page' => 'nullable|integer|min:1|max:100',
+        ]);
 
-        return $this->successResponse($users);
+        $query = UserListQueryDTO::fromRequest($request->all());
+        $users = $this->userService->list($query);
+
+        return ApiResponseService::success($users);
     }
 
     /**
      * Store User Information.
-     *
-     * @param  UserRequest  $request
-     * @return JsonResponse
      */
     public function store(UserRequest $request): JsonResponse
     {
-        // store user information
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => $request->password,
-        ]);
+        try {
+            $userData = CreateUserDTO::fromRequest($request->validated());
+            $user = $this->userService->create($userData);
 
-        if ($user) {
-            $role = $user->syncRoles($request->role);
-
-            return $this->successResponse([
-                'message' => 'User created succesfully!',
+            return ApiResponseService::success([
+                'message' => 'User created successfully!',
+                'user_id' => $user->id,
             ]);
+        } catch (\Exception $e) {
+            return ApiResponseService::error('Failed to create user: '.$e->getMessage());
         }
-
-        return $this->failedResponse();
     }
 
     /**
      * Show User Profile.
-     *
-     * @param  int  $id
-     * @param  Request  $request
-     * @return JsonResponse
      */
     public function profile($id, Request $request): JsonResponse
     {
-        if ($user = User::find($id)) {
-            return $this->successResponse($user);
-        }
+        $request->validate([
+            'id' => 'integer|min:1',
+        ]);
 
-        return $this->failedResponse('Not found!');
+        try {
+            $user = $this->userService->profile((int) $id);
+
+            return ApiResponseService::success($user);
+        } catch (UserNotFoundException $e) {
+            return ApiResponseService::notFound($e->getMessage());
+        }
     }
 
     /**
      * Delete User.
-     *
-     * @param  int  $id
-     * @param  Request  $request
-     * @return JsonResponse
      */
     public function delete($id, Request $request): JsonResponse
     {
-        if ($user = User::find($id)) {
-            $user->delete();
-
-            return $this->successResponse([
-                'message' => 'User has been deleted',
-            ]);
+        // Validate ID parameter
+        if (! is_numeric($id) || $id < 1) {
+            return ApiResponseService::error('Invalid user ID', null, 400);
         }
 
-        return $this->failedResponse('Not found!');
+        try {
+            $this->userService->delete((int) $id);
+
+            return ApiResponseService::success([
+                'message' => 'User has been deleted successfully',
+            ]);
+        } catch (UserNotFoundException $e) {
+            return ApiResponseService::notFound($e->getMessage());
+        } catch (UserDeletionException $e) {
+            return ApiResponseService::forbidden($e->getMessage());
+        } catch (\Exception $e) {
+            return ApiResponseService::error('Failed to delete user: '.$e->getMessage());
+        }
     }
 
     /**
      * Change User Role.
-     *
-     * @param  int  $id
-     * @param  Request  $request
-     * @return JsonResponse
      */
     public function changeRole($id, Request $request): JsonResponse
     {
-        if ($user = User::find($id)) {
-            // assign role to user
-            $user->syncRoles($request->roles);
+        $request->validate([
+            'roles' => 'required|array|min:1',
+            'roles.*' => 'string|exists:roles,name',
+        ]);
 
-            return $this->successResponse([
-                'message' => 'Users Role has been updated!',
+        try {
+            $user = $this->userService->changeRole((int) $id, $request->roles);
+
+            return ApiResponseService::success([
+                'message' => 'User roles have been updated successfully!',
+                'roles' => $user->getRoleNames(),
             ]);
+        } catch (UserNotFoundException $e) {
+            return ApiResponseService::notFound($e->getMessage());
+        } catch (\Exception $e) {
+            return ApiResponseService::error('Failed to update user roles: '.$e->getMessage());
         }
-
-        return $this->failedResponse();
     }
 }

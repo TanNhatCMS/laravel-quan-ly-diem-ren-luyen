@@ -25,7 +25,7 @@ class PositionsRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'name' => 'required|string|min:2|max:255',
         ];
     }
 
@@ -37,7 +37,7 @@ class PositionsRequest extends FormRequest
     public function attributes()
     {
         return [
-            //
+            'name' => 'Tên chức vụ',
         ];
     }
 
@@ -49,7 +49,10 @@ class PositionsRequest extends FormRequest
     public function messages()
     {
         return [
-            //
+            'name.required' => 'Tên chức vụ không được để trống.',
+            'name.string' => 'Tên chức vụ phải là chuỗi ký tự.',
+            'name.min' => 'Tên chức vụ phải có ít nhất 2 ký tự.',
+            'name.max' => 'Tên chức vụ không được vượt quá 255 ký tự.',
         ];
     }
 }

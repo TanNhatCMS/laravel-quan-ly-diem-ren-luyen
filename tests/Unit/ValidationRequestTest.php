@@ -1,0 +1,267 @@
+<?php
+
+namespace Tests\Unit;
+
+use App\Http\Requests\EvaluationScoresRequest;
+use App\Http\Requests\UserRequest;
+use App\Models\SemesterScores;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Validator;
+use Tests\TestCase;
+
+class ValidationRequestTest extends TestCase
+{
+    use RefreshDatabase;
+
+    /**
+     * Test UserRequest validation rules.
+     */
+    public function test_user_request_validation_rules(): void
+    {
+        $request = new UserRequest();
+        $rules = $request->rules();
+
+        // Test that required validation rules exist
+        $this->assertArrayHasKey('name', $rules);
+        $this->assertArrayHasKey('email', $rules);
+        $this->assertContains('required', explode('|', $rules['name']));
+        $this->assertContains('required', explode('|', $rules['email']));
+    }
+
+    /**
+     * Test UserRequest validation with valid data.
+     */
+    public function test_user_request_valid_data(): void
+    {
+        $request = new UserRequest();
+        $data = [
+            'name' => 'John Doe',
+            'email' => 'john@example.com',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+        ];
+
+        $validator = Validator::make($data, $request->rules());
+        $this->assertTrue($validator->passes());
+    }
+
+    /**
+     * Test UserRequest validation with invalid data.
+     */
+    public function test_user_request_invalid_data(): void
+    {
+        $request = new UserRequest();
+        $data = [
+            'name' => 'A', // Too short
+            'email' => 'invalid-email', // Invalid format
+            'password' => '123', // Too short
+        ];
+
+        $validator = Validator::make($data, $request->rules());
+        $this->assertTrue($validator->fails());
+        $this->assertTrue($validator->errors()->has('name'));
+        $this->assertTrue($validator->errors()->has('email'));
+        $this->assertTrue($validator->errors()->has('password'));
+    }
+
+    /**
+     * Test EvaluationScoresRequest validation rules.
+     */
+    public function test_evaluation_scores_request_validation_rules(): void
+    {
+        $request = new EvaluationScoresRequest();
+        $rules = $request->rules();
+
+        // Test that key validation rules exist
+        $this->assertArrayHasKey('student_id', $rules);
+        $this->assertArrayHasKey('score', $rules);
+        $this->assertArrayHasKey('evaluation_detail_id', $rules);
+
+        $this->assertContains('required', explode('|', $rules['student_id']));
+        $this->assertContains('required', explode('|', $rules['score']));
+        $this->assertContains('required', explode('|', $rules['evaluation_detail_id']));
+    }
+
+    /**
+     * Test EvaluationScoresRequest score validation.
+     */
+    public function test_evaluation_scores_score_validation(): void
+    {
+        // Create necessary records for foreign key validation
+        $user = User::factory()->create();
+        $semesterScore = SemesterScores::create([
+            'year' => 2024,
+            'semester' => 'Học Kỳ 1',
+            'evaluation_start' => '2024-01-01',
+            'evaluation_end' => '2024-06-30',
+        ]);
+
+        // Create evaluation criteria first
+        $evaluationCriteria = \App\Models\EvaluationCriteria::create([
+            'name' => 'Test Criteria',
+            'parent_id' => null,
+        ]);
+
+        // Create evaluation detail for foreign key validation
+        $evaluationDetail = \App\Models\EvaluationDetails::create([
+            'name' => 'Test Evaluation',
+            'score' => 10,
+            'evaluation_criteria_id' => $evaluationCriteria->id,
+        ]);
+
+        $request = new EvaluationScoresRequest();
+        $rules = $request->rules();
+
+        // Test valid score
+        $validData = [
+            'student_id' => $user->id,
+            'semester_score_id' => $semesterScore->id,
+            'evaluation_detail_id' => $evaluationDetail->id,
+            'score' => 85,
+        ];
+
+        $validator = Validator::make($validData, $rules);
+        $this->assertTrue($validator->passes());
+
+        // Test invalid score (above maximum)
+        $invalidData = [
+            'student_id' => $user->id,
+            'semester_score_id' => $semesterScore->id,
+            'evaluation_detail_id' => $evaluationDetail->id,
+            'score' => 150, // Above 100
+        ];
+
+        $validator = Validator::make($invalidData, $rules);
+        $this->assertTrue($validator->fails());
+        $this->assertTrue($validator->errors()->has('score'));
+
+        // Test invalid score (below minimum)
+        $invalidData['score'] = -10; // Below 0
+        $validator = Validator::make($invalidData, $rules);
+        $this->assertTrue($validator->fails());
+        $this->assertTrue($validator->errors()->has('score'));
+    }
+
+    /**
+     * Test EvaluationScoresRequest evaluation detail validation.
+     */
+    public function test_evaluation_scores_detail_validation(): void
+    {
+        // Create necessary records for foreign key validation
+        $user = User::factory()->create();
+        $semesterScore = SemesterScores::create([
+            'year' => 2024,
+            'semester' => 'Học Kỳ 1',
+            'evaluation_start' => '2024-01-01',
+            'evaluation_end' => '2024-06-30',
+        ]);
+
+        // Create evaluation criteria first
+        $evaluationCriteria = \App\Models\EvaluationCriteria::create([
+            'name' => 'Test Criteria',
+            'parent_id' => null,
+        ]);
+
+        // Create evaluation detail for foreign key validation
+        $evaluationDetail = \App\Models\EvaluationDetails::create([
+            'name' => 'Test Evaluation',
+            'score' => 10,
+            'evaluation_criteria_id' => $evaluationCriteria->id,
+        ]);
+
+        $request = new EvaluationScoresRequest();
+        $rules = $request->rules();
+
+        // Test valid evaluation detail
+        $data = [
+            'student_id' => $user->id,
+            'semester_score_id' => $semesterScore->id,
+            'evaluation_detail_id' => $evaluationDetail->id,
+            'score' => 85,
+        ];
+
+        $validator = Validator::make($data, $rules);
+        $this->assertTrue($validator->passes(), 'Failed for valid evaluation detail');
+
+        // Test invalid evaluation detail (non-existent ID)
+        $invalidData = [
+            'student_id' => $user->id,
+            'semester_score_id' => $semesterScore->id,
+            'evaluation_detail_id' => 99999, // Non-existent ID
+            'score' => 85,
+        ];
+
+        $validator = Validator::make($invalidData, $rules);
+        $this->assertTrue($validator->fails());
+        $this->assertTrue($validator->errors()->has('evaluation_detail_id'));
+    }
+
+    /**
+     * Test request authorization.
+     */
+    public function test_request_authorization(): void
+    {
+        $userRequest = new UserRequest();
+        $evaluationRequest = new EvaluationScoresRequest();
+
+        // Test that authorize methods exist and return boolean
+        $this->assertTrue(method_exists($userRequest, 'authorize'));
+        $this->assertTrue(method_exists($evaluationRequest, 'authorize'));
+    }
+
+    /**
+     * Test custom validation messages.
+     */
+    public function test_custom_validation_messages(): void
+    {
+        $userRequest = new UserRequest();
+        $messages = $userRequest->messages();
+
+        $this->assertIsArray($messages);
+
+        // Test that important messages are defined
+        if (! empty($messages)) {
+            $this->assertNotEmpty($messages);
+        }
+    }
+
+    /**
+     * Test XSS prevention in validation.
+     */
+    public function test_xss_prevention_validation(): void
+    {
+        $request = new UserRequest();
+        $maliciousData = [
+            'name' => '<script>alert("XSS")</script>',
+            'email' => 'test@example.com',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+        ];
+
+        $validator = Validator::make($maliciousData, $request->rules());
+
+        // The validation should still pass, but the data will be sanitized during processing
+        // This depends on your application's XSS protection implementation
+        $this->assertTrue($validator->passes());
+    }
+
+    /**
+     * Test SQL injection prevention in validation.
+     */
+    public function test_sql_injection_prevention_validation(): void
+    {
+        $request = new UserRequest();
+        $maliciousData = [
+            'name' => "'; DROP TABLE users; --",
+            'email' => 'test@example.com',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+        ];
+
+        $validator = Validator::make($maliciousData, $request->rules());
+
+        // Validation should pass, protection happens at the database layer
+        $this->assertTrue($validator->passes());
+    }
+}

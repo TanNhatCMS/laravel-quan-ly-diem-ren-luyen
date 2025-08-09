@@ -25,7 +25,7 @@ class AcademicDegreesRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'name' => 'required|string|min:2|max:255',
         ];
     }
 
@@ -37,7 +37,7 @@ class AcademicDegreesRequest extends FormRequest
     public function attributes()
     {
         return [
-            //
+            'name' => 'Tên học vị',
         ];
     }
 
@@ -49,7 +49,10 @@ class AcademicDegreesRequest extends FormRequest
     public function messages()
     {
         return [
-            //
+            'name.required' => 'Tên học vị không được để trống.',
+            'name.string' => 'Tên học vị phải là chuỗi ký tự.',
+            'name.min' => 'Tên học vị phải có ít nhất 2 ký tự.',
+            'name.max' => 'Tên học vị không được vượt quá 255 ký tự.',
         ];
     }
 }

@@ -2,71 +2,82 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Contracts\Services\AuthServiceInterface;
+use App\DTOs\Auth\LoginDTO;
+use App\Exceptions\Auth\InvalidCredentialsException;
+use App\Exceptions\Auth\TokenException;
+use App\Services\Response\ApiResponseService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends BaseController
 {
+    public function __construct(
+        private readonly AuthServiceInterface $authService
+    ) {
+    }
+
     /**
      * Get a JWT via given credentials.
-     *
-     * @return JsonResponse
      */
-    public function login(Request $request)
+    public function login(Request $request): JsonResponse
     {
-        $credentials = $request->only('email', 'password');
-
-        if (! $token = JWTAuth::attempt($credentials)) {
-            return response()->json(['message' => 'Unauthorized'], 401);
-        }
-
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'Bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 60,
-            'user' => Auth::user(),
+        $request->validate([
+            'email' => 'required|email|max:255',
+            'password' => 'required|string|min:6|max:255',
         ]);
+
+        try {
+            $loginData = LoginDTO::fromRequest($request->all());
+            $result = $this->authService->login($loginData);
+
+            return ApiResponseService::success($result);
+        } catch (InvalidCredentialsException $e) {
+            return ApiResponseService::unauthorized($e->getMessage());
+        }
     }
 
     /**
      * Get the authenticated User.
-     *
-     * @return JsonResponse
      */
-    public function profile()
+    public function profile(): JsonResponse
     {
-        if ($user = Auth::user()) {
-            return $this->sendResponse($user, 'User profile retrieved successfully.');
-        }
+        try {
+            $profile = $this->authService->profile();
 
-        return $this->failedResponse();
+            return ApiResponseService::success($profile->toArray());
+        } catch (TokenException $e) {
+            return ApiResponseService::unauthorized($e->getMessage());
+        }
     }
 
     /**
      * Log the user out (Invalidate the token).
-     *
-     * @return JsonResponse
      */
-    public function logout()
+    public function logout(): JsonResponse
     {
-        JWTAuth::invalidate(JWTAuth::getToken());
+        try {
+            $this->authService->logout();
 
-        return response()->json(['message' => 'Logged out successfully']);
+            return ApiResponseService::success(
+                message: 'Logged out successfully'
+            );
+        } catch (TokenException $e) {
+            return ApiResponseService::error($e->getMessage(), null, 400);
+        }
     }
 
     /**
      * Refresh a token.
-     *
-     * @return JsonResponse
      */
-    public function refresh()
+    public function refresh(): JsonResponse
     {
-        return response()->json([
-            'access_token' => JWTAuth::refresh(),
-            'token_type' => 'Bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 60,
-        ]);
+        try {
+            $result = $this->authService->refresh();
+
+            return ApiResponseService::success($result);
+        } catch (TokenException $e) {
+            return ApiResponseService::unauthorized($e->getMessage());
+        }
     }
 }

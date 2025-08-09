@@ -25,7 +25,10 @@ class LecturersRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'name' => 'required|string|min:2|max:255',
+            'email' => 'required|email|max:255|unique:users,email',
+            'academic_degree_id' => 'nullable|integer|exists:academic_degrees,id',
+            'organization_id' => 'nullable|integer|exists:organizations,id',
         ];
     }
 
@@ -37,7 +40,10 @@ class LecturersRequest extends FormRequest
     public function attributes()
     {
         return [
-            //
+            'name' => 'Tên giảng viên',
+            'email' => 'Email',
+            'academic_degree_id' => 'Học vị',
+            'organization_id' => 'Tổ chức',
         ];
     }
 
@@ -49,7 +55,17 @@ class LecturersRequest extends FormRequest
     public function messages()
     {
         return [
-            //
+            'name.required' => 'Tên giảng viên không được để trống.',
+            'name.string' => 'Tên giảng viên phải là chuỗi ký tự.',
+            'name.min' => 'Tên giảng viên phải có ít nhất 2 ký tự.',
+            'name.max' => 'Tên giảng viên không được vượt quá 255 ký tự.',
+            'email.required' => 'Email không được để trống.',
+            'email.email' => 'Email phải đúng định dạng.',
+            'email.unique' => 'Email này đã tồn tại.',
+            'academic_degree_id.integer' => 'Học vị phải là số nguyên.',
+            'academic_degree_id.exists' => 'Học vị được chọn không tồn tại.',
+            'organization_id.integer' => 'Tổ chức phải là số nguyên.',
+            'organization_id.exists' => 'Tổ chức được chọn không tồn tại.',
         ];
     }
 }

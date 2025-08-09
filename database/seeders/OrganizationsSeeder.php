@@ -28,16 +28,17 @@ class OrganizationsSeeder extends Seeder
     {
         DB::beginTransaction();
         try {
-            DB::table('organizations')->upsert(
-                array_map(fn ($organization) => [
-                    'name' => $organization['name'],
-                    'type' => $organization['type'],
-                    'updated_at' => now(),
-                    'created_at' => now(),
-                ], $this->organizations),
-                ['name'],
-                ['type', 'updated_at']
-            );
+            foreach ($this->organizations as $organization) {
+                DB::table('organizations')->updateOrInsert(
+                    ['name' => $organization['name']],
+                    [
+                        'name' => $organization['name'],
+                        'type' => $organization['type'],
+                        'updated_at' => now(),
+                        'created_at' => now(),
+                    ]
+                );
+            }
 
             DB::commit();
         } catch (Exception $e) {

@@ -13,8 +13,8 @@ class EvaluationScoresRequest extends FormRequest
      */
     public function authorize()
     {
-        // only allow updates if the user is logged in
-        return backpack_auth()->check();
+        // Check both backpack auth (for web routes) and API auth (for JWT routes)
+        return backpack_auth()->check() || auth('api')->check();
     }
 
     /**
@@ -25,7 +25,11 @@ class EvaluationScoresRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'student_id' => 'required|integer|exists:users,id',
+            'teacher_id' => 'nullable|integer|exists:users,id',
+            'evaluation_detail_id' => 'required|integer|exists:evaluation_details,id',
+            'semester_score_id' => 'required|integer|exists:semester_scores,id',
+            'score' => 'required|numeric|min:0|max:100',
         ];
     }
 
@@ -49,7 +53,17 @@ class EvaluationScoresRequest extends FormRequest
     public function messages()
     {
         return [
-            //
+            'student_id.required' => 'Student is required.',
+            'student_id.exists' => 'Selected student does not exist.',
+            'teacher_id.exists' => 'Selected teacher does not exist.',
+            'evaluation_detail_id.required' => 'Evaluation detail is required.',
+            'evaluation_detail_id.exists' => 'Selected evaluation detail does not exist.',
+            'semester_score_id.required' => 'Semester score period is required.',
+            'semester_score_id.exists' => 'Selected semester score period does not exist.',
+            'score.required' => 'Score is required.',
+            'score.numeric' => 'Score must be a number.',
+            'score.min' => 'Score must be at least 0.',
+            'score.max' => 'Score must not exceed 100.',
         ];
     }
 }

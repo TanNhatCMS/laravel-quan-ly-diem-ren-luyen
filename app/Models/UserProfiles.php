@@ -34,8 +34,10 @@ class UserProfiles extends Model
         'user_id',
         'code',
         'birth_date',
+        'date_of_birth', // Alias for birth_date
         'gender',
         'phone_number',
+        'phone', // Alias for phone_number
         'academic_degree_id',
         'class_id',
         'type',
@@ -114,9 +116,41 @@ class UserProfiles extends Model
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * Get the phone attribute (alias for phone_number).
+     */
+    public function getPhoneAttribute(): ?string
+    {
+        return $this->phone_number;
+    }
+
+    /**
+     * Get the date_of_birth attribute (alias for birth_date).
+     */
+    public function getDateOfBirthAttribute(): ?string
+    {
+        return $this->birth_date;
+    }
+
     /*
     |--------------------------------------------------------------------------
     | MUTATORS
     |--------------------------------------------------------------------------
     */
+
+    /**
+     * Set the phone attribute (alias for phone_number).
+     */
+    public function setPhoneAttribute(?string $value): void
+    {
+        $this->attributes['phone_number'] = $value;
+    }
+
+    /**
+     * Set the date_of_birth attribute (alias for birth_date).
+     */
+    public function setDateOfBirthAttribute(?string $value): void
+    {
+        $this->attributes['birth_date'] = $value;
+    }
 }
