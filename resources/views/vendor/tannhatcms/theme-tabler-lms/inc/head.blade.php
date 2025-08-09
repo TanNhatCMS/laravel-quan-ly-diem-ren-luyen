@@ -12,7 +12,7 @@
 @yield('before_styles')
 @stack('before_styles')
 
-{{-- Load theme styles first (includes Tabler and dependencies) --}}
+{{-- OVERRIDE: Load theme styles first (includes Tabler and dependencies) --}}
 @include(backpack_view('inc.theme_styles'))
 
 {{-- Then load Backpack styles --}}
