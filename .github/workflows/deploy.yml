@@ -30,7 +30,7 @@ jobs:
       GITHUB_TOKEN: ${{ inputs.github_token }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}  # Không cần khai báo trong secrets workflow_call
 
